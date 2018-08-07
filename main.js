@@ -5,7 +5,9 @@ canvas.heigth = window.innerHeight;
 canvas.width = window.innerWidth;
 
 let putShape = function(e) {
-  
-}
+  let shape = new Image();
+  shape.src = "shapes/hex.png";
+  context.drawImage(shape, e.clientX, e.clientY);
+};
 
 canvas.addEventListener("mousedown", putShape);
