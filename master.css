@@ -1,0 +1,23 @@
+#toolbar {
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  background-color: grey;
+  color: white;
+}
+
+.shapeIcon {
+  height: 70px;
+  width: 70px;
+  border: 1px solid black;
+  display: inline-block;
+}
+
+
+#hexagon {
+  background-image: url("shapes/hex.png");
+  align-content: center;
+  
+}

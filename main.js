@@ -5,11 +5,20 @@ canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
 let putShape = function(e) {
+  context.clear();
   let shape = new Image();
-  
   shape.src = "shapes/hex.png";
-  context.beginPath();
-  context.drawImage(shape, e.offsetX - 50, e.offsetY - 50);
+  context.drawImage(shape, e.clientX - 50, e.clientY - 50);
+  context.clear();
+  
 };
 
-canvas.addEventListener("mousedown", putShape);
+let dragShape = function(e) {
+  let shape = new Image();
+  shape.src = "shapes/hex.png";
+
+};
+
+
+canvas.addEventListener("mousemove", putShape);
+// canvas.addEventListener("mousemove", dragShape);
