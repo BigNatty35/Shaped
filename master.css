@@ -22,12 +22,37 @@
   /* align-content:  */
   height: 100px;
   width: 100px;
-  border: 1px solid black;
+  border: 3px dashed black;
+  margin: 10px 0px 10px 0px;
   
 }
+#shapes {
+  height: 150px;
+  width: 100%;
+  border: 1px solid green;
+}
 
+#square {
+  background: url("./shapes_pics/orangesquare.png") no-repeat center;
+}
+#triangle {
+  background: url("./shapes_pics/greentriangle.png") no-repeat center;
+}
+#skinny {
+  background: url("./shapes_pics/browndiamond.png") no-repeat center;
+}
+#diamond {
+  background: url("./shapes_pics/bluediamond.png") no-repeat center;
+}
+#trapezoid {
+  background: url("./shapes_pics/red4sides.png") no-repeat center;
+}
+#hexagon {
+  background: url("./shapes_pics/hexagon.png") no-repeat center;
+}
+/* 
 img {
   max-width: 100%;
   max-height: 100%;
-}
+} */
 
