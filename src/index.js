@@ -6,7 +6,7 @@ canvas.width = window.innerWidth;
 
 let putShape = function(e) {
   let shape = new Image();
-  shape.src = "shapes/hexagon.png";
+  shape.src = "shapes_pics/hexagon.png";
   context.drawImage(shape, e.clientX - shape.width/2, e.clientY - shape.height/2);
   
 };
