@@ -75,43 +75,93 @@
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _shapes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shapes */ "./src/shapes.js");
+
 
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
+// let currentShape = new Image();
 
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-let putShape = function (shapeType) {
-  let url = shapeType;
-  debugger;
-  // newShape.src = shapeType;
-  let active = document.getElementsByClassName("active")[0];
-  if (active) {
-    active.className = "shapeIcon";
+const putShape = function (e) {
+  let selected = document.getElementsByClassName("active")[0];
+  let currentShape = new Image();
+  let url;
+  switch (selected.id) {
+    case "triangle":
+      url = ".././shapePics/greentriangle.png";
+      break;
+    case "square":
+      url = ".././shapePics/orangesquare.png";
+      break;
+    case "hexagon":
+      url = ".././shapePics/hexagon.png";
+      break;
+    case "skinny":
+      url = ".././shapePics/browndiamond.png";
+      break;
+    case "diamond":
+      url = ".././shapePics/bluediamond.png";
+      break;
+    case "trapezoid":
+      url = ".././shapePics/red4sides.png";
+      break;
+    default:
+      break;
   }
-  return url;
-  // console.log(newShape);
-};
-
-const addShape = function (e) {
-  let shape = e.target;
-  let newShape = putShape(shape.style.backgroundImage);
-
-  shape.className += " active";
-  // context.drawImage(newShape, e.clientX - newShape.width / 2, e.clientY - newShape.height / 2);
+  currentShape.src = url;
+  context.drawImage(currentShape, e.clientX - currentShape.width / 2, e.clientY - currentShape.height / 2);
 };
 
 let shapes = document.getElementsByClassName("shapeIcon");
-console.log(shapes);
+
+console.log({ shapes });
+
 for (let i = 0; i < shapes.length; i++) {
   let shape = shapes[i];
-  shape.addEventListener("click", addShape);
+  shape.addEventListener("click", _shapes__WEBPACK_IMPORTED_MODULE_0__["addShape"]);
 }
 
+// let drawShape = function(e) {
+
+// }
+
+
 canvas.addEventListener("mousedown", putShape);
+// canvas.addEventListener("mousemove", putShape);
+
+/***/ }),
+
+/***/ "./src/shapes.js":
+/*!***********************!*\
+  !*** ./src/shapes.js ***!
+  \***********************/
+/*! exports provided: addShape */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addShape", function() { return addShape; });
+
+// creates an array-like object of the shape elements on the toolbar
+let shapes = document.getElementsByClassName("shapeIcon");
+
+const addShape = function (e) {
+  let active = document.getElementsByClassName("active")[0];
+  let shape = e.target;
+  if (active) {
+    active.className = "shapeIcon";
+  }
+
+  shape.className += " active";
+};
 
 /***/ })
 
