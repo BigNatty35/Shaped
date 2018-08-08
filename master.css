@@ -6,9 +6,6 @@
   top: 0;
   background-color: grey;
   color: white;
-  display: flex;
-  flex-direction: column;
-  /* align-content: flex-start; */
 }
 
 #canvas {
@@ -16,39 +13,53 @@
 }
 
 .shapeIcon {
-
   display: flex;
   justify-content: center;
-  /* align-content:  */
   height: 100px;
   width: 100px;
   border: 3px dashed black;
-  margin: 10px 0px 10px 0px;
-  
 }
+
+.shapeIcon.active{
+  border: 3px dashed red;
+}
+
 #shapes {
-  height: 150px;
-  width: 100%;
   border: 1px solid green;
+  /* display: inline-block; */
+  float: right;
+  margin-right: 50px;
 }
 
 #square {
-  background: url("./shapes_pics/orangesquare.png") no-repeat center;
+  /* background-image: url("./shapes_pics/orangesquare.png"); */
+  background-repeat: no-repeat;
+  background-position: center;
 }
 #triangle {
-  background: url("./shapes_pics/greentriangle.png") no-repeat center;
+  background-image: url("./shapes_pics/greentriangle.png");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 #skinny {
-  background: url("./shapes_pics/browndiamond.png") no-repeat center;
+  background-image: url("./shapes_pics/browndiamond.png");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 #diamond {
-  background: url("./shapes_pics/bluediamond.png") no-repeat center;
+  background-image: url("./shapes_pics/bluediamond.png");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 #trapezoid {
-  background: url("./shapes_pics/red4sides.png") no-repeat center;
+  background-image: url("./shapes_pics/red4sides.png");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 #hexagon {
-  background: url("./shapes_pics/hexagon.png") no-repeat center;
+  background-image: url("./shapes_pics/hexagon.png");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 /* 
 img {
