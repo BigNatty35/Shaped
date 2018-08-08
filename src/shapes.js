@@ -10,9 +10,7 @@ export const addShape = function(e) {
     active.className = "shapeIcon";
   }
   
-
   shape.className += " active";
-  
 };
 
 

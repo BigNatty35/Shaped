@@ -85,7 +85,6 @@ __webpack_require__.r(__webpack_exports__);
 
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
-// let currentShape = new Image();
 
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;

@@ -2,7 +2,6 @@ import {addShape} from './shapes';
 
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
-// let currentShape = new Image();
 
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
