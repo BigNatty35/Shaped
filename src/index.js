@@ -10,32 +10,35 @@ canvas.width = window.innerWidth;
   
   const putShape = function(e) {
     let selected = document.getElementsByClassName("active")[0];
+    // debugger
     let currentShape = new Image();
     let url;
+
     switch (selected.id) {
     case "triangle":
-      url = ".././shapePics/greentriangle.png";
+      url = ".././shapePics/triangle.png";
       break;
     case "square":
-      url = ".././shapePics/orangesquare.png";
+      url = ".././shapePics/square.png";
       break;
     case "hexagon":
       url = ".././shapePics/hexagon.png";
       break;
     case "skinny":
-      url = ".././shapePics/browndiamond.png";
+      url = ".././shapePics/skinny.png";
       break;
     case "diamond":
-      url = ".././shapePics/bluediamond.png";
+      url = ".././shapePics/diamond.png";
       break;
     case "trapezoid":
-      url = ".././shapePics/red4sides.png";
+      url = ".././shapePics/trapezoid.png";
       break;
     default:
       break;
   }
     currentShape.src = url;
-    context.drawImage(currentShape, e.clientX - currentShape.width / 2, e.clientY - currentShape.height / 2);
+    context.drawImage(currentShape, e.clientX - (currentShape.width * 0.3) / 2, e.clientY - (currentShape.height * 0.3) / 2,
+    currentShape.width * 0.3, currentShape.height * 0.3);
   };
 
   
