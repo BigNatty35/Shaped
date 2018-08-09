@@ -1,5 +1,5 @@
 import {addShape} from './shapes';
-
+import Square from './square';
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
@@ -19,7 +19,8 @@ canvas.width = window.innerWidth;
       url = ".././shapePics/triangle.png";
       break;
     case "square":
-      url = ".././shapePics/square.png";
+      let square = new Square(e);
+      square.draw();
       break;
     case "hexagon":
       url = ".././shapePics/hexagon.png";
@@ -36,9 +37,9 @@ canvas.width = window.innerWidth;
     default:
       break;
   }
-    currentShape.src = url;
-    context.drawImage(currentShape, e.clientX - (currentShape.width * 0.3) / 2, e.clientY - (currentShape.height * 0.3) / 2,
-    currentShape.width * 0.3, currentShape.height * 0.3);
+    // currentShape.src = url;
+    // context.drawImage(currentShape, e.clientX - (currentShape.width * 0.3) / 2, e.clientY - (currentShape.height * 0.3) / 2,
+    // currentShape.width * 0.3, currentShape.height * 0.3);
   };
 
   
@@ -51,9 +52,7 @@ canvas.width = window.innerWidth;
     shape.addEventListener("click", addShape);
   }
   
-  // let drawShape = function(e) {
 
-  // }
 
 
 canvas.addEventListener("mousedown", putShape);

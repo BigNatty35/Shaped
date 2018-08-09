@@ -81,6 +81,7 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shapes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shapes */ "./src/shapes.js");
+/* harmony import */ var _square__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./square */ "./src/square.js");
 
 
 let canvas = document.getElementById("canvas");
@@ -100,7 +101,8 @@ const putShape = function (e) {
       url = ".././shapePics/triangle.png";
       break;
     case "square":
-      url = ".././shapePics/square.png";
+      let square = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e);
+      square.draw();
       break;
     case "hexagon":
       url = ".././shapePics/hexagon.png";
@@ -117,8 +119,9 @@ const putShape = function (e) {
     default:
       break;
   }
-  currentShape.src = url;
-  context.drawImage(currentShape, e.clientX - currentShape.width * 0.3 / 2, e.clientY - currentShape.height * 0.3 / 2, currentShape.width * 0.3, currentShape.height * 0.3);
+  // currentShape.src = url;
+  // context.drawImage(currentShape, e.clientX - (currentShape.width * 0.3) / 2, e.clientY - (currentShape.height * 0.3) / 2,
+  // currentShape.width * 0.3, currentShape.height * 0.3);
 };
 
 let shapes = document.getElementsByClassName("shapeIcon");
@@ -129,11 +132,6 @@ for (let i = 0; i < shapes.length; i++) {
   let shape = shapes[i];
   shape.addEventListener("click", _shapes__WEBPACK_IMPORTED_MODULE_0__["addShape"]);
 }
-
-// let drawShape = function(e) {
-
-// }
-
 
 canvas.addEventListener("mousedown", putShape);
 // canvas.addEventListener("mousemove", putShape);
@@ -165,6 +163,30 @@ const addShape = function (e) {
 
   shape.className += " active";
 };
+
+/***/ }),
+
+/***/ "./src/square.js":
+/*!***********************!*\
+  !*** ./src/square.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Square; });
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext('2d');
+
+function Square(e) {
+
+  this.draw = function () {
+    let square = new Image();
+    square.src = "../shapePics/square.png";
+    context.drawImage(square, e.clientX - square.width * 0.3 / 2, e.clientY - square.height * 0.3 / 2, square.width * 0.3, square.height * 0.3);
+  };
+}
 
 /***/ })
 
