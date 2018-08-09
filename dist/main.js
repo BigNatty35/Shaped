@@ -71,6 +71,54 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/diamond.js":
+/*!************************!*\
+  !*** ./src/diamond.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Diamond; });
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext('2d');
+
+function Diamond(e) {
+
+  this.draw = function () {
+    let diamond = new Image();
+    diamond.src = "../shapePics/diamond.png";
+    context.drawImage(diamond, e.clientX - diamond.width * 0.3 / 2, e.clientY - diamond.height * 0.3 / 2, diamond.width * 0.3, diamond.height * 0.3);
+  };
+}
+
+/***/ }),
+
+/***/ "./src/hexagon.js":
+/*!************************!*\
+  !*** ./src/hexagon.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Hexagon; });
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext('2d');
+
+function Hexagon(e) {
+
+  this.draw = function () {
+    let hexagon = new Image();
+    hexagon.src = "../shapePics/hexagon.png";
+    context.drawImage(hexagon, e.clientX - hexagon.width * 0.3 / 2, e.clientY - hexagon.height * 0.3 / 2, hexagon.width * 0.3, hexagon.height * 0.3);
+  };
+}
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -82,6 +130,16 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shapes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shapes */ "./src/shapes.js");
 /* harmony import */ var _square__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./square */ "./src/square.js");
+/* harmony import */ var _diamond__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./diamond */ "./src/diamond.js");
+/* harmony import */ var _skinny__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./skinny */ "./src/skinny.js");
+/* harmony import */ var _triangle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./triangle */ "./src/triangle.js");
+/* harmony import */ var _hexagon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./hexagon */ "./src/hexagon.js");
+/* harmony import */ var _trapezoid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./trapezoid */ "./src/trapezoid.js");
+
+
+
+
+
 
 
 let canvas = document.getElementById("canvas");
@@ -98,23 +156,28 @@ const putShape = function (e) {
 
   switch (selected.id) {
     case "triangle":
-      url = ".././shapePics/triangle.png";
+      let triangle = new _triangle__WEBPACK_IMPORTED_MODULE_4__["default"](e);
+      triangle.draw();
       break;
     case "square":
       let square = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e);
       square.draw();
       break;
     case "hexagon":
-      url = ".././shapePics/hexagon.png";
+      let hexagon = new _hexagon__WEBPACK_IMPORTED_MODULE_5__["default"](e);
+      hexagon.draw();
       break;
     case "skinny":
-      url = ".././shapePics/skinny.png";
+      let skinny = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e);
+      skinny.draw();
       break;
     case "diamond":
-      url = ".././shapePics/diamond.png";
+      let diamond = new _diamond__WEBPACK_IMPORTED_MODULE_2__["default"](e);
+      diamond.draw();
       break;
     case "trapezoid":
-      url = ".././shapePics/trapezoid.png";
+      let trapezoid = new _trapezoid__WEBPACK_IMPORTED_MODULE_6__["default"](e);
+      trapezoid.draw();
       break;
     default:
       break;
@@ -166,6 +229,30 @@ const addShape = function (e) {
 
 /***/ }),
 
+/***/ "./src/skinny.js":
+/*!***********************!*\
+  !*** ./src/skinny.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Skinny; });
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext('2d');
+
+function Skinny(e) {
+
+  this.draw = function () {
+    let skinny = new Image();
+    skinny.src = "../shapePics/skinny.png";
+    context.drawImage(skinny, e.clientX - skinny.width * 0.3 / 2, e.clientY - skinny.height * 0.3 / 2, skinny.width * 0.3, skinny.height * 0.3);
+  };
+}
+
+/***/ }),
+
 /***/ "./src/square.js":
 /*!***********************!*\
   !*** ./src/square.js ***!
@@ -185,6 +272,54 @@ function Square(e) {
     let square = new Image();
     square.src = "../shapePics/square.png";
     context.drawImage(square, e.clientX - square.width * 0.3 / 2, e.clientY - square.height * 0.3 / 2, square.width * 0.3, square.height * 0.3);
+  };
+}
+
+/***/ }),
+
+/***/ "./src/trapezoid.js":
+/*!**************************!*\
+  !*** ./src/trapezoid.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Trapezoid; });
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext('2d');
+
+function Trapezoid(e) {
+
+  this.draw = function () {
+    let trapezoid = new Image();
+    trapezoid.src = "../shapePics/trapezoid.png";
+    context.drawImage(trapezoid, e.clientX - trapezoid.width * 0.3 / 2, e.clientY - trapezoid.height * 0.3 / 2, trapezoid.width * 0.3, trapezoid.height * 0.3);
+  };
+}
+
+/***/ }),
+
+/***/ "./src/triangle.js":
+/*!*************************!*\
+  !*** ./src/triangle.js ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Triangle; });
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext('2d');
+
+function Triangle(e) {
+
+  this.draw = function () {
+    let triangle = new Image();
+    triangle.src = "../shapePics/triangle.png";
+    context.drawImage(triangle, e.clientX - triangle.width * 0.3 / 2, e.clientY - triangle.height * 0.3 / 2, triangle.width * 0.3, triangle.height * 0.3);
   };
 }
 

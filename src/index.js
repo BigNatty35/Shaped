@@ -1,5 +1,10 @@
 import {addShape} from './shapes';
 import Square from './square';
+import Diamond from './diamond';
+import Skinny from './skinny';
+import Triangle from './triangle';
+import Hexagon from './hexagon';
+import Trapezoid from './trapezoid';
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
@@ -16,23 +21,28 @@ canvas.width = window.innerWidth;
 
     switch (selected.id) {
     case "triangle":
-      url = ".././shapePics/triangle.png";
+      let triangle = new Triangle(e);
+      triangle.draw();
       break;
     case "square":
       let square = new Square(e);
       square.draw();
       break;
     case "hexagon":
-      url = ".././shapePics/hexagon.png";
+      let hexagon = new Hexagon(e);
+      hexagon.draw();
       break;
     case "skinny":
-      url = ".././shapePics/skinny.png";
+      let skinny = new Skinny(e);
+      skinny.draw();
       break;
     case "diamond":
-      url = ".././shapePics/diamond.png";
+      let diamond = new Diamond(e);
+      diamond.draw();
       break;
     case "trapezoid":
-      url = ".././shapePics/trapezoid.png";
+      let trapezoid = new Trapezoid(e);
+      trapezoid.draw();
       break;
     default:
       break;
