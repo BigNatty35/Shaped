@@ -154,73 +154,43 @@ __webpack_require__.r(__webpack_exports__);
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let dropped = false;
+let currentShape;
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-const follow = function (e) {
-  let selected = document.getElementsByClassName("active")[0];
-  let currentShape = new Image();
-  let url;
-
-  switch (selected.id) {
-    case "triangle":
-      let triangle = new _triangle__WEBPACK_IMPORTED_MODULE_4__["default"](e);
-      triangle.draw();
-      break;
-    case "square":
-      let square = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e);
-      square.draw();
-      break;
-    case "hexagon":
-      let hexagon = new _hexagon__WEBPACK_IMPORTED_MODULE_5__["default"](e);
-      hexagon.draw();
-      break;
-    case "skinny":
-      let skinny = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e);
-      skinny.draw();
-      break;
-    case "diamond":
-      let diamond = new _diamond__WEBPACK_IMPORTED_MODULE_2__["default"](e);
-      diamond.draw();
-      break;
-    case "trapezoid":
-      let trapezoid = new _trapezoid__WEBPACK_IMPORTED_MODULE_6__["default"](e);
-      trapezoid.draw();
-      break;
-    default:
-      break;
-  }
-};
-
 const putShape = function (e) {
   let selected = document.getElementsByClassName("active")[0];
-  // debugger
-  let currentShape = new Image();
   let url;
 
   switch (selected.id) {
     case "triangle":
       let triangle = new _triangle__WEBPACK_IMPORTED_MODULE_4__["default"](e);
+      currentShape = triangle;
       triangle.draw();
       break;
     case "square":
       let square = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e);
+      currentShape = square;
       square.draw();
       break;
     case "hexagon":
       let hexagon = new _hexagon__WEBPACK_IMPORTED_MODULE_5__["default"](e);
+      currentShape = hexagon;
       hexagon.draw();
       break;
     case "skinny":
       let skinny = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e);
+      currentShape = skinny;
       skinny.draw();
       break;
     case "diamond":
       let diamond = new _diamond__WEBPACK_IMPORTED_MODULE_2__["default"](e);
+      currentShape = diamond;
       diamond.draw();
       break;
     case "trapezoid":
       let trapezoid = new _trapezoid__WEBPACK_IMPORTED_MODULE_6__["default"](e);
+      currentShape = trapezoid;
       trapezoid.draw();
       break;
     default:
@@ -237,7 +207,26 @@ for (let i = 0; i < shapes.length; i++) {
   shape.addEventListener("click", _shapes__WEBPACK_IMPORTED_MODULE_0__["addShape"]);
 }
 
+function distanceXY(x0, y0, x1, y1) {
+  let dx = x1 - x0,
+      dy = y1 - y0;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+// c
+function circlePointCollision(mouseX, mouseY, circle) {
+  return distanceXY(mouseX, mouseY, circle.x, circle.y) < circle.radius;
+}
+
+function grabShape(e) {}
+
 canvas.addEventListener("mousedown", putShape);
+canvas.addEventListener('mousedown', function (e) {
+  if (circlePointCollision(e.clientX, e.clientY, handle)) {
+    document.body.addEventListener('mousemove', onMouseMove);
+    document.body.addEventListener('mouseup', onMouseUp);
+  }
+});
+
 // canvas.addEventListener("mousemove", follow);
 // canvas.addEventListener("mousemove", putShape);
 
