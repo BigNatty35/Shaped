@@ -5,6 +5,7 @@ let height = canvas.height;
 
 
 export default function Square(e) {
+  this.name = "square";
   this.handle = {
     x: e.clientX,
     y: e.clientY,

@@ -1,4 +1,4 @@
-import {addShape} from './shapes';
+import {addShape, updateActive} from './shapes';
 import Square from './square';
 import Diamond from './diamond';
 import Skinny from './skinny';
@@ -9,7 +9,8 @@ import Trapezoid from './trapezoid';
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let drag = false;
-let currentShape;
+// let selected = document.getElementsByClassName("active");
+let currentShape = {};
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
@@ -26,20 +27,21 @@ let placedShapes = {
 };
 
 
-function touching(e) {
-  let placedCoords = Object.values(placedShapes);
-  placedCoords.forEach((sub) => {
-    for (let i = 0; i < sub.length; i++) {
-      if(circlePointCollision(e.clientX, e.clientY, sub[i].handle));
-      return true;
-    }
-  });
-}
+// function touching(e) {
+//   let placedCoords = Object.values(placedShapes);
+//   placedCoords.forEach((sub) => {
+//     for (let i = 0; i < sub.length; i++) {
+//       if(circlePointCollision(e.clientX, e.clientY, sub[i].handle));
+//       return true;
+//     }
+//   });
+// }
   const putShape = function(e) {
     e.preventDefault();
     let selected = document.getElementsByClassName("active")[0];
-
-    if(!drag && !touching(e)){
+    // currentShape.name = selected.id;
+    // while drag is equal to false
+     if(!drag) {  
       switch (selected.id) {
         case "triangle":
           let triangle = new Triangle(e);
@@ -88,14 +90,7 @@ function touching(e) {
  
 
   
-  let shapes = document.getElementsByClassName("shapeIcon");
 
-  console.log({shapes});
-
-  for (let i = 0; i < shapes.length; i++) {
-    let shape = shapes[i];
-    shape.addEventListener("click", addShape);
-  }
   
 function distanceXY(x0, y0, x1, y1) {
   let dx = x1 - x0,
@@ -109,19 +104,26 @@ function circlePointCollision(mouseX, mouseY, circle) {
 
 function onMouseDown(e) {
   e.preventDefault();
+  
   let placedCoords = Object.values(placedShapes);
 
   // iterate through all of the shapes on the canvas,
   placedCoords.forEach((sub => {
     // for each shape, check to see if the mouse click on that specific shape
     // and delete it from the shape array so it doesn't get redrawn.
-    for(let i = 0; i < sub.length; i++)
-    if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
-      drag = true;
-      sub.splice(i, 1);
-      canvas.addEventListener('mousemove', onMouseMove);
-      canvas.addEventListener('mouseup', onMouseUp);
-      break;
+    for(let i = 0; i < sub.length; i++) {
+
+      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
+        drag = true;
+        currentShape = sub[i];
+        // debugger;
+        updateActive(currentShape);
+        console.log(currentShape);
+        sub.splice(i, 1);
+        canvas.addEventListener('mousemove', onMouseMove);
+        canvas.addEventListener('mouseup', onMouseUp);
+        break;
+      }
     }
 
   }));
@@ -129,17 +131,30 @@ function onMouseDown(e) {
 
 function onMouseMove(e) {
   e.preventDefault();
-  // console.log(e.clientX, e.clientY);
-  // context.clearRect(0, 0, width, height);
   if(drag){
-    // context.save();
     context.clearRect(0, 0, width, height);
     currentShape.handle.x = e.clientX;
     currentShape.handle.y = e.clientY;
     currentShape.draw();
-    // context.clearRect(0, 0, width, height);
-    // context.restore();
   }
+}
+
+function selectDrag(e) {
+  e.preventDefault();
+  let placedCoords = Object.values(placedShapes);
+
+  // iterate through all of the shapes on the canvas,
+  placedCoords.forEach((sub => {
+    // for each shape, check to see if the mouse click on that specific shape
+    // and delete it from the shape array so it doesn't get redrawn.
+    for (let i = 0; i < sub.length; i++)
+      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
+        // drag = true;
+        currentShape = sub[i];
+        break;
+      }
+
+  }));
 }
 
 function onMouseUp(e) {
@@ -147,13 +162,15 @@ function onMouseUp(e) {
   drag = false;
   canvas.removeEventListener('mousemove', onMouseMove);
   canvas.removeEventListener('mouseup', onMouseUp);
+  currentShape.draw();
   context.clearRect(0, 0, height, width);
-  console.log(currentShape.handle.x, currentShape.handle.y);
+  console.log(currentShape);
   console.log(drag);
 }
 
 canvas.addEventListener("click", putShape);
 canvas.addEventListener('mousedown', onMouseDown);
+// canvas.addEventListener('mousedown', selectDrag); //this is going to change the currentShape
 
 
 function drawShapes() {
@@ -166,14 +183,8 @@ function drawShapes() {
 }
 
 export default function animate() {
-  // context.fillRect(0, 0, width, height);
- let placedCoords = Object.values(placedShapes);
-  placedCoords.forEach(sub => {
-    for (let i = 0; i < sub.length; i++) {
-      sub[i].draw();
-      // console.log("hello");
-    }
-  });
+  drawShapes();
+
 
 
   

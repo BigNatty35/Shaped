@@ -5,10 +5,11 @@ let height = canvas.height;
 
 
 export default function Triangle(e) {
+  this.name = "triangle";
   this.handle = {
     x: e.clientX,
     y: e.clientY,
-    radius: 80
+    radius: 25
   };
   this.draw = function () {
     let triangle = new Image();

@@ -85,6 +85,7 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 function Diamond(e) {
+  this.name = 'diamond';
   this.handle = {
     x: e.clientX,
     y: e.clientY,
@@ -113,15 +114,16 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 function Hexagon(e) {
+  this.name = 'hexagon';
   this.handle = {
     x: e.clientX,
     y: e.clientY,
-    radius: 150
+    radius: 70
   };
   this.draw = function () {
     let hexagon = new Image();
     hexagon.src = "../shapePics/hexagon.png";
-    context.drawImage(hexagon, this.handle.x - hexagon.width * 0.3 / 2, this.handle.y - hexagon.height * 0.3 / 2, hexagon.width * 0.3, hexagon.height * 0.3);
+    context.drawImage(hexagon, this.handle.x - hexagon.width * 0.15, this.handle.y - hexagon.height * 0.15, hexagon.width * 0.3, hexagon.height * 0.3);
   };
 }
 
@@ -155,7 +157,8 @@ __webpack_require__.r(__webpack_exports__);
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let drag = false;
-let currentShape;
+// let selected = document.getElementsByClassName("active");
+let currentShape = {};
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
@@ -170,20 +173,21 @@ let placedShapes = {
   trapezoid: []
 };
 
-function touching(e) {
-  let placedCoords = Object.values(placedShapes);
-  placedCoords.forEach(sub => {
-    for (let i = 0; i < sub.length; i++) {
-      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) ;
-      return true;
-    }
-  });
-}
+// function touching(e) {
+//   let placedCoords = Object.values(placedShapes);
+//   placedCoords.forEach((sub) => {
+//     for (let i = 0; i < sub.length; i++) {
+//       if(circlePointCollision(e.clientX, e.clientY, sub[i].handle));
+//       return true;
+//     }
+//   });
+// }
 const putShape = function (e) {
   e.preventDefault();
   let selected = document.getElementsByClassName("active")[0];
-
-  if (!drag && !touching(e)) {
+  // currentShape.name = selected.id;
+  // while drag is equal to false
+  if (!drag) {
     switch (selected.id) {
       case "triangle":
         let triangle = new _triangle__WEBPACK_IMPORTED_MODULE_4__["default"](e);
@@ -229,15 +233,6 @@ const putShape = function (e) {
   }
 };
 
-let shapes = document.getElementsByClassName("shapeIcon");
-
-console.log({ shapes });
-
-for (let i = 0; i < shapes.length; i++) {
-  let shape = shapes[i];
-  shape.addEventListener("click", _shapes__WEBPACK_IMPORTED_MODULE_0__["addShape"]);
-}
-
 function distanceXY(x0, y0, x1, y1) {
   let dx = x1 - x0,
       dy = y1 - y0;
@@ -250,6 +245,42 @@ function circlePointCollision(mouseX, mouseY, circle) {
 
 function onMouseDown(e) {
   e.preventDefault();
+
+  let placedCoords = Object.values(placedShapes);
+
+  // iterate through all of the shapes on the canvas,
+  placedCoords.forEach(sub => {
+    // for each shape, check to see if the mouse click on that specific shape
+    // and delete it from the shape array so it doesn't get redrawn.
+    for (let i = 0; i < sub.length; i++) {
+
+      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
+        drag = true;
+        currentShape = sub[i];
+        // debugger;
+        Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["updateActive"])(currentShape);
+        console.log(currentShape);
+        sub.splice(i, 1);
+        canvas.addEventListener('mousemove', onMouseMove);
+        canvas.addEventListener('mouseup', onMouseUp);
+        break;
+      }
+    }
+  });
+}
+
+function onMouseMove(e) {
+  e.preventDefault();
+  if (drag) {
+    context.clearRect(0, 0, width, height);
+    currentShape.handle.x = e.clientX;
+    currentShape.handle.y = e.clientY;
+    currentShape.draw();
+  }
+}
+
+function selectDrag(e) {
+  e.preventDefault();
   let placedCoords = Object.values(placedShapes);
 
   // iterate through all of the shapes on the canvas,
@@ -257,28 +288,11 @@ function onMouseDown(e) {
     // for each shape, check to see if the mouse click on that specific shape
     // and delete it from the shape array so it doesn't get redrawn.
     for (let i = 0; i < sub.length; i++) if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
-      drag = true;
-      sub.splice(i, 1);
-      canvas.addEventListener('mousemove', onMouseMove);
-      canvas.addEventListener('mouseup', onMouseUp);
+      // drag = true;
+      currentShape = sub[i];
       break;
     }
   });
-}
-
-function onMouseMove(e) {
-  e.preventDefault();
-  // console.log(e.clientX, e.clientY);
-  // context.clearRect(0, 0, width, height);
-  if (drag) {
-    // context.save();
-    context.clearRect(0, 0, width, height);
-    currentShape.handle.x = e.clientX;
-    currentShape.handle.y = e.clientY;
-    currentShape.draw();
-    // context.clearRect(0, 0, width, height);
-    // context.restore();
-  }
 }
 
 function onMouseUp(e) {
@@ -286,13 +300,16 @@ function onMouseUp(e) {
   drag = false;
   canvas.removeEventListener('mousemove', onMouseMove);
   canvas.removeEventListener('mouseup', onMouseUp);
+  currentShape.draw();
   context.clearRect(0, 0, height, width);
-  console.log(currentShape.handle.x, currentShape.handle.y);
+  console.log(currentShape);
   console.log(drag);
 }
 
 canvas.addEventListener("click", putShape);
 canvas.addEventListener('mousedown', onMouseDown);
+// canvas.addEventListener('mousedown', selectDrag); //this is going to change the currentShape
+
 
 function drawShapes() {
   let placedCoords = Object.values(placedShapes);
@@ -304,14 +321,7 @@ function drawShapes() {
 }
 
 function animate() {
-  // context.fillRect(0, 0, width, height);
-  let placedCoords = Object.values(placedShapes);
-  placedCoords.forEach(sub => {
-    for (let i = 0; i < sub.length; i++) {
-      sub[i].draw();
-      // console.log("hello");
-    }
-  });
+  drawShapes();
 
   requestAnimationFrame(animate);
 }
@@ -322,27 +332,54 @@ function animate() {
 /*!***********************!*\
   !*** ./src/shapes.js ***!
   \***********************/
-/*! exports provided: addShape */
+/*! exports provided: addShape, updateActive */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addShape", function() { return addShape; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateActive", function() { return updateActive; });
 
 // creates an array-like object of the shape elements on the toolbar
 // let shapes = document.getElementsByClassName("shapeIcon");
 
 
 const addShape = function (e) {
-  let active = document.getElementsByClassName("active")[0];
-  let shape = e.target;
+
+  let active = document.getElementsByClassName("active")[0]; // find the element that has the className "active"
+  let shape = e.target; // shape is the element in the toolbar that was clicked.
   // debugger
+
+  if (active) {
+    // if there is an element that has active on it, change className to shape-img
+    active.className = "shape-img";
+  }
+
+  shape.className += " active"; // the element that was clicked now has the active Class;
+
+  // if(circlePointCollision(e.clientX, e.clientY, sub[i].handle)
+};
+
+const updateActive = function (currentShape) {
+  let name = currentShape.name;
+  let shape = document.getElementById(name);
+  let active = document.getElementsByClassName("active")[0];
+  // if there is an element that has active on it, change className to shape-img
   if (active) {
     active.className = "shape-img";
   }
 
   shape.className += " active";
 };
+
+let shapes = document.getElementsByClassName("shapeIcon");
+
+console.log({ shapes });
+
+for (let i = 0; i < shapes.length; i++) {
+  let shape = shapes[i];
+  shape.addEventListener("click", addShape);
+}
 
 /***/ }),
 
@@ -360,15 +397,16 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 function Skinny(e) {
+  this.name = "skinny";
   this.handle = {
     x: e.clientX,
     y: e.clientY,
-    radius: 30
+    radius: 70
   };
   this.draw = function () {
     let skinny = new Image();
     skinny.src = "../shapePics/skinny.png";
-    context.drawImage(skinny, e.clientX - skinny.width * 0.3 / 2, e.clientY - skinny.height * 0.3 / 2, skinny.width * 0.3, skinny.height * 0.3);
+    context.drawImage(skinny, this.handle.x - skinny.width * 0.3 / 2, this.handle.y - skinny.height * 0.3 / 2, skinny.width * 0.6, skinny.height * 0.6);
   };
 }
 
@@ -390,6 +428,7 @@ let width = canvas.width;
 let height = canvas.height;
 
 function Square(e) {
+  this.name = "square";
   this.handle = {
     x: e.clientX,
     y: e.clientY,
@@ -441,10 +480,11 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 function Trapezoid(e) {
+  this.name = 'trapezoid';
   this.handle = {
     x: e.clientX,
     y: e.clientY,
-    radius: 150
+    radius: 70
   };
   this.draw = function () {
     let trapezoid = new Image();
@@ -471,10 +511,11 @@ let width = canvas.width;
 let height = canvas.height;
 
 function Triangle(e) {
+  this.name = "triangle";
   this.handle = {
     x: e.clientX,
     y: e.clientY,
-    radius: 80
+    radius: 25
   };
   this.draw = function () {
     let triangle = new Image();

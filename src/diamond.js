@@ -4,6 +4,7 @@ let context = canvas.getContext('2d');
 
 
 export default function Diamond(e) {
+  this.name = 'diamond';
   this.handle = {
     x: e.clientX,
     y: e.clientY,
