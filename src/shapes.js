@@ -7,20 +7,20 @@ export const addShape = function(e) {
 
   let active = document.getElementsByClassName("active")[0]; // find the element that has the className "active"
   let shape = e.target; // shape is the element in the toolbar that was clicked.
-  // debugger
 
   if (active) { // if there is an element that has active on it, change className to shape-img
     active.className = "shape-img";
   }
   
   shape.className += " active"; // the element that was clicked now has the active Class;
-  
-  // if(circlePointCollision(e.clientX, e.clientY, sub[i].handle)
 };
 
+
+
+//this function changes the active shape to the one that was clicked on.
 export const updateActive = function(currentShape) {
   let name = currentShape.name;
-  let shape = document.getElementById(name);
+  let shape = document.getElementById(name); //selects toolbar shape based on currentShape's name
   let active = document.getElementsByClassName("active")[0];
    // if there is an element that has active on it, change className to shape-img
   if(active) {

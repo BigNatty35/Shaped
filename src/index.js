@@ -9,7 +9,7 @@ import Trapezoid from './trapezoid';
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let drag = false;
-// let selected = document.getElementsByClassName("active");
+let move = false;
 let currentShape = {};
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
@@ -27,19 +27,11 @@ let placedShapes = {
 };
 
 
-// function touching(e) {
-//   let placedCoords = Object.values(placedShapes);
-//   placedCoords.forEach((sub) => {
-//     for (let i = 0; i < sub.length; i++) {
-//       if(circlePointCollision(e.clientX, e.clientY, sub[i].handle));
-//       return true;
-//     }
-//   });
-// }
+
+  //draws the shape based on which shape is selected in the tool bar
   const putShape = function(e) {
     e.preventDefault();
     let selected = document.getElementsByClassName("active")[0];
-    // currentShape.name = selected.id;
     // while drag is equal to false
      if(!drag) {  
       switch (selected.id) {
@@ -107,19 +99,15 @@ function onMouseDown(e) {
   
   let placedCoords = Object.values(placedShapes);
 
-  // iterate through all of the shapes on the canvas,
-  placedCoords.forEach((sub => {
-    // for each shape, check to see if the mouse click on that specific shape
-    // and delete it from the shape array so it doesn't get redrawn.
+  
+  placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
     for(let i = 0; i < sub.length; i++) {
-
-      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
+      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
         drag = true;
         currentShape = sub[i];
-        // debugger;
-        updateActive(currentShape);
+        updateActive(currentShape); // places the active class on the selected canvas shape.
         console.log(currentShape);
-        sub.splice(i, 1);
+        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
         canvas.addEventListener('mousemove', onMouseMove);
         canvas.addEventListener('mouseup', onMouseUp);
         break;

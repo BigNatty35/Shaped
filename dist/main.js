@@ -157,7 +157,7 @@ __webpack_require__.r(__webpack_exports__);
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let drag = false;
-// let selected = document.getElementsByClassName("active");
+let move = false;
 let currentShape = {};
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
@@ -173,19 +173,10 @@ let placedShapes = {
   trapezoid: []
 };
 
-// function touching(e) {
-//   let placedCoords = Object.values(placedShapes);
-//   placedCoords.forEach((sub) => {
-//     for (let i = 0; i < sub.length; i++) {
-//       if(circlePointCollision(e.clientX, e.clientY, sub[i].handle));
-//       return true;
-//     }
-//   });
-// }
+//draws the shape based on which shape is selected in the tool bar
 const putShape = function (e) {
   e.preventDefault();
   let selected = document.getElementsByClassName("active")[0];
-  // currentShape.name = selected.id;
   // while drag is equal to false
   if (!drag) {
     switch (selected.id) {
@@ -248,19 +239,16 @@ function onMouseDown(e) {
 
   let placedCoords = Object.values(placedShapes);
 
-  // iterate through all of the shapes on the canvas,
   placedCoords.forEach(sub => {
-    // for each shape, check to see if the mouse click on that specific shape
-    // and delete it from the shape array so it doesn't get redrawn.
+    // iterate through all of the shapes on the canvas,
     for (let i = 0; i < sub.length; i++) {
-
       if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
+        // if the mouse is clicking on a shape.
         drag = true;
         currentShape = sub[i];
-        // debugger;
-        Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["updateActive"])(currentShape);
+        Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["updateActive"])(currentShape); // places the active class on the selected canvas shape.
         console.log(currentShape);
-        sub.splice(i, 1);
+        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
         canvas.addEventListener('mousemove', onMouseMove);
         canvas.addEventListener('mouseup', onMouseUp);
         break;
@@ -330,7 +318,6 @@ const addShape = function (e) {
 
   let active = document.getElementsByClassName("active")[0]; // find the element that has the className "active"
   let shape = e.target; // shape is the element in the toolbar that was clicked.
-  // debugger
 
   if (active) {
     // if there is an element that has active on it, change className to shape-img
@@ -338,13 +325,12 @@ const addShape = function (e) {
   }
 
   shape.className += " active"; // the element that was clicked now has the active Class;
-
-  // if(circlePointCollision(e.clientX, e.clientY, sub[i].handle)
 };
 
+//this function changes the active shape to the one that was clicked on.
 const updateActive = function (currentShape) {
   let name = currentShape.name;
-  let shape = document.getElementById(name);
+  let shape = document.getElementById(name); //selects toolbar shape based on currentShape's name
   let active = document.getElementsByClassName("active")[0];
   // if there is an element that has active on it, change className to shape-img
   if (active) {
