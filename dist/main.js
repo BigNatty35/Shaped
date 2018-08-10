@@ -85,7 +85,11 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 function Diamond(e) {
-
+  this.handle = {
+    x: e.clientX,
+    y: e.clientY,
+    radius: 40
+  };
   this.draw = function () {
     let diamond = new Image();
     diamond.src = "../shapePics/diamond.png";
@@ -109,7 +113,11 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 function Hexagon(e) {
-
+  this.handle = {
+    x: e.clientX,
+    y: e.clientY,
+    radius: 30
+  };
   this.draw = function () {
     let hexagon = new Image();
     hexagon.src = "../shapePics/hexagon.png";
@@ -142,11 +150,47 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
-
+let dropped = false;
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
+
+const follow = function (e) {
+  let selected = document.getElementsByClassName("active")[0];
+  let currentShape = new Image();
+  let url;
+
+  switch (selected.id) {
+    case "triangle":
+      let triangle = new _triangle__WEBPACK_IMPORTED_MODULE_4__["default"](e);
+      triangle.draw();
+      break;
+    case "square":
+      let square = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e);
+      square.draw();
+      break;
+    case "hexagon":
+      let hexagon = new _hexagon__WEBPACK_IMPORTED_MODULE_5__["default"](e);
+      hexagon.draw();
+      break;
+    case "skinny":
+      let skinny = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e);
+      skinny.draw();
+      break;
+    case "diamond":
+      let diamond = new _diamond__WEBPACK_IMPORTED_MODULE_2__["default"](e);
+      diamond.draw();
+      break;
+    case "trapezoid":
+      let trapezoid = new _trapezoid__WEBPACK_IMPORTED_MODULE_6__["default"](e);
+      trapezoid.draw();
+      break;
+    default:
+      break;
+  }
+};
 
 const putShape = function (e) {
   let selected = document.getElementsByClassName("active")[0];
@@ -182,9 +226,6 @@ const putShape = function (e) {
     default:
       break;
   }
-  // currentShape.src = url;
-  // context.drawImage(currentShape, e.clientX - (currentShape.width * 0.3) / 2, e.clientY - (currentShape.height * 0.3) / 2,
-  // currentShape.width * 0.3, currentShape.height * 0.3);
 };
 
 let shapes = document.getElementsByClassName("shapeIcon");
@@ -197,6 +238,7 @@ for (let i = 0; i < shapes.length; i++) {
 }
 
 canvas.addEventListener("mousedown", putShape);
+// canvas.addEventListener("mousemove", follow);
 // canvas.addEventListener("mousemove", putShape);
 
 /***/ }),
@@ -243,7 +285,11 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 function Skinny(e) {
-
+  this.handle = {
+    x: e.clientX,
+    y: e.clientY,
+    radius: 30
+  };
   this.draw = function () {
     let skinny = new Image();
     skinny.src = "../shapePics/skinny.png";
@@ -267,7 +313,11 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 function Square(e) {
-
+  this.handle = {
+    x: e.clientX,
+    y: e.clientY,
+    radius: 40
+  };
   this.draw = function () {
     let square = new Image();
     square.src = "../shapePics/square.png";
@@ -291,7 +341,11 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 function Trapezoid(e) {
-
+  this.handle = {
+    x: e.clientX,
+    y: e.clientY,
+    radius: 40
+  };
   this.draw = function () {
     let trapezoid = new Image();
     trapezoid.src = "../shapePics/trapezoid.png";
@@ -315,7 +369,11 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 function Triangle(e) {
-
+  this.handle = {
+    x: e.clientX,
+    y: e.clientY,
+    radius: 40
+  };
   this.draw = function () {
     let triangle = new Image();
     triangle.src = "../shapePics/triangle.png";

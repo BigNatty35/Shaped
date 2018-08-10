@@ -4,7 +4,11 @@ let context = canvas.getContext('2d');
 
 
 export default function Square(e) {
-  
+  this.handle = {
+    x: e.clientX,
+    y: e.clientY,
+    radius: 40
+  };
   this.draw = function() {
     let square = new Image();
     square.src = "../shapePics/square.png";

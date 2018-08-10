@@ -4,7 +4,11 @@ let context = canvas.getContext('2d');
 
 
 export default function Triangle(e) {
-
+  this.handle = {
+    x: e.clientX,
+    y: e.clientY,
+    radius: 40
+  };
   this.draw = function () {
     let triangle = new Image();
     triangle.src = "../shapePics/triangle.png";

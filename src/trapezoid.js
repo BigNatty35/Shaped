@@ -4,7 +4,11 @@ let context = canvas.getContext('2d');
 
 
 export default function Trapezoid(e) {
-
+  this.handle = {
+    x: e.clientX,
+    y: e.clientY,
+    radius: 40
+  };
   this.draw = function () {
     let trapezoid = new Image();
     trapezoid.src = "../shapePics/trapezoid.png";

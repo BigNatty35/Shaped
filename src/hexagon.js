@@ -4,7 +4,11 @@ let context = canvas.getContext('2d');
 
 
 export default function Hexagon(e) {
-
+  this.handle = {
+    x: e.clientX,
+    y: e.clientY,
+    radius: 30
+  };
   this.draw = function () {
     let hexagon = new Image();
     hexagon.src = "../shapePics/hexagon.png";
