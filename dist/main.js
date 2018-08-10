@@ -251,9 +251,14 @@ function circlePointCollision(mouseX, mouseY, circle) {
 function onMouseDown(e) {
   e.preventDefault();
   let placedCoords = Object.values(placedShapes);
+
+  // iterate through all of the shapes on the canvas,
   placedCoords.forEach(sub => {
+    // for each shape, check to see if the mouse click on that specific shape
+    // and delete it from the shape array so it doesn't get redrawn.
     for (let i = 0; i < sub.length; i++) if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
       drag = true;
+      sub.splice(i, 1);
       canvas.addEventListener('mousemove', onMouseMove);
       canvas.addEventListener('mouseup', onMouseUp);
       break;
