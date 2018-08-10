@@ -7,12 +7,12 @@ export default function Diamond(e) {
   this.handle = {
     x: e.clientX,
     y: e.clientY,
-    radius: 60
+    radius: 100
   };
   this.draw = function () {
     let diamond = new Image();
     diamond.src = "../shapePics/diamond.png";
-    context.drawImage(diamond, e.clientX - (diamond.width * 0.3) / 2, e.clientY - (diamond.height * 0.3) / 2,
+    context.drawImage(diamond, this.handle.x - (diamond.width * 0.3) / 2, this.handle.y - (diamond.height * 0.3) / 2,
       diamond.width * 0.3, diamond.height * 0.3);
   };
 
