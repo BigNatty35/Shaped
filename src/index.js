@@ -8,7 +8,7 @@ import Trapezoid from './trapezoid';
 
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
-let dropped = false;
+let drag = false;
 let currentShape;
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
@@ -16,8 +16,10 @@ canvas.width = window.innerWidth;
 
 
   const putShape = function(e) {
+    
     let selected = document.getElementsByClassName("active")[0];
     let url;
+
 
     switch (selected.id) {
       case "triangle":
@@ -52,7 +54,7 @@ canvas.width = window.innerWidth;
         break;
       default:
         break;
-    }
+      }
   };
   
  
@@ -78,15 +80,31 @@ function circlePointCollision(mouseX, mouseY, circle) {
 }
 
 
-  function grabShape(e) {
-
+function onMouseMove(e) {
+  // console.log(e.clientX, e.clientY);
+  if(drag){
+    currentShape.handle.x = e.clientX;
+    currentShape.handle.y = e.clientY;
+    currentShape.draw();
   }
+}
 
-canvas.addEventListener("mousedown", putShape);
-canvas.addEventListener('mousedown', function (e) {
-  if (circlePointCollision(e.clientX, e.clientY, handle)) {
-    document.body.addEventListener('mousemove', onMouseMove);
-    document.body.addEventListener('mouseup', onMouseUp);
+function onMouseUp(e) {
+  drag = false;
+  canvas.removeEventListener('mousemove', onMouseMove);
+  canvas.removeEventListener('mouseup', onMouseUp);
+  console.log(currentShape.handle.x, currentShape.handle.y);
+  console.log(drag);
+}
+
+canvas.addEventListener("click", putShape);
+canvas.addEventListener('mousedown', function(e) {
+  console.log(currentShape);
+  console.log(drag);
+  if (circlePointCollision(e.clientX, e.clientY, currentShape.handle)) {
+    drag = true;
+    canvas.addEventListener('mousemove', onMouseMove);
+    canvas.addEventListener('mouseup', onMouseUp);
   }
 });
 

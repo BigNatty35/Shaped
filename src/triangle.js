@@ -7,7 +7,7 @@ export default function Triangle(e) {
   this.handle = {
     x: e.clientX,
     y: e.clientY,
-    radius: 40
+    radius: 60
   };
   this.draw = function () {
     let triangle = new Image();

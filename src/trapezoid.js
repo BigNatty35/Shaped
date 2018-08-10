@@ -7,7 +7,7 @@ export default function Trapezoid(e) {
   this.handle = {
     x: e.clientX,
     y: e.clientY,
-    radius: 40
+    radius: 60
   };
   this.draw = function () {
     let trapezoid = new Image();

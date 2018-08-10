@@ -7,12 +7,13 @@ export default function Square(e) {
   this.handle = {
     x: e.clientX,
     y: e.clientY,
-    radius: 40
+    radius: 60
   };
+
   this.draw = function() {
     let square = new Image();
     square.src = "../shapePics/square.png";
-    context.drawImage(square, e.clientX - (square.width * 0.3) / 2, e.clientY - (square.height * 0.3) / 2,
+    context.drawImage(square, this.handle.x - (square.width * 0.3) / 2, this.handle.y - (square.height * 0.3) / 2,
       square.width * 0.3, square.height * 0.3);
   };
 

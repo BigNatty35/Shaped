@@ -7,7 +7,7 @@ export default function Hexagon(e) {
   this.handle = {
     x: e.clientX,
     y: e.clientY,
-    radius: 30
+    radius: 60
   };
   this.draw = function () {
     let hexagon = new Image();
