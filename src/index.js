@@ -96,11 +96,8 @@ function circlePointCollision(mouseX, mouseY, circle) {
 }
 
 function onMouseDown(e) {
-  e.preventDefault();
-  
+  e.preventDefault(); 
   let placedCoords = Object.values(placedShapes);
-
-  
   placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
     for(let i = 0; i < sub.length; i++) {
       if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
