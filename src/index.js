@@ -10,7 +10,7 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let drag = false;
 let follow = false;
-let currentShape = {};
+let currentShape = new Square ();
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
@@ -95,36 +95,9 @@ function circlePointCollision(mouseX, mouseY, circle) {
   return distanceXY(mouseX, mouseY, circle.x, circle.y) < circle.radius;
 }
 
-function onMouseDown(e) {
-  e.preventDefault(); 
-  let placedCoords = Object.values(placedShapes);
-  placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
-    for(let i = 0; i < sub.length; i++) {
-      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
-        drag = true;
-        follow = true;
-        currentShape = sub[i];
-        updateActive(currentShape); // places the active class on the selected canvas shape.
-        console.log(currentShape);
-        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
-        canvas.addEventListener('mousemove', onMouseMove);
-        canvas.addEventListener('mouseup', onMouseUp);
-        break;
-      }
-    }
 
-  }));
- }
 
-function onMouseMove(e) {
-  e.preventDefault();
-  if(drag){
-    context.clearRect(0, 0, width, height);
-    currentShape.handle.x = e.clientX;
-    currentShape.handle.y = e.clientY;
-    currentShape.draw();
-  } 
-}
+
 
 function shapeFollow(e) {
   if(follow);
@@ -136,6 +109,41 @@ function shapeFollow(e) {
 }
 
 
+// function shapeFollow(e) {
+
+// }
+
+function onMouseDown(e) {
+  e.preventDefault();
+  let placedCoords = Object.values(placedShapes);
+  placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
+    for (let i = 0; i < sub.length; i++) {
+      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
+        drag = true;
+        follow = true;
+        currentShape = sub[i];
+        updateActive(currentShape); // places the active class on the selected canvas shape.
+        console.log(currentShape);
+        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
+        canvas.addEventListener('mousemove', onMouseMove);
+        canvas.addEventListener('mouseup', onMouseUp);
+        // canvas.removeEventListener("mousemove", shapeFollow);
+        break;
+      }
+    }
+
+  }));
+}
+
+function onMouseMove(e) {
+  e.preventDefault();
+  if (drag) {
+    context.clearRect(0, 0, width, height);
+    currentShape.handle.x = e.clientX;
+    currentShape.handle.y = e.clientY;
+    currentShape.draw();
+  }
+}
 
 function onMouseUp(e) {
   e.preventDefault();
@@ -143,7 +151,7 @@ function onMouseUp(e) {
   // follow = true;
   canvas.removeEventListener('mousemove', onMouseMove);
   canvas.removeEventListener('mouseup', onMouseUp);
-  canvas.addEventListener("mousemove", shapeFollow);
+  // canvas.addEventListener("mousemove", shapeFollow);
   currentShape.draw();
   context.clearRect(0, 0, height, width);
   console.log(currentShape);
@@ -151,12 +159,10 @@ function onMouseUp(e) {
   
 }
 
-canvas.addEventListener("click", putShape);
-canvas.addEventListener('mousedown', onMouseDown);
-
-
 function drawShapes() {
   let placedCoords = Object.values(placedShapes);
+  debugger
+  
   placedCoords.forEach(sub => {
     for (let i = 0; i < sub.length; i++) {
       sub[i].draw();
@@ -164,8 +170,22 @@ function drawShapes() {
   });
 }
 
+
+
+canvas.addEventListener("click", putShape);
+canvas.addEventListener('mousedown', onMouseDown);
+
 export default function animate() {
+
+  function drawCanvas() {
+    let background = new Image();
+    background.src = '.././shapePics/background_wood.jpg';
+    context.fillRect(0, 0, width, height);
+    context.drawImage(background, width, height);
+  }
+  // drawCanvas();
   drawShapes();
-  canvas.addEventListener("mousemove", onMouseMove);
+
+  // canvas.addEventListener("mousemove", shapeFollow);
   requestAnimationFrame(animate);
 }

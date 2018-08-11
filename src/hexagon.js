@@ -6,8 +6,8 @@ let context = canvas.getContext('2d');
 export default function Hexagon(e) {
   this.name = 'hexagon';
   this.handle = {
-    x: e.clientX,
-    y: e.clientY,
+    x: e.clientX || 0,
+    y: e.clientY || 0,
     radius: 70
   };
   this.draw = function () {

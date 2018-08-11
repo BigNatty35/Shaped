@@ -6,8 +6,8 @@ let context = canvas.getContext('2d');
 export default function Skinny(e) {
   this.name = "skinny";
   this.handle = {
-    x: e.clientX,
-    y: e.clientY,
+    x: e.clientX || 0,
+    y: e.clientY || 0,
     radius: 70
   };
   this.draw = function () {

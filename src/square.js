@@ -17,7 +17,7 @@ export default function Square(e) {
     square.src = "../shapePics/square.png";
     // context.clearRect(this.handle.x, this.handle.y, square.width * 0.3, square.height * 0.3);
     context.save();
-    context.drawImage(square, this.handle.x - (square.width * 0.3) / 2, this.handle.y - (square.height * 0.3) / 2,
+    context.drawImage(square, this.handle.x - (square.width * 0.15), this.handle.y - (square.height * 0.15),
     square.width * 0.3, square.height * 0.3);
     context.restore();
   };

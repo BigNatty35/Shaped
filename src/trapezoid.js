@@ -6,8 +6,8 @@ let context = canvas.getContext('2d');
 export default function Trapezoid(e) {
   this.name = 'trapezoid';
   this.handle = {
-    x: e.clientX,
-    y: e.clientY,
+    x: e.clientX || 0,
+    y: e.clientY || 0,
     radius: 70
   };
   this.draw = function () {

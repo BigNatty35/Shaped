@@ -87,14 +87,14 @@ let context = canvas.getContext('2d');
 function Diamond(e) {
   this.name = 'diamond';
   this.handle = {
-    x: e.clientX,
-    y: e.clientY,
+    x: e.clientX || 0,
+    y: e.clientY || 0,
     radius: 100
   };
   this.draw = function () {
     let diamond = new Image();
     diamond.src = "../shapePics/diamond.png";
-    context.drawImage(diamond, this.handle.x - diamond.width * 0.3 / 2, this.handle.y - diamond.height * 0.3 / 2, diamond.width * 0.3, diamond.height * 0.3);
+    context.drawImage(diamond, this.handle.x - diamond.width * 0.15, this.handle.y - diamond.height * 0.15, diamond.width * 0.3, diamond.height * 0.3);
   };
 }
 
@@ -116,8 +116,8 @@ let context = canvas.getContext('2d');
 function Hexagon(e) {
   this.name = 'hexagon';
   this.handle = {
-    x: e.clientX,
-    y: e.clientY,
+    x: e.clientX || 0,
+    y: e.clientY || 0,
     radius: 70
   };
   this.draw = function () {
@@ -158,7 +158,7 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let drag = false;
 let follow = false;
-let currentShape = {};
+let currentShape = new _square__WEBPACK_IMPORTED_MODULE_1__["default"]();
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
@@ -235,6 +235,19 @@ function circlePointCollision(mouseX, mouseY, circle) {
   return distanceXY(mouseX, mouseY, circle.x, circle.y) < circle.radius;
 }
 
+function shapeFollow(e) {
+  if (follow) ;
+  e.preventDefault();
+  context.clearRect(0, 0, width, height);
+  currentShape.handle.x = e.clientX;
+  currentShape.handle.y = e.clientY;
+  currentShape.draw();
+}
+
+// function shapeFollow(e) {
+
+// }
+
 function onMouseDown(e) {
   e.preventDefault();
   let placedCoords = Object.values(placedShapes);
@@ -251,6 +264,7 @@ function onMouseDown(e) {
         sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
         canvas.addEventListener('mousemove', onMouseMove);
         canvas.addEventListener('mouseup', onMouseUp);
+        // canvas.removeEventListener("mousemove", shapeFollow);
         break;
       }
     }
@@ -267,33 +281,23 @@ function onMouseMove(e) {
   }
 }
 
-function shapeFollow(e) {
-  if (follow) ;
-  e.preventDefault();
-  context.clearRect(0, 0, width, height);
-  currentShape.handle.x = e.clientX;
-  currentShape.handle.y = e.clientY;
-  currentShape.draw();
-}
-
 function onMouseUp(e) {
   e.preventDefault();
   drag = false;
   // follow = true;
   canvas.removeEventListener('mousemove', onMouseMove);
   canvas.removeEventListener('mouseup', onMouseUp);
-  canvas.addEventListener("mousemove", shapeFollow);
+  // canvas.addEventListener("mousemove", shapeFollow);
   currentShape.draw();
   context.clearRect(0, 0, height, width);
   console.log(currentShape);
   console.log(drag);
 }
 
-canvas.addEventListener("click", putShape);
-canvas.addEventListener('mousedown', onMouseDown);
-
 function drawShapes() {
   let placedCoords = Object.values(placedShapes);
+  debugger;
+
   placedCoords.forEach(sub => {
     for (let i = 0; i < sub.length; i++) {
       sub[i].draw();
@@ -301,9 +305,21 @@ function drawShapes() {
   });
 }
 
+canvas.addEventListener("click", putShape);
+canvas.addEventListener('mousedown', onMouseDown);
+
 function animate() {
+
+  function drawCanvas() {
+    let background = new Image();
+    background.src = '.././shapePics/background_wood.jpg';
+    context.fillRect(0, 0, width, height);
+    context.drawImage(background, width, height);
+  }
+  // drawCanvas();
   drawShapes();
-  canvas.addEventListener("mousemove", onMouseMove);
+
+  // canvas.addEventListener("mousemove", shapeFollow);
   requestAnimationFrame(animate);
 }
 
@@ -379,8 +395,8 @@ let context = canvas.getContext('2d');
 function Skinny(e) {
   this.name = "skinny";
   this.handle = {
-    x: e.clientX,
-    y: e.clientY,
+    x: e.clientX || 0,
+    y: e.clientY || 0,
     radius: 70
   };
   this.draw = function () {
@@ -420,7 +436,7 @@ function Square(e) {
     square.src = "../shapePics/square.png";
     // context.clearRect(this.handle.x, this.handle.y, square.width * 0.3, square.height * 0.3);
     context.save();
-    context.drawImage(square, this.handle.x - square.width * 0.3 / 2, this.handle.y - square.height * 0.3 / 2, square.width * 0.3, square.height * 0.3);
+    context.drawImage(square, this.handle.x - square.width * 0.15, this.handle.y - square.height * 0.15, square.width * 0.3, square.height * 0.3);
     context.restore();
   };
 }
@@ -462,8 +478,8 @@ let context = canvas.getContext('2d');
 function Trapezoid(e) {
   this.name = 'trapezoid';
   this.handle = {
-    x: e.clientX,
-    y: e.clientY,
+    x: e.clientX || 0,
+    y: e.clientY || 0,
     radius: 70
   };
   this.draw = function () {
@@ -493,8 +509,8 @@ let height = canvas.height;
 function Triangle(e) {
   this.name = "triangle";
   this.handle = {
-    x: e.clientX,
-    y: e.clientY,
+    x: e.clientX || 0,
+    y: e.clientY || 0,
     radius: 25
   };
   this.draw = function () {
