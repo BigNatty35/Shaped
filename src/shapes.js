@@ -3,7 +3,7 @@
 // let shapes = document.getElementsByClassName("shapeIcon");
 
 
-export const addShape = function(e) {
+export const addShape = function(e, follow) {
 
   let active = document.getElementsByClassName("active")[0]; // find the element that has the className "active"
   let shape = e.target; // shape is the element in the toolbar that was clicked.
@@ -13,6 +13,7 @@ export const addShape = function(e) {
   }
   
   shape.className += " active"; // the element that was clicked now has the active Class;
+  follow = true;
 };
 
 

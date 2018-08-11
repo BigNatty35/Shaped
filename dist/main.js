@@ -157,7 +157,7 @@ __webpack_require__.r(__webpack_exports__);
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let drag = false;
-let move = false;
+let follow = false;
 let currentShape = {};
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
@@ -179,6 +179,7 @@ const putShape = function (e) {
   let selected = document.getElementsByClassName("active")[0];
   // while drag is equal to false
   if (!drag) {
+    follow = false;
     switch (selected.id) {
       case "triangle":
         let triangle = new _triangle__WEBPACK_IMPORTED_MODULE_4__["default"](e);
@@ -245,6 +246,7 @@ function onMouseDown(e) {
       if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
         // if the mouse is clicking on a shape.
         drag = true;
+        follow = true;
         currentShape = sub[i];
         Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["updateActive"])(currentShape); // places the active class on the selected canvas shape.
         console.log(currentShape);
@@ -267,11 +269,22 @@ function onMouseMove(e) {
   }
 }
 
+function shapeFollow(e) {
+  if (follow) ;
+  e.preventDefault();
+  context.clearRect(0, 0, width, height);
+  currentShape.handle.x = e.clientX;
+  currentShape.handle.y = e.clientY;
+  currentShape.draw();
+}
+
 function onMouseUp(e) {
   e.preventDefault();
   drag = false;
+  // follow = true;
   canvas.removeEventListener('mousemove', onMouseMove);
   canvas.removeEventListener('mouseup', onMouseUp);
+  canvas.addEventListener("mousemove", shapeFollow);
   currentShape.draw();
   context.clearRect(0, 0, height, width);
   console.log(currentShape);
@@ -292,7 +305,7 @@ function drawShapes() {
 
 function animate() {
   drawShapes();
-
+  canvas.addEventListener("mousemove", onMouseMove);
   requestAnimationFrame(animate);
 }
 
@@ -314,7 +327,7 @@ __webpack_require__.r(__webpack_exports__);
 // let shapes = document.getElementsByClassName("shapeIcon");
 
 
-const addShape = function (e) {
+const addShape = function (e, follow) {
 
   let active = document.getElementsByClassName("active")[0]; // find the element that has the className "active"
   let shape = e.target; // shape is the element in the toolbar that was clicked.
@@ -325,6 +338,7 @@ const addShape = function (e) {
   }
 
   shape.className += " active"; // the element that was clicked now has the active Class;
+  follow = true;
 };
 
 //this function changes the active shape to the one that was clicked on.

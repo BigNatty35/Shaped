@@ -9,7 +9,7 @@ import Trapezoid from './trapezoid';
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let drag = false;
-let move = false;
+let follow = false;
 let currentShape = {};
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
@@ -33,7 +33,8 @@ let placedShapes = {
     e.preventDefault();
     let selected = document.getElementsByClassName("active")[0];
     // while drag is equal to false
-     if(!drag) {  
+     if(!drag) {
+       follow = false;  
       switch (selected.id) {
         case "triangle":
           let triangle = new Triangle(e);
@@ -104,6 +105,7 @@ function onMouseDown(e) {
     for(let i = 0; i < sub.length; i++) {
       if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
         drag = true;
+        follow = true;
         currentShape = sub[i];
         updateActive(currentShape); // places the active class on the selected canvas shape.
         console.log(currentShape);
@@ -124,7 +126,16 @@ function onMouseMove(e) {
     currentShape.handle.x = e.clientX;
     currentShape.handle.y = e.clientY;
     currentShape.draw();
-  }
+  } 
+}
+
+function shapeFollow(e) {
+  if(follow);
+  e.preventDefault();
+    context.clearRect(0, 0, width, height);
+    currentShape.handle.x = e.clientX;
+    currentShape.handle.y = e.clientY;
+    currentShape.draw();
 }
 
 
@@ -132,12 +143,15 @@ function onMouseMove(e) {
 function onMouseUp(e) {
   e.preventDefault();
   drag = false;
+  // follow = true;
   canvas.removeEventListener('mousemove', onMouseMove);
   canvas.removeEventListener('mouseup', onMouseUp);
+  canvas.addEventListener("mousemove", shapeFollow);
   currentShape.draw();
   context.clearRect(0, 0, height, width);
   console.log(currentShape);
   console.log(drag);
+  
 }
 
 canvas.addEventListener("click", putShape);
@@ -155,7 +169,6 @@ function drawShapes() {
 
 export default function animate() {
   drawShapes();
-
-  
+  canvas.addEventListener("mousemove", onMouseMove);
   requestAnimationFrame(animate);
 }
