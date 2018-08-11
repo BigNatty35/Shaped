@@ -304,12 +304,26 @@ function drawShapes() {
   });
 }
 
+function clearCanvas(e) {
+  e.preventDefault();
+  let shapes = Object.keys(placedShapes);
+  shapes.forEach(shape => {
+    placedShapes[shape] = [];
+    return placedShapes;
+  });
+  context.clearRect(0, 0, width, height);
+  console.log("hello");
+}
+
+let button = document.getElementById("clear");
+
 canvas.addEventListener("click", putShape);
 canvas.addEventListener('mousedown', onMouseDown);
 
+let background = new Image();
+background.src = '../shapePics/background.jpg';
+
 function animate() {
-  let background = new Image();
-  background.src = '../shapePics/background.jpg';
   function drawCanvas() {
     // context.fillStyle = "white";
     // context.fillRect(0, 0, width, height);
@@ -319,6 +333,7 @@ function animate() {
   }
   drawCanvas();
   drawShapes();
+  button.addEventListener("click", clearCanvas);
 
   // canvas.addEventListener("mousemove", shapeFollow);
   requestAnimationFrame(animate);

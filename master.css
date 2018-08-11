@@ -8,6 +8,15 @@
   color: white;
 }
 
+#toolbar button {
+  width: 150px;
+  height: 50px;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: burlywood;
+  color: black;
+  font-size: 20px;
+}
 #canvas {
   border: 2px dotted red;
   background: url("./shapePics/background.jpg");
@@ -32,7 +41,8 @@
   margin-right: 50px;
   margin-top: 5%;
   margin-bottom: 5%;
-}
+  background-color: white;
+};
 
 #square {
   /* background-image: url("./shapePics/orangesquare.png"); */
