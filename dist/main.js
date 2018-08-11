@@ -158,7 +158,7 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let drag = false;
 let follow = false;
-let currentShape = new _square__WEBPACK_IMPORTED_MODULE_1__["default"]();
+let currentShape = {};
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
@@ -296,7 +296,6 @@ function onMouseUp(e) {
 
 function drawShapes() {
   let placedCoords = Object.values(placedShapes);
-  debugger;
 
   placedCoords.forEach(sub => {
     for (let i = 0; i < sub.length; i++) {
@@ -309,14 +308,16 @@ canvas.addEventListener("click", putShape);
 canvas.addEventListener('mousedown', onMouseDown);
 
 function animate() {
-
+  let background = new Image();
+  background.src = '../shapePics/background.jpg';
   function drawCanvas() {
-    let background = new Image();
-    background.src = '.././shapePics/background_wood.jpg';
-    context.fillRect(0, 0, width, height);
+    // context.fillStyle = "white";
+    // context.fillRect(0, 0, width, height);
+
     context.drawImage(background, width, height);
+    // console.log("hey");
   }
-  // drawCanvas();
+  drawCanvas();
   drawShapes();
 
   // canvas.addEventListener("mousemove", shapeFollow);

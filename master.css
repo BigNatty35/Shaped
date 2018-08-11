@@ -10,6 +10,7 @@
 
 #canvas {
   border: 2px dotted red;
+  background: url("./shapePics/background.jpg");
 }
 
 .shapeIcon {
