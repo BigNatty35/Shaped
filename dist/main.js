@@ -314,25 +314,23 @@ function clearCanvas(e) {
 
 let button = document.getElementById("clear");
 
-function moveSomething(e) {
-  e.preventDefault();
-  switch (e.keyCode) {
-    case 37:
-      // left key is pressed
-      currentShape.angle += 1;
-      currentShape.rotate();
-      console.log("left");
-      break;
-    case 39:
-      // right key is pressed
-      currentShape.angle -= 1;
-      currentShape.rotate();
-      console.log('right');
-      break;
-  }
-}
+// function moveSomething(e) {
+//   e.preventDefault();
+//   switch (e.keyCode) {
+//     case 37: // left key is pressed
+//       currentShape.angle += 1;
+//       currentShape.rotate();
+//       console.log("left");
+//       break;
+//     case 39: // right key is pressed
+//       currentShape.angle -= 1;
+//       currentShape.rotate();
+//       console.log('right');
+//       break;
+//   }
+// }
 
-canvas.addEventListener('keydown', moveSomething, false);
+// canvas.addEventListener('keydown', moveSomething, false);
 canvas.addEventListener("click", putShape);
 canvas.addEventListener('mousedown', onMouseDown);
 // canvas.addEventListener("mouseover", shapeFollow);
@@ -343,6 +341,7 @@ background.src = '../shapePics/background.jpg';
 function animate() {
 
   drawShapes();
+  Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addMouseOver"])();
 
   button.addEventListener("click", clearCanvas);
   // canvas.addEventListener("mousemove", shapeFollow);
@@ -356,11 +355,12 @@ function animate() {
 /*!***********************!*\
   !*** ./src/shapes.js ***!
   \***********************/
-/*! exports provided: addShape, updateActive */
+/*! exports provided: addMouseOver, addShape, updateActive */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addMouseOver", function() { return addMouseOver; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addShape", function() { return addShape; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateActive", function() { return updateActive; });
 // import shapeFollow from './index';
@@ -389,8 +389,6 @@ const addShape = function (e, follow) {
   follow = true;
   console.log(follow);
 };
-
-addMouseOver();
 
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');

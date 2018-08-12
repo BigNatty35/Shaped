@@ -2,7 +2,7 @@
 // creates an array-like object of the shape elements on the toolbar
 // let shapes = document.getElementsByClassName("shapeIcon");
 
-const addMouseOver = () => {
+export const addMouseOver = () => {
   let shapes = document.getElementsByClassName("shape-img");
   for (let i = 0; i < shapes.length; i++) {
     let shape = shapes[i];
@@ -28,7 +28,7 @@ export const addShape = function(e, follow) {
 
 
 
-addMouseOver();
+
 
 
 

@@ -1,4 +1,4 @@
-import {addShape, updateActive} from './shapes';
+import {addShape, updateActive, addMouseOver} from './shapes';
 import Square from './square';
 import Diamond from './diamond';
 import Skinny from './skinny';
@@ -180,23 +180,23 @@ function clearCanvas(e) {
 let button = document.getElementById("clear");
 
 
-function moveSomething(e) {
-  e.preventDefault();
-  switch (e.keyCode) {
-    case 37: // left key is pressed
-      currentShape.angle += 1;
-      currentShape.rotate();
-      console.log("left");
-      break;
-    case 39: // right key is pressed
-      currentShape.angle -= 1;
-      currentShape.rotate();
-      console.log('right');
-      break;
-  }
-}
+// function moveSomething(e) {
+//   e.preventDefault();
+//   switch (e.keyCode) {
+//     case 37: // left key is pressed
+//       currentShape.angle += 1;
+//       currentShape.rotate();
+//       console.log("left");
+//       break;
+//     case 39: // right key is pressed
+//       currentShape.angle -= 1;
+//       currentShape.rotate();
+//       console.log('right');
+//       break;
+//   }
+// }
 
-canvas.addEventListener('keydown', moveSomething, false);
+// canvas.addEventListener('keydown', moveSomething, false);
 canvas.addEventListener("click", putShape);
 canvas.addEventListener('mousedown', onMouseDown);
 // canvas.addEventListener("mouseover", shapeFollow);
@@ -205,10 +205,10 @@ let background = new Image();
 background.src = '../shapePics/background.jpg';
 
 export default function animate() {
- 
-  drawShapes();
   
-   
+  drawShapes();
+  addMouseOver();
+  
 
   button.addEventListener("click", clearCanvas);
   // canvas.addEventListener("mousemove", shapeFollow);
