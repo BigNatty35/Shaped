@@ -8,6 +8,7 @@ import Trapezoid from './trapezoid';
 
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
+let select = true;
 let drag = false;
 let follow = false;
 let currentShape = {};
@@ -33,19 +34,21 @@ let placedShapes = {
     e.preventDefault();
     let selected = document.getElementsByClassName("active")[0];
     // while drag is equal to false
-     if(!drag) {
+     if(select) {
        follow = true;  
       switch (selected.id) {
         case "triangle":
           let triangle = new Triangle(e);
           currentShape = triangle;
           triangle.draw();
+          // onMouseMove(e);
           placedShapes["triangle"].push(currentShape);
           break;
         case "square":
           let square = new Square(e, angle);
           currentShape = square;
           square.draw();
+          // onMouseMove(e);
           placedShapes["square"].push(currentShape);
           // debugger
           break;
@@ -53,24 +56,28 @@ let placedShapes = {
           let hexagon = new Hexagon(e);
           currentShape = hexagon;
           hexagon.draw();
+          // onMouseMove(e);
           placedShapes["hexagon"].push(currentShape);
           break;
         case "skinny":
           let skinny = new Skinny(e);
           currentShape = skinny;
           skinny.draw();
+          // onMouseMove(e);
           placedShapes["skinny"].push(currentShape);
           break;
         case "diamond":
           let diamond = new Diamond(e);
           currentShape = diamond;
           diamond.draw();
+          // onMouseMove(e);
           placedShapes["diamond"].push(currentShape);
           break;
         case "trapezoid":
           let trapezoid = new Trapezoid(e);
           currentShape = trapezoid;
           trapezoid.draw();
+          // onMouseMove(e);
           placedShapes["trapezoid"].push(currentShape);
           break;
         default:
@@ -107,6 +114,7 @@ function shapeFollow(e) {
       currentShape.handle.x = e.clientX;
       currentShape.handle.y = e.clientY;
       currentShape.draw();
+      console.log("follow");
      
   }
 
@@ -122,9 +130,10 @@ function onMouseDown(e) {
         updateActive(currentShape); // places the active class on the selected canvas shape.
         console.log(currentShape);
         sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
-        canvas.addEventListener('mousemove', onMouseMove);
+        // canvas.addEventListener('mousemove', onMouseMove);
         canvas.addEventListener('mouseup', onMouseUp);
         // canvas.removeEventListener("mousemove", shapeFollow);
+        console.log("yooo");
         break;
       }
     }
@@ -132,21 +141,39 @@ function onMouseDown(e) {
   }));
 }
 
-function onMouseMove(e) {
+
+function removeTrail() {
+  let placedCoords = Object.values(placedShapes);
+  placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
+    for (let i = 0; i < sub.length; i++) {
+      currentShape = sub[i];
+      updateActive(currentShape); // places the active class on the selected canvas shape.
+      console.log(currentShape);
+      sub.splice(i, 1); 
+    }
+  }))
+};
+
+export const onMouseMove = (e) => {
   e.preventDefault();
-  if (drag) {
+  
+    // debugger
+    putShape(e);
+    removeTrail();
     context.clearRect(0, 0, width, height);
     currentShape.handle.x = e.clientX;
-    currentShape.handle.y = e.clientY;
-    currentShape.draw();
-  }
-}
+      currentShape.handle.y = e.clientY;
+      currentShape.draw();
+    // context.clearRect(0, 0, width, height);
+  
+
+};
 
 function onMouseUp(e) {
   e.preventDefault();
   drag = false;
  
-  canvas.removeEventListener('mousemove', onMouseMove);
+  // canvas.removeEventListener('mousemove', onMouseMove);
   canvas.removeEventListener('mouseup', onMouseUp);
   currentShape.draw();
   context.clearRect(0, 0, height, width);
@@ -180,38 +207,20 @@ function clearCanvas(e) {
 let button = document.getElementById("clear");
 
 
-// function moveSomething(e) {
-//   e.preventDefault();
-//   switch (e.keyCode) {
-//     case 37: // left key is pressed
-//       currentShape.angle += 1;
-//       currentShape.rotate();
-//       console.log("left");
-//       break;
-//     case 39: // right key is pressed
-//       currentShape.angle -= 1;
-//       currentShape.rotate();
-//       console.log('right');
-//       break;
-//   }
-// }
 
-// canvas.addEventListener('keydown', moveSomething, false);
-canvas.addEventListener("click", putShape);
-canvas.addEventListener('mousedown', onMouseDown);
-// canvas.addEventListener("mouseover", shapeFollow);
+
 
 let background = new Image();
 background.src = '../shapePics/background.jpg';
+// canvas.addEventListener("mouseover", shapeFollow);
 
 export default function animate() {
-  
   drawShapes();
   addMouseOver();
-  
-
+  // canvas.addEventListener('mousemove', onMouseMove);
+  canvas.addEventListener("click", putShape);
   button.addEventListener("click", clearCanvas);
-  // canvas.addEventListener("mousemove", shapeFollow);
-  
+  // canvas.addEventListener("mousemove", shapeFollow);  
   requestAnimationFrame(animate);
 }
+

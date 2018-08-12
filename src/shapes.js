@@ -1,34 +1,47 @@
-// import shapeFollow from './index';
+import putShape from './index';
+import {onMouseMove, onMoveSelect}  from './index';
 // creates an array-like object of the shape elements on the toolbar
 // let shapes = document.getElementsByClassName("shapeIcon");
 
-export const addMouseOver = () => {
+export const addMouseOver = (select) => {
   let shapes = document.getElementsByClassName("shape-img");
   for (let i = 0; i < shapes.length; i++) {
     let shape = shapes[i];
-    shape.addEventListener("mouseover", addShape);
+    shape.addEventListener("click", addShape);
   }
 };
 
 
 
-export const addShape = function(e, follow) {
+export const addShape = function(e, select) {
   e.stopPropagation();
   let active = document.getElementsByClassName("active")[0]; // find the element that has the className "active"
   let shape = e.target; // shape is the element in the toolbar that was clicked.
-
+  // debugger
   if (active) { // if there is an element that has active on it, change className to shape-img
     // debugger
     active.className = "shape-img";
   }
   shape.className += " active"; // the element that was clicked now has the active Class;
-  follow = true;
-  console.log(follow);
+  select = true;
+  canvas.addEventListener('mousemove', onMouseMove);
+  // canvas.addEventListener("click", putShape);
+  console.log(select);
 };
 
 
 
+let shapeFollow = function(e, currentShape, select) {
+  e.stopPropagation();
+ 
+    // debugger
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    currentShape.handle.x = e.clientX;
+    currentShape.handle.y = e.clientY;
+    currentShape.draw();
+  
 
+};
 
 
 
@@ -52,5 +65,5 @@ export const updateActive = function(currentShape, follow) {
 
 
 
-console.log({ shapes });
+// console.log({ shapes });
 
