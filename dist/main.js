@@ -163,6 +163,7 @@ canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
 let width = canvas.width;
+let angle = 0;
 
 let placedShapes = {
   triangle: [],
@@ -179,7 +180,7 @@ const putShape = function (e) {
   let selected = document.getElementsByClassName("active")[0];
   // while drag is equal to false
   if (!drag) {
-    follow = false;
+    follow = true;
     switch (selected.id) {
       case "triangle":
         let triangle = new _triangle__WEBPACK_IMPORTED_MODULE_4__["default"](e);
@@ -188,7 +189,7 @@ const putShape = function (e) {
         placedShapes["triangle"].push(currentShape);
         break;
       case "square":
-        let square = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e);
+        let square = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e, angle);
         currentShape = square;
         square.draw();
         placedShapes["square"].push(currentShape);
@@ -236,17 +237,14 @@ function circlePointCollision(mouseX, mouseY, circle) {
 }
 
 function shapeFollow(e) {
-  if (follow) ;
   e.preventDefault();
+  // if(follow) {
+  // debugger
   context.clearRect(0, 0, width, height);
   currentShape.handle.x = e.clientX;
   currentShape.handle.y = e.clientY;
   currentShape.draw();
 }
-
-// function shapeFollow(e) {
-
-// }
 
 function onMouseDown(e) {
   e.preventDefault();
@@ -257,7 +255,7 @@ function onMouseDown(e) {
       if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
         // if the mouse is clicking on a shape.
         drag = true;
-        follow = true;
+        follow = false;
         currentShape = sub[i];
         Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["updateActive"])(currentShape); // places the active class on the selected canvas shape.
         console.log(currentShape);
@@ -284,10 +282,9 @@ function onMouseMove(e) {
 function onMouseUp(e) {
   e.preventDefault();
   drag = false;
-  // follow = true;
+
   canvas.removeEventListener('mousemove', onMouseMove);
   canvas.removeEventListener('mouseup', onMouseUp);
-  // canvas.addEventListener("mousemove", shapeFollow);
   currentShape.draw();
   context.clearRect(0, 0, height, width);
   console.log(currentShape);
@@ -317,25 +314,39 @@ function clearCanvas(e) {
 
 let button = document.getElementById("clear");
 
+function moveSomething(e) {
+  e.preventDefault();
+  switch (e.keyCode) {
+    case 37:
+      // left key is pressed
+      currentShape.angle += 1;
+      currentShape.rotate();
+      console.log("left");
+      break;
+    case 39:
+      // right key is pressed
+      currentShape.angle -= 1;
+      currentShape.rotate();
+      console.log('right');
+      break;
+  }
+}
+
+canvas.addEventListener('keydown', moveSomething, false);
 canvas.addEventListener("click", putShape);
 canvas.addEventListener('mousedown', onMouseDown);
+// canvas.addEventListener("mouseover", shapeFollow);
 
 let background = new Image();
 background.src = '../shapePics/background.jpg';
 
 function animate() {
-  function drawCanvas() {
-    // context.fillStyle = "white";
-    // context.fillRect(0, 0, width, height);
 
-    context.drawImage(background, width, height);
-    // console.log("hey");
-  }
-  drawCanvas();
   drawShapes();
-  button.addEventListener("click", clearCanvas);
 
+  button.addEventListener("click", clearCanvas);
   // canvas.addEventListener("mousemove", shapeFollow);
+
   requestAnimationFrame(animate);
 }
 
@@ -352,31 +363,45 @@ function animate() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addShape", function() { return addShape; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateActive", function() { return updateActive; });
-
+// import shapeFollow from './index';
 // creates an array-like object of the shape elements on the toolbar
 // let shapes = document.getElementsByClassName("shapeIcon");
 
+const addMouseOver = () => {
+  let shapes = document.getElementsByClassName("shape-img");
+  for (let i = 0; i < shapes.length; i++) {
+    let shape = shapes[i];
+    shape.addEventListener("mouseover", addShape);
+  }
+};
 
 const addShape = function (e, follow) {
-
+  e.stopPropagation();
   let active = document.getElementsByClassName("active")[0]; // find the element that has the className "active"
   let shape = e.target; // shape is the element in the toolbar that was clicked.
 
   if (active) {
     // if there is an element that has active on it, change className to shape-img
+    // debugger
     active.className = "shape-img";
   }
-
   shape.className += " active"; // the element that was clicked now has the active Class;
   follow = true;
+  console.log(follow);
 };
 
+addMouseOver();
+
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext('2d');
+
 //this function changes the active shape to the one that was clicked on.
-const updateActive = function (currentShape) {
+const updateActive = function (currentShape, follow) {
   let name = currentShape.name;
   let shape = document.getElementById(name); //selects toolbar shape based on currentShape's name
   let active = document.getElementsByClassName("active")[0];
   // if there is an element that has active on it, change className to shape-img
+  follow = true;
   if (active) {
     active.className = "shape-img";
   }
@@ -384,14 +409,7 @@ const updateActive = function (currentShape) {
   shape.className += " active";
 };
 
-let shapes = document.getElementsByClassName("shapeIcon");
-
 console.log({ shapes });
-
-for (let i = 0; i < shapes.length; i++) {
-  let shape = shapes[i];
-  shape.addEventListener("click", addShape);
-}
 
 /***/ }),
 
@@ -428,32 +446,41 @@ function Skinny(e) {
 /*!***********************!*\
   !*** ./src/square.js ***!
   \***********************/
-/*! exports provided: default */
+/*! exports provided: TO_RADIANS, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TO_RADIANS", function() { return TO_RADIANS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Square; });
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let width = canvas.width;
 let height = canvas.height;
 
-function Square(e) {
+const TO_RADIANS = Math.PI / 180;
+
+function Square(e, angle) {
   this.name = "square";
   this.handle = {
     x: e.clientX,
     y: e.clientY,
     radius: 40
   };
+  // this.angle = angle;
 
   this.draw = function () {
     let square = new Image();
     square.src = "../shapePics/square.png";
-    // context.clearRect(this.handle.x, this.handle.y, square.width * 0.3, square.height * 0.3);
-    context.save();
     context.drawImage(square, this.handle.x - square.width * 0.15, this.handle.y - square.height * 0.15, square.width * 0.3, square.height * 0.3);
-    context.restore();
+  };
+
+  this.rotate = function () {
+    context.save();
+    context.translate(this.handle.x, this.handle.y);
+    context.rotate(TO_RADIANS);
+    context.translate(0, 0);
+    this.draw();
   };
 }
 
