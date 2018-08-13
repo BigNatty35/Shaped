@@ -178,60 +178,57 @@ let placedShapes = {
 
 //draws the shape based on which shape is selected in the tool bar
 const putShape = function (e) {
-  e.preventDefault();
+  e.stopPropagation();
   let selected = document.getElementsByClassName("active")[0];
   // while drag is equal to false
-  if (select) {
-    follow = true;
-    switch (selected.id) {
-      case "triangle":
-        let triangle = new _triangle__WEBPACK_IMPORTED_MODULE_4__["default"](e);
-        currentShape = triangle;
-        triangle.draw();
-        // onMouseMove(e);
-        placedShapes["triangle"].push(currentShape);
-        break;
-      case "square":
-        let square = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e, angle);
-        currentShape = square;
-        square.draw();
-        // onMouseMove(e);
-        placedShapes["square"].push(currentShape);
-        // debugger
-        break;
-      case "hexagon":
-        let hexagon = new _hexagon__WEBPACK_IMPORTED_MODULE_5__["default"](e);
-        currentShape = hexagon;
-        hexagon.draw();
-        // onMouseMove(e);
-        placedShapes["hexagon"].push(currentShape);
-        break;
-      case "skinny":
-        let skinny = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e);
-        currentShape = skinny;
-        skinny.draw();
-        // onMouseMove(e);
-        placedShapes["skinny"].push(currentShape);
-        break;
-      case "diamond":
-        let diamond = new _diamond__WEBPACK_IMPORTED_MODULE_2__["default"](e);
-        currentShape = diamond;
-        diamond.draw();
-        // onMouseMove(e);
-        placedShapes["diamond"].push(currentShape);
-        break;
-      case "trapezoid":
-        let trapezoid = new _trapezoid__WEBPACK_IMPORTED_MODULE_6__["default"](e);
-        currentShape = trapezoid;
-        trapezoid.draw();
-        // onMouseMove(e);
-        placedShapes["trapezoid"].push(currentShape);
-        break;
-      default:
-        break;
-    }
-    console.log(placedShapes);
+  // debugger
+  follow = true;
+  //  debugger
+  switch (selected.id) {
+    case "triangle":
+      let triangle = new _triangle__WEBPACK_IMPORTED_MODULE_4__["default"](e);
+      currentShape = triangle;
+      triangle.draw();
+      placedShapes["triangle"].push(currentShape);
+      break;
+    case "square":
+      let square = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e);
+      currentShape = square;
+      square.draw();
+      placedShapes["square"].push(currentShape);
+      // debugger
+      break;
+    case "hexagon":
+      let hexagon = new _hexagon__WEBPACK_IMPORTED_MODULE_5__["default"](e);
+      currentShape = hexagon;
+      // debugger
+      hexagon.draw();
+      placedShapes["hexagon"].push(currentShape);
+      break;
+    case "skinny":
+      let skinny = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e);
+      currentShape = skinny;
+      skinny.draw();
+      // onMouseMove(e);
+      placedShapes["skinny"].push(currentShape);
+      break;
+    case "diamond":
+      let diamond = new _diamond__WEBPACK_IMPORTED_MODULE_2__["default"](e);
+      currentShape = diamond;
+      diamond.draw();
+      placedShapes["diamond"].push(currentShape);
+      break;
+    case "trapezoid":
+      let trapezoid = new _trapezoid__WEBPACK_IMPORTED_MODULE_6__["default"](e);
+      currentShape = trapezoid;
+      trapezoid.draw();
+      placedShapes["trapezoid"].push(currentShape);
+      break;
+    default:
+      break;
   }
+
+  console.log(`after putshape ${currentShape.name}`);
 };
 
 function distanceXY(x0, y0, x1, y1) {
@@ -245,18 +242,18 @@ function circlePointCollision(mouseX, mouseY, circle) {
 }
 
 function shapeFollow(e) {
-  e.preventDefault();
-  // if(follow) {
-  // debugger
-  context.clearRect(0, 0, width, height);
-  currentShape.handle.x = e.clientX;
-  currentShape.handle.y = e.clientY;
-  currentShape.draw();
-  console.log("follow");
+  e.stopPropagation();
+  if (follow) {
+    // debugger
+    context.clearRect(0, 0, width, height);
+    currentShape.handle.x = e.clientX;
+    currentShape.handle.y = e.clientY;
+    currentShape.draw();
+  }
 }
 
 function onMouseDown(e) {
-  e.preventDefault();
+  e.stopPropagation();
   let placedCoords = Object.values(placedShapes);
   placedCoords.forEach(sub => {
     // iterate through all of the shapes on the canvas,
@@ -267,10 +264,9 @@ function onMouseDown(e) {
         follow = false;
         currentShape = sub[i];
         Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["updateActive"])(currentShape); // places the active class on the selected canvas shape.
-        console.log(currentShape);
-        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
-        // canvas.addEventListener('mousemove', onMouseMove);
-        canvas.addEventListener('mouseup', onMouseUp);
+        // sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
+        canvas.addEventListener('mousemove', shapeFollow);
+        // canvas.addEventListener('mouseup', onMouseUp);
         // canvas.removeEventListener("mousemove", shapeFollow);
         console.log("yooo");
         break;
@@ -280,42 +276,56 @@ function onMouseDown(e) {
 }
 
 function removeTrail() {
-  let placedCoords = Object.values(placedShapes);
-  placedCoords.forEach(sub => {
-    // iterate through all of the shapes on the canvas,
-    for (let i = 0; i < sub.length; i++) {
-      currentShape = sub[i];
-      Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["updateActive"])(currentShape); // places the active class on the selected canvas shape.
-      console.log(currentShape);
-      sub.splice(i, 1);
+  let selected = document.getElementsByClassName("active")[0];
+  let shapesArr = placedShapes[selected.id];
+  // debugger
+  for (let i = shapesArr.length - 1; i < shapesArr.length; i++) {
+    if (shapesArr.length > 0) {
+      shapesArr.splice(i, 1);
     }
-  });
-};
+  }
+}
+
+// function removeTrail() {
+//   let placedCoords = Object.values(placedShapes);
+//   placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
+//     for (let i = 0; i < sub.length; i++) {
+//       currentShape = sub[i];
+//       updateActive(currentShape); // places the active class on the selected canvas shape.
+//       console.log(currentShape);
+//       sub.splice(i, 1);
+//     }
+//   }))
+// };
+// addShape(select, currentShape);
 
 const onMouseMove = e => {
-  e.preventDefault();
-
+  e.stopPropagation();
   // debugger
-  putShape(e);
-  removeTrail();
-  context.clearRect(0, 0, width, height);
-  currentShape.handle.x = e.clientX;
-  currentShape.handle.y = e.clientY;
-  currentShape.draw();
-  // context.clearRect(0, 0, width, height);
-
+  select = true;
+  if (select) {
+    // drawShapes();
+    putShape(e);
+    removeTrail();
+    context.clearRect(0, 0, width, height);
+    // currentShape.handle.x = e.clientX;
+    //   currentShape.handle.y = e.clientY;
+    currentShape.draw();
+    // context.clearRect(0, 0, width, height);
+    console.log(currentShape);
+  }
+  select = false;
 };
 
 function onMouseUp(e) {
-  e.preventDefault();
-  drag = false;
-
-  // canvas.removeEventListener('mousemove', onMouseMove);
-  canvas.removeEventListener('mouseup', onMouseUp);
-  currentShape.draw();
-  context.clearRect(0, 0, height, width);
+  e.stopPropagation();
+  select = false;
+  // debugger
+  canvas.removeEventListener('click', dropShape);
+  // canvas.removeEventListener('mouseup', onMouseUp);
+  putShape(e);
+  // context.clearRect(0, 0, height, width);
   console.log(currentShape);
-  console.log(drag);
 }
 
 function drawShapes() {
@@ -329,7 +339,7 @@ function drawShapes() {
 }
 
 function clearCanvas(e) {
-  e.preventDefault();
+  e.stopPropagation();
   let shapes = Object.keys(placedShapes);
   shapes.forEach(shape => {
     placedShapes[shape] = [];
@@ -341,15 +351,30 @@ function clearCanvas(e) {
 
 let button = document.getElementById("clear");
 
+function dropShape(e) {
+  e.stopPropagation();
+  // debugger
+  console.log(`The current shape is: ${currentShape}`);
+  select = false;
+  putShape(e);
+  // select = true;
+  console.log(placedShapes, "DROPSHAPE");
+  canvas.removeEventListener("mousemove", onMouseMove);
+}
+
+canvas.addEventListener("mousedown", onMouseDown);
+canvas.addEventListener("click", dropShape);
+// canvas.addEventListener("mouseup", onMouseUp);
+
 let background = new Image();
 background.src = '../shapePics/background.jpg';
 // canvas.addEventListener("mouseover", shapeFollow);
+Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addMouseOver"])(select, currentShape);
 
 function animate() {
   drawShapes();
-  Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addMouseOver"])();
   // canvas.addEventListener('mousemove', onMouseMove);
-  canvas.addEventListener("click", putShape);
+  // canvas.addEventListener("click", putShape);
   button.addEventListener("click", clearCanvas);
   // canvas.addEventListener("mousemove", shapeFollow);  
   requestAnimationFrame(animate);
@@ -375,12 +400,18 @@ __webpack_require__.r(__webpack_exports__);
 // creates an array-like object of the shape elements on the toolbar
 // let shapes = document.getElementsByClassName("shapeIcon");
 
-const addMouseOver = select => {
+const addMouseOver = (select, follow) => {
   let shapes = document.getElementsByClassName("shape-img");
   for (let i = 0; i < shapes.length; i++) {
     let shape = shapes[i];
     shape.addEventListener("click", addShape);
+    shape.addEventListener('mouseover', followOff);
   }
+};
+
+let followOff = function (e, follow) {
+  follow = false;
+  return follow;
 };
 
 const addShape = function (e, select) {
@@ -395,9 +426,10 @@ const addShape = function (e, select) {
   }
   shape.className += " active"; // the element that was clicked now has the active Class;
   select = true;
+  // currentShape.name = shape.id;
   canvas.addEventListener('mousemove', _index__WEBPACK_IMPORTED_MODULE_0__["onMouseMove"]);
   // canvas.addEventListener("click", putShape);
-  console.log(select);
+  console.log(`Select is ${select}`);
 };
 
 let shapeFollow = function (e, currentShape, select) {
@@ -517,7 +549,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("hello");
+  console.log("its loaded");
   Object(_index__WEBPACK_IMPORTED_MODULE_0__["default"])();
 });
 

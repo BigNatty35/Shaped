@@ -1,6 +1,6 @@
 import animate from './index';
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("hello");
+  console.log("its loaded");
   animate();
 });

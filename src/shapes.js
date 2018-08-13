@@ -3,12 +3,18 @@ import {onMouseMove, onMoveSelect}  from './index';
 // creates an array-like object of the shape elements on the toolbar
 // let shapes = document.getElementsByClassName("shapeIcon");
 
-export const addMouseOver = (select) => {
+export const addMouseOver = (select, follow) => {
   let shapes = document.getElementsByClassName("shape-img");
   for (let i = 0; i < shapes.length; i++) {
     let shape = shapes[i];
     shape.addEventListener("click", addShape);
+    shape.addEventListener('mouseover', followOff);
   }
+};
+
+let followOff = function(e, follow) {
+  follow = false;
+  return follow;
 };
 
 
@@ -24,9 +30,10 @@ export const addShape = function(e, select) {
   }
   shape.className += " active"; // the element that was clicked now has the active Class;
   select = true;
+  // currentShape.name = shape.id;
   canvas.addEventListener('mousemove', onMouseMove);
   // canvas.addEventListener("click", putShape);
-  console.log(select);
+  console.log(`Select is ${select}`);
 };
 
 

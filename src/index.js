@@ -31,32 +31,31 @@ let placedShapes = {
 
   //draws the shape based on which shape is selected in the tool bar
   const putShape = function(e) {
-    e.preventDefault();
+    e.stopPropagation();
     let selected = document.getElementsByClassName("active")[0];
     // while drag is equal to false
-     if(select) {
+      // debugger
        follow = true;  
+      //  debugger
       switch (selected.id) {
         case "triangle":
           let triangle = new Triangle(e);
           currentShape = triangle;
           triangle.draw();
-          // onMouseMove(e);
           placedShapes["triangle"].push(currentShape);
           break;
         case "square":
-          let square = new Square(e, angle);
+          let square = new Square(e);
           currentShape = square;
           square.draw();
-          // onMouseMove(e);
           placedShapes["square"].push(currentShape);
           // debugger
           break;
         case "hexagon":
           let hexagon = new Hexagon(e);
           currentShape = hexagon;
+          // debugger
           hexagon.draw();
-          // onMouseMove(e);
           placedShapes["hexagon"].push(currentShape);
           break;
         case "skinny":
@@ -70,21 +69,19 @@ let placedShapes = {
           let diamond = new Diamond(e);
           currentShape = diamond;
           diamond.draw();
-          // onMouseMove(e);
           placedShapes["diamond"].push(currentShape);
           break;
         case "trapezoid":
           let trapezoid = new Trapezoid(e);
           currentShape = trapezoid;
           trapezoid.draw();
-          // onMouseMove(e);
           placedShapes["trapezoid"].push(currentShape);
           break;
         default:
           break;
       }
-      console.log(placedShapes);
-    }
+    
+      console.log(`after putshape ${currentShape.name}`);
   };
   
  
@@ -107,19 +104,19 @@ function circlePointCollision(mouseX, mouseY, circle) {
 
 
 function shapeFollow(e) {
-  e.preventDefault();
-    // if(follow) {
+  e.stopPropagation();
+    if(follow) {
       // debugger
       context.clearRect(0, 0, width, height);
       currentShape.handle.x = e.clientX;
       currentShape.handle.y = e.clientY;
       currentShape.draw();
-      console.log("follow");
      
   }
+}
 
 function onMouseDown(e) {
-  e.preventDefault();
+  e.stopPropagation();
   let placedCoords = Object.values(placedShapes);
   placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
     for (let i = 0; i < sub.length; i++) {
@@ -128,10 +125,9 @@ function onMouseDown(e) {
         follow = false;
         currentShape = sub[i];
         updateActive(currentShape); // places the active class on the selected canvas shape.
-        console.log(currentShape);
-        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
-        // canvas.addEventListener('mousemove', onMouseMove);
-        canvas.addEventListener('mouseup', onMouseUp);
+        // sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
+        canvas.addEventListener('mousemove', shapeFollow);
+        // canvas.addEventListener('mouseup', onMouseUp);
         // canvas.removeEventListener("mousemove", shapeFollow);
         console.log("yooo");
         break;
@@ -143,48 +139,62 @@ function onMouseDown(e) {
 
 
 function removeTrail() {
-  let placedCoords = Object.values(placedShapes);
-  placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
-    for (let i = 0; i < sub.length; i++) {
-      currentShape = sub[i];
-      updateActive(currentShape); // places the active class on the selected canvas shape.
-      console.log(currentShape);
-      sub.splice(i, 1); 
-    }
-  }))
-};
+  let selected = document.getElementsByClassName("active")[0];
+  let shapesArr = placedShapes[selected.id];
+  // debugger
+  for(let i = shapesArr.length - 1; i < shapesArr.length; i++){
+    if(shapesArr.length > 0){
+    shapesArr.splice(i, 1);
+    } 
+  }
+}
+
+// function removeTrail() {
+//   let placedCoords = Object.values(placedShapes);
+//   placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
+//     for (let i = 0; i < sub.length; i++) {
+//       currentShape = sub[i];
+//       updateActive(currentShape); // places the active class on the selected canvas shape.
+//       console.log(currentShape);
+//       sub.splice(i, 1);
+//     }
+//   }))
+// };
+// addShape(select, currentShape);
 
 export const onMouseMove = (e) => {
-  e.preventDefault();
-  
-    // debugger
+  e.stopPropagation();
+  // debugger
+    select = true;
+    if(select) {
+    // drawShapes();
     putShape(e);
     removeTrail();
     context.clearRect(0, 0, width, height);
-    currentShape.handle.x = e.clientX;
-      currentShape.handle.y = e.clientY;
+    // currentShape.handle.x = e.clientX;
+    //   currentShape.handle.y = e.clientY;
       currentShape.draw();
     // context.clearRect(0, 0, width, height);
-  
-
+      console.log(currentShape);
+    }
+    select = false;
 };
 
 function onMouseUp(e) {
-  e.preventDefault();
-  drag = false;
- 
-  // canvas.removeEventListener('mousemove', onMouseMove);
-  canvas.removeEventListener('mouseup', onMouseUp);
-  currentShape.draw();
-  context.clearRect(0, 0, height, width);
+  e.stopPropagation();
+  select = false;
+  // debugger
+  canvas.removeEventListener('click', dropShape);
+  // canvas.removeEventListener('mouseup', onMouseUp);
+  putShape(e);
+  // context.clearRect(0, 0, height, width);
   console.log(currentShape);
-  console.log(drag);
   
 }
 
 function drawShapes() {
   let placedCoords = Object.values(placedShapes);
-  
+
   placedCoords.forEach(sub => {
     for (let i = 0; i < sub.length; i++) {
       sub[i].draw();
@@ -193,7 +203,7 @@ function drawShapes() {
 }
 
 function clearCanvas(e) {
-  e.preventDefault();
+  e.stopPropagation();
   let shapes = Object.keys(placedShapes);
   shapes.forEach(shape => {
     placedShapes[shape] = [];
@@ -206,21 +216,33 @@ function clearCanvas(e) {
 
 let button = document.getElementById("clear");
 
+function dropShape(e) {
+  e.stopPropagation();
+  // debugger
+  console.log(`The current shape is: ${currentShape}`);
+  select = false;
+  putShape(e);
+  // select = true;
+  console.log(placedShapes, "DROPSHAPE");
+  canvas.removeEventListener("mousemove", onMouseMove);
+}
 
 
 
+canvas.addEventListener("mousedown", onMouseDown);
+canvas.addEventListener("click", dropShape);
+// canvas.addEventListener("mouseup", onMouseUp);
 
 let background = new Image();
 background.src = '../shapePics/background.jpg';
 // canvas.addEventListener("mouseover", shapeFollow);
+addMouseOver(select, currentShape);
 
-export default function animate() {
+export default function animate(){
   drawShapes();
-  addMouseOver();
   // canvas.addEventListener('mousemove', onMouseMove);
-  canvas.addEventListener("click", putShape);
+  // canvas.addEventListener("click", putShape);
   button.addEventListener("click", clearCanvas);
   // canvas.addEventListener("mousemove", shapeFollow);  
   requestAnimationFrame(animate);
 }
-
