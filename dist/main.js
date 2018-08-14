@@ -89,7 +89,7 @@ function Diamond(e) {
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
-    radius: 100
+    radius: 50
   };
   this.draw = function () {
     let diamond = new Image();
@@ -163,7 +163,7 @@ let select = true;
 let drag = false;
 let follow = false;
 let currentShape = {};
-let previousShape = canvas.height = window.innerHeight;
+canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
 let width = canvas.width;
@@ -182,10 +182,6 @@ let placedShapes = {
 const putShape = function (e) {
   e.stopPropagation();
   let selected = document.getElementsByClassName("active")[0];
-  // while drag is equal to false
-  // debugger
-  follow = true;
-  //  debugger
   switch (selected.id) {
     case "triangle":
       let triangle = new _triangle__WEBPACK_IMPORTED_MODULE_4__["default"](e);
@@ -245,18 +241,18 @@ function circlePointCollision(mouseX, mouseY, circle) {
 
 function shapeFollow(e) {
   e.stopPropagation();
-  if (follow) {
-    // debugger
-    context.clearRect(0, 0, width, height);
-    currentShape.handle.x = e.clientX;
-    currentShape.handle.y = e.clientY;
-    currentShape.draw();
-  }
+
+  // debugger
+  context.clearRect(0, 0, width, height);
+  currentShape.handle.x = e.clientX;
+  currentShape.handle.y = e.clientY;
+  currentShape.draw();
 }
 
 function onMouseDown(e) {
   e.stopPropagation();
   let placedCoords = Object.values(placedShapes);
+  drag = true;
   placedCoords.forEach(sub => {
     // iterate through all of the shapes on the canvas,
     for (let i = 0; i < sub.length; i++) {
@@ -264,11 +260,11 @@ function onMouseDown(e) {
         // if the mouse is clicking on a shape.
         currentShape = sub[i];
         Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["updateActive"])(currentShape); // places the active class on the selected canvas shape.
-        // sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
-        canvas.addEventListener('mousemove', shapeFollow);
+        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
+        canvas.addEventListener('mousemove', onMouseMove);
         // canvas.addEventListener('mouseup', onMouseUp);
         // canvas.removeEventListener("mousemove", shapeFollow);
-        console.log("yooo");
+        console.log("yooo MOUSE DOWN");
         break;
       }
     }
@@ -306,11 +302,10 @@ const removeTrail = function (e) {
 // };
 // addShape(select, currentShape);
 
-const onMouseMove = (e, follow) => {
+const onMouseMove = e => {
   e.stopPropagation();
   // debugger
   select = true;
-  follow = true;
   if (select) {
     // drawShapes();
     putShape(e);
@@ -324,14 +319,40 @@ const onMouseMove = (e, follow) => {
   }
 };
 
+function deleteShape(e) {
+  e.stopPropagation();
+  let placedCoords = Object.values(placedShapes);
+  placedCoords.forEach(sub => {
+    // iterate through all of the shapes on the canvas,
+    for (let i = 0; i < sub.length; i++) {
+      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
+        // if the mouse is clicking on a shape.
+        // currentShape = sub[i];
+        // updateActive(currentShape); // places the active class on the selected canvas shape.
+        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
+        // canvas.addEventListener('mousemove', shapeFollow);
+        // canvas.addEventListener('mouseup', onMouseUp);
+        // canvas.removeEventListener("mousemove", shapeFollow);
+        console.log("pimpin");
+        break;
+      }
+    }
+  });
+}
+
 function onMouseUp(e) {
   e.stopPropagation();
   // select = false;
   // debugger
   canvas.removeEventListener('click', dropShape);
+  if (drag) {
+    putShape(e);
+  }
+  drag = false;
   // canvas.removeEventListener('mouseup', onMouseUp);
-  putShape(e);
+  // putShape(e);
   // context.clearRect(0, 0, height, width);
+  canvas.removeEventListener('mousemove', shapeFollow);
   console.log(currentShape);
 }
 
@@ -366,9 +387,10 @@ function dropShape(e) {
   putShape(e);
   // select = true;
   console.log(placedShapes, "DROPSHAPE");
-  // canvas.removeEventListener("mousemove", onMouseMove);
+  canvas.removeEventListener("mousemove", onMouseMove);
 }
 
+canvas.addEventListener('dblclick', deleteShape);
 canvas.addEventListener("mousedown", onMouseDown);
 canvas.addEventListener("click", dropShape);
 // canvas.addEventListener("mouseup", onMouseUp);
@@ -407,20 +429,14 @@ __webpack_require__.r(__webpack_exports__);
 // creates an array-like object of the shape elements on the toolbar
 // let shapes = document.getElementsByClassName("shapeIcon");
 
+
+// adds eventlisteners to all of the shapes on the tool bar
 const addMouseOver = (select, follow) => {
   let shapes = document.getElementsByClassName("shape-img");
   for (let i = 0; i < shapes.length; i++) {
     let shape = shapes[i];
     shape.addEventListener("click", addShape);
-    shape.addEventListener('mouseover', followOff);
-    // shape.addEventListener("mouseover", deletePrevious);
   }
-};
-
-let followOff = function (e, follow) {
-  follow = false;
-  canvas.removeEventListener('mousemove', _index__WEBPACK_IMPORTED_MODULE_0__["shapeFollow"]);
-  return follow;
 };
 
 const addShape = function (e, select) {
@@ -441,31 +457,15 @@ const addShape = function (e, select) {
   console.log(`Select is ${select}`);
 };
 
-// let shapeFollow = function(e, currentShape, select) {
-//   e.stopPropagation();
-
-//    if(follow) {
-
-//      context.clearRect(0, 0, canvas.width, canvas.height);
-//      currentShape.handle.x = e.clientX;
-//      currentShape.handle.y = e.clientY;
-//      currentShape.draw();
-
-//     }
-
-// };
-
-
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 //this function changes the active shape to the one that was clicked on.
-const updateActive = function (currentShape, follow) {
+const updateActive = function (currentShape) {
   let name = currentShape.name;
   let shape = document.getElementById(name); //selects toolbar shape based on currentShape's name
   let active = document.getElementsByClassName("active")[0];
   // if there is an element that has active on it, change className to shape-img
-  follow = true;
   if (active) {
     active.className = "shape-img";
   }
@@ -587,7 +587,7 @@ function Trapezoid(e) {
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
-    radius: 70
+    radius: 55
   };
   this.draw = function () {
     let trapezoid = new Image();

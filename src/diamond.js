@@ -8,7 +8,7 @@ export default function Diamond(e) {
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
-    radius: 100
+    radius: 50
   };
   this.draw = function () {
     let diamond = new Image();

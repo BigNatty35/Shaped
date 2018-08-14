@@ -12,7 +12,6 @@ let select = true;
 let drag = false;
 let follow = false;
 let currentShape = {};
-let previousShape = 
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
@@ -34,10 +33,6 @@ let placedShapes = {
   const putShape = function(e) {
     e.stopPropagation();
     let selected = document.getElementsByClassName("active")[0];
-    // while drag is equal to false
-      // debugger
-       follow = true;  
-      //  debugger
       switch (selected.id) {
         case "triangle":
           let triangle = new Triangle(e);
@@ -106,29 +101,30 @@ function circlePointCollision(mouseX, mouseY, circle) {
 
 function shapeFollow(e) {
   e.stopPropagation();
-    if(follow) {
+   
       // debugger
       context.clearRect(0, 0, width, height);
       currentShape.handle.x = e.clientX;
       currentShape.handle.y = e.clientY;
       currentShape.draw();
      
-  }
+  
 }
 
 function onMouseDown(e) {
   e.stopPropagation();
   let placedCoords = Object.values(placedShapes);
+  drag = true;
   placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
     for (let i = 0; i < sub.length; i++) {
      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
         currentShape = sub[i];
         updateActive(currentShape); // places the active class on the selected canvas shape.
-        // sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
-        canvas.addEventListener('mousemove', shapeFollow);
+        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
+        canvas.addEventListener('mousemove', onMouseMove);
         // canvas.addEventListener('mouseup', onMouseUp);
         // canvas.removeEventListener("mousemove", shapeFollow);
-        console.log("yooo");
+        console.log("yooo MOUSE DOWN");
         break;
       }
     }
@@ -168,11 +164,10 @@ export const removeTrail = function(e) {
 // };
 // addShape(select, currentShape);
 
-export const onMouseMove = (e, follow) => {
+export const onMouseMove = (e) => {
   e.stopPropagation();
   // debugger
     select = true;
-    follow = true;
     if(select) {
     // drawShapes();
     putShape(e);
@@ -187,14 +182,39 @@ export const onMouseMove = (e, follow) => {
  
 };
 
+function deleteShape(e) {
+  e.stopPropagation();
+  let placedCoords = Object.values(placedShapes);
+  placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
+    for (let i = 0; i < sub.length; i++) {
+      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
+        // currentShape = sub[i];
+        // updateActive(currentShape); // places the active class on the selected canvas shape.
+        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
+        // canvas.addEventListener('mousemove', shapeFollow);
+        // canvas.addEventListener('mouseup', onMouseUp);
+        // canvas.removeEventListener("mousemove", shapeFollow);
+        console.log("pimpin");
+        break;
+      }
+    }
+
+  }));
+}
+
 function onMouseUp(e) {
   e.stopPropagation();
   // select = false;
   // debugger
   canvas.removeEventListener('click', dropShape);
+  if (drag) {
+    putShape(e);
+  }
+  drag = false;
   // canvas.removeEventListener('mouseup', onMouseUp);
-  putShape(e);
+  // putShape(e);
   // context.clearRect(0, 0, height, width);
+  canvas.removeEventListener('mousemove', shapeFollow);
   console.log(currentShape);
   
 }
@@ -231,11 +251,11 @@ function dropShape(e) {
   putShape(e);
   // select = true;
   console.log(placedShapes, "DROPSHAPE");
-  // canvas.removeEventListener("mousemove", onMouseMove);
+  canvas.removeEventListener("mousemove", onMouseMove);
 }
 
 
-
+canvas.addEventListener('dblclick', deleteShape);
 canvas.addEventListener("mousedown", onMouseDown);
 canvas.addEventListener("click", dropShape);
 // canvas.addEventListener("mouseup", onMouseUp);
