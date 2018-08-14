@@ -12,6 +12,7 @@ let select = true;
 let drag = false;
 let follow = false;
 let currentShape = {};
+let previousShape = 
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
@@ -121,8 +122,6 @@ function onMouseDown(e) {
   placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
     for (let i = 0; i < sub.length; i++) {
      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
-        drag = true;
-        follow = false;
         currentShape = sub[i];
         updateActive(currentShape); // places the active class on the selected canvas shape.
         // sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
@@ -138,7 +137,14 @@ function onMouseDown(e) {
 }
 
 
-function removeTrail() {
+export const deletePrevious = function(e) {
+  let selected = document.getElementsByClassName("active")[0];
+  let shapesArr = placedShapes[selected.id];
+  // debugger
+ shapesArr.splice(shapesArr[shapesArr - 1], 1);
+};
+
+export const removeTrail = function(e) {
   let selected = document.getElementsByClassName("active")[0];
   let shapesArr = placedShapes[selected.id];
   // debugger
@@ -147,7 +153,7 @@ function removeTrail() {
     shapesArr.splice(i, 1);
     } 
   }
-}
+};
 
 // function removeTrail() {
 //   let placedCoords = Object.values(placedShapes);
@@ -162,10 +168,11 @@ function removeTrail() {
 // };
 // addShape(select, currentShape);
 
-export const onMouseMove = (e) => {
+export const onMouseMove = (e, follow) => {
   e.stopPropagation();
   // debugger
     select = true;
+    follow = true;
     if(select) {
     // drawShapes();
     putShape(e);
@@ -175,14 +182,14 @@ export const onMouseMove = (e) => {
     //   currentShape.handle.y = e.clientY;
       currentShape.draw();
     // context.clearRect(0, 0, width, height);
-      console.log(currentShape);
+      console.log(`onmouse move:${currentShape}`);
     }
-    select = false;
+ 
 };
 
 function onMouseUp(e) {
   e.stopPropagation();
-  select = false;
+  // select = false;
   // debugger
   canvas.removeEventListener('click', dropShape);
   // canvas.removeEventListener('mouseup', onMouseUp);
@@ -220,11 +227,11 @@ function dropShape(e) {
   e.stopPropagation();
   // debugger
   console.log(`The current shape is: ${currentShape}`);
-  select = false;
+  // select = false;
   putShape(e);
   // select = true;
   console.log(placedShapes, "DROPSHAPE");
-  canvas.removeEventListener("mousemove", onMouseMove);
+  // canvas.removeEventListener("mousemove", onMouseMove);
 }
 
 

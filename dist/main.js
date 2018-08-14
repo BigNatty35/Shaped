@@ -133,11 +133,13 @@ function Hexagon(e) {
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: onMouseMove, default */
+/*! exports provided: deletePrevious, removeTrail, onMouseMove, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deletePrevious", function() { return deletePrevious; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeTrail", function() { return removeTrail; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "onMouseMove", function() { return onMouseMove; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return animate; });
 /* harmony import */ var _shapes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shapes */ "./src/shapes.js");
@@ -161,7 +163,7 @@ let select = true;
 let drag = false;
 let follow = false;
 let currentShape = {};
-canvas.height = window.innerHeight;
+let previousShape = canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
 let width = canvas.width;
@@ -260,8 +262,6 @@ function onMouseDown(e) {
     for (let i = 0; i < sub.length; i++) {
       if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
         // if the mouse is clicking on a shape.
-        drag = true;
-        follow = false;
         currentShape = sub[i];
         Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["updateActive"])(currentShape); // places the active class on the selected canvas shape.
         // sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
@@ -275,7 +275,14 @@ function onMouseDown(e) {
   });
 }
 
-function removeTrail() {
+const deletePrevious = function (e) {
+  let selected = document.getElementsByClassName("active")[0];
+  let shapesArr = placedShapes[selected.id];
+  // debugger
+  shapesArr.splice(shapesArr[shapesArr - 1], 1);
+};
+
+const removeTrail = function (e) {
   let selected = document.getElementsByClassName("active")[0];
   let shapesArr = placedShapes[selected.id];
   // debugger
@@ -284,7 +291,7 @@ function removeTrail() {
       shapesArr.splice(i, 1);
     }
   }
-}
+};
 
 // function removeTrail() {
 //   let placedCoords = Object.values(placedShapes);
@@ -299,10 +306,11 @@ function removeTrail() {
 // };
 // addShape(select, currentShape);
 
-const onMouseMove = e => {
+const onMouseMove = (e, follow) => {
   e.stopPropagation();
   // debugger
   select = true;
+  follow = true;
   if (select) {
     // drawShapes();
     putShape(e);
@@ -312,14 +320,13 @@ const onMouseMove = e => {
     //   currentShape.handle.y = e.clientY;
     currentShape.draw();
     // context.clearRect(0, 0, width, height);
-    console.log(currentShape);
+    console.log(`onmouse move:${currentShape}`);
   }
-  select = false;
 };
 
 function onMouseUp(e) {
   e.stopPropagation();
-  select = false;
+  // select = false;
   // debugger
   canvas.removeEventListener('click', dropShape);
   // canvas.removeEventListener('mouseup', onMouseUp);
@@ -355,11 +362,11 @@ function dropShape(e) {
   e.stopPropagation();
   // debugger
   console.log(`The current shape is: ${currentShape}`);
-  select = false;
+  // select = false;
   putShape(e);
   // select = true;
   console.log(placedShapes, "DROPSHAPE");
-  canvas.removeEventListener("mousemove", onMouseMove);
+  // canvas.removeEventListener("mousemove", onMouseMove);
 }
 
 canvas.addEventListener("mousedown", onMouseDown);
@@ -406,11 +413,13 @@ const addMouseOver = (select, follow) => {
     let shape = shapes[i];
     shape.addEventListener("click", addShape);
     shape.addEventListener('mouseover', followOff);
+    // shape.addEventListener("mouseover", deletePrevious);
   }
 };
 
 let followOff = function (e, follow) {
   follow = false;
+  canvas.removeEventListener('mousemove', _index__WEBPACK_IMPORTED_MODULE_0__["shapeFollow"]);
   return follow;
 };
 
@@ -432,15 +441,20 @@ const addShape = function (e, select) {
   console.log(`Select is ${select}`);
 };
 
-let shapeFollow = function (e, currentShape, select) {
-  e.stopPropagation();
+// let shapeFollow = function(e, currentShape, select) {
+//   e.stopPropagation();
 
-  // debugger
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  currentShape.handle.x = e.clientX;
-  currentShape.handle.y = e.clientY;
-  currentShape.draw();
-};
+//    if(follow) {
+
+//      context.clearRect(0, 0, canvas.width, canvas.height);
+//      currentShape.handle.x = e.clientX;
+//      currentShape.handle.y = e.clientY;
+//      currentShape.draw();
+
+//     }
+
+// };
+
 
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');

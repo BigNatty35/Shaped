@@ -1,5 +1,5 @@
 import putShape from './index';
-import {onMouseMove, onMoveSelect}  from './index';
+import {onMouseMove, onMoveSelect, shapeFollow, deletePrevious }  from './index';
 // creates an array-like object of the shape elements on the toolbar
 // let shapes = document.getElementsByClassName("shapeIcon");
 
@@ -8,15 +8,17 @@ export const addMouseOver = (select, follow) => {
   for (let i = 0; i < shapes.length; i++) {
     let shape = shapes[i];
     shape.addEventListener("click", addShape);
-    shape.addEventListener('mouseover', followOff);
+    shape.addEventListener('mouseover', followOff)
+    // shape.addEventListener("mouseover", deletePrevious);
   }
 };
 
+
 let followOff = function(e, follow) {
   follow = false;
+  canvas.removeEventListener('mousemove', shapeFollow);
   return follow;
 };
-
 
 
 export const addShape = function(e, select) {
@@ -38,17 +40,21 @@ export const addShape = function(e, select) {
 
 
 
-let shapeFollow = function(e, currentShape, select) {
-  e.stopPropagation();
+// let shapeFollow = function(e, currentShape, select) {
+//   e.stopPropagation();
  
-    // debugger
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    currentShape.handle.x = e.clientX;
-    currentShape.handle.y = e.clientY;
-    currentShape.draw();
-  
+//    if(follow) {
 
-};
+//      context.clearRect(0, 0, canvas.width, canvas.height);
+//      currentShape.handle.x = e.clientX;
+//      currentShape.handle.y = e.clientY;
+//      currentShape.draw();
+     
+//     }
+
+// };
+
+
 
 
 
