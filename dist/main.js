@@ -89,6 +89,7 @@ function Diamond(e) {
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
+    angle: 0,
     radius: 50
   };
   this.draw = function () {
@@ -118,6 +119,7 @@ function Hexagon(e) {
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
+    angle: 0,
     radius: 70
   };
   this.draw = function () {
@@ -167,7 +169,7 @@ canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
 let width = canvas.width;
-let angle = 0;
+// let angle = currentShape.handle.angle;
 
 let placedShapes = {
   triangle: [],
@@ -289,19 +291,6 @@ const removeTrail = function (e) {
   }
 };
 
-// function removeTrail() {
-//   let placedCoords = Object.values(placedShapes);
-//   placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
-//     for (let i = 0; i < sub.length; i++) {
-//       currentShape = sub[i];
-//       updateActive(currentShape); // places the active class on the selected canvas shape.
-//       console.log(currentShape);
-//       sub.splice(i, 1);
-//     }
-//   }))
-// };
-// addShape(select, currentShape);
-
 const onMouseMove = e => {
   e.stopPropagation();
   // debugger
@@ -311,8 +300,8 @@ const onMouseMove = e => {
     putShape(e);
     removeTrail();
     context.clearRect(0, 0, width, height);
-    // currentShape.handle.x = e.clientX;
-    //   currentShape.handle.y = e.clientY;
+    currentShape.handle.x = e.clientX;
+    currentShape.handle.y = e.clientY;
     currentShape.draw();
     // context.clearRect(0, 0, width, height);
     console.log(`onmouse move:${currentShape}`);
@@ -390,6 +379,25 @@ function dropShape(e) {
   canvas.removeEventListener("mousemove", onMouseMove);
 }
 
+function rotateShape(e) {
+  e.stopPropagation();
+  switch (e.keyCode) {
+    case 37:
+      console.log('left');
+      currentShape.handle.angle += 5;
+      console.log(currentShape.handle.angle);
+      // currentShape.rotate();
+      break;
+    case 39:
+      console.log("right");
+      currentShape.handle.angle -= 5;
+      console.log(currentShape.handle.angle);
+      // currentShape.rotate();
+      break;
+  }
+}
+
+document.addEventListener('keydown', rotateShape);
 canvas.addEventListener('dblclick', deleteShape);
 canvas.addEventListener("mousedown", onMouseDown);
 canvas.addEventListener("click", dropShape);
@@ -402,6 +410,7 @@ Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addMouseOver"])(select, currentShap
 
 function animate() {
   drawShapes();
+  // canvas.addEventListener('keydown', rotateShape, false);
   // canvas.addEventListener('mousemove', onMouseMove);
   // canvas.addEventListener("click", putShape);
   button.addEventListener("click", clearCanvas);
@@ -495,6 +504,7 @@ function Skinny(e) {
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
+    angle: 0,
     radius: 70
   };
   this.draw = function () {
@@ -529,6 +539,7 @@ function Square(e, angle) {
   this.handle = {
     x: e.clientX,
     y: e.clientY,
+    angle: 0,
     radius: 40
   };
   // this.angle = angle;
@@ -536,15 +547,11 @@ function Square(e, angle) {
   this.draw = function () {
     let square = new Image();
     square.src = "../shapePics/square.png";
-    context.drawImage(square, this.handle.x - square.width * 0.15, this.handle.y - square.height * 0.15, square.width * 0.3, square.height * 0.3);
-  };
-
-  this.rotate = function () {
     context.save();
-    context.translate(this.handle.x, this.handle.y);
-    context.rotate(TO_RADIANS);
-    context.translate(0, 0);
-    this.draw();
+    context.translate(this.handle.x - square.width * 0.15, this.handle.y - square.height * 0.15);
+    context.rotate(this.handle.angle * TO_RADIANS);
+    context.drawImage(square, -square.width * 0.15, -square.height * 0.15, square.width * 0.3, square.height * 0.3);
+    context.restore();
   };
 }
 
@@ -564,8 +571,41 @@ __webpack_require__.r(__webpack_exports__);
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("its loaded");
+  disableScroll();
   Object(_index__WEBPACK_IMPORTED_MODULE_0__["default"])();
 });
+
+var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+function preventDefault(e) {
+  e = e || window.event;
+  if (e.preventDefault) e.preventDefault();
+  e.returnValue = false;
+}
+
+function preventDefaultForScrollKeys(e) {
+  if (keys[e.keyCode]) {
+    preventDefault(e);
+    return false;
+  }
+}
+
+function disableScroll() {
+  if (window.addEventListener) // older FF
+    window.addEventListener('DOMMouseScroll', preventDefault, false);
+  window.onwheel = preventDefault; // modern standard
+  window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+  window.ontouchmove = preventDefault; // mobile
+  document.onkeydown = preventDefaultForScrollKeys;
+}
+
+function enableScroll() {
+  if (window.removeEventListener) window.removeEventListener('DOMMouseScroll', preventDefault, false);
+  window.onmousewheel = document.onmousewheel = null;
+  window.onwheel = null;
+  window.ontouchmove = null;
+  document.onkeydown = null;
+}
 
 /***/ }),
 
@@ -587,6 +627,7 @@ function Trapezoid(e) {
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
+    angle: 0,
     radius: 55
   };
   this.draw = function () {
@@ -618,12 +659,13 @@ function Triangle(e) {
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
+    angle: 0,
     radius: 25
   };
   this.draw = function () {
     let triangle = new Image();
     triangle.src = "../shapePics/triangle.png";
-    context.drawImage(triangle, this.handle.x - triangle.width * 0.3 / 2, this.handle.y - triangle.height * 0.3 / 2, triangle.width * 0.3, triangle.height * 0.3);
+    context.drawImage(triangle, this.handle.x - triangle.width * 0.15, this.handle.y - triangle.height * 0.15, triangle.width * 0.3, triangle.height * 0.3);
   };
 }
 

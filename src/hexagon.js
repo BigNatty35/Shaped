@@ -8,6 +8,7 @@ export default function Hexagon(e) {
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
+    angle: 0,
     radius: 70
   };
   this.draw = function () {

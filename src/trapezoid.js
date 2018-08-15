@@ -8,6 +8,7 @@ export default function Trapezoid(e) {
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
+    angle: 0,
     radius: 55
   };
   this.draw = function () {

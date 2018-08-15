@@ -40,7 +40,6 @@ export const addShape = function(e, select) {
 
 
 
-
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
