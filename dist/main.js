@@ -338,9 +338,6 @@ function onMouseUp(e) {
     putShape(e);
   }
   drag = false;
-  // canvas.removeEventListener('mouseup', onMouseUp);
-  // putShape(e);
-  // context.clearRect(0, 0, height, width);
   canvas.removeEventListener('mousemove', shapeFollow);
   console.log(currentShape);
 }
@@ -385,14 +382,15 @@ function rotateShape(e) {
     case 37:
       console.log('left');
       currentShape.handle.angle += 5;
+      context.clearRect(0, 0, width, height);
       console.log(currentShape.handle.angle);
-      // currentShape.rotate();
+      console.log(placedShapes);
       break;
     case 39:
       console.log("right");
       currentShape.handle.angle -= 5;
       console.log(currentShape.handle.angle);
-      // currentShape.rotate();
+      console.log(placedShapes);
       break;
   }
 }
@@ -527,6 +525,7 @@ function Skinny(e) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TO_RADIANS", function() { return TO_RADIANS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Square; });
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ "./src/index.js");
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let width = canvas.width;
@@ -552,6 +551,7 @@ function Square(e, angle) {
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(square, -square.width * 0.15, -square.height * 0.15, square.width * 0.3, square.height * 0.3);
     context.restore();
+    // removeTrail();
   };
 }
 

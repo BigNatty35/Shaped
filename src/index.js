@@ -199,9 +199,6 @@ function onMouseUp(e) {
     putShape(e);
   }
   drag = false;
-  // canvas.removeEventListener('mouseup', onMouseUp);
-  // putShape(e);
-  // context.clearRect(0, 0, height, width);
   canvas.removeEventListener('mousemove', shapeFollow);
   console.log(currentShape);
   
@@ -249,14 +246,15 @@ function rotateShape(e) {
     case 37:
     console.log('left');
     currentShape.handle.angle += 5;
+    context.clearRect(0, 0, width, height);
     console.log(currentShape.handle.angle);
-    // currentShape.rotate();
+    console.log(placedShapes)
     break;
     case 39:
     console.log("right");
     currentShape.handle.angle -= 5;
     console.log(currentShape.handle.angle);
-    // currentShape.rotate();
+    console.log(placedShapes)
     break;
   }
 }

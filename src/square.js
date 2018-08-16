@@ -2,7 +2,7 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let width = canvas.width;
 let height = canvas.height;
-
+import {removeTrail} from './index';
 export const TO_RADIANS = Math.PI / 180;
 
 export default function Square(e, angle) {
@@ -23,6 +23,7 @@ export default function Square(e, angle) {
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(square, -square.width * 0.15, -square.height * 0.15,square.width * 0.3, square.height * 0.3);
     context.restore();
+    // removeTrail();
   };
 
 }
