@@ -1,5 +1,12 @@
 import putShape from './index';
 import {onMouseMove, onMoveSelect, shapeFollow, deletePrevious }  from './index';
+import Square from './square';
+import Hexagon from './hexagon';
+import Skinny from './skinny';
+import Diamond from './diamond';
+import Trapezoid from './trapezoid';
+import Triangle from './triangle';
+let currentShape = {};
 // creates an array-like object of the shape elements on the toolbar
 // let shapes = document.getElementsByClassName("shapeIcon");
 
@@ -10,11 +17,41 @@ export const addMouseOver = (select, follow) => {
   for (let i = 0; i < shapes.length; i++) {
     let shape = shapes[i];
     shape.addEventListener("click", addShape);
+    shape.addEventListener("click", addCurrent);
   }
 };
 
 
 
+export const addCurrent = function(e,angle = 0) {
+  e.stopPropagation();
+  let selected = document.getElementsByClassName("active")[0];
+  switch (selected.id) {
+    case "triangle":
+      currentShape = new Triangle(e, angle);
+      break;
+    case "square":
+      currentShape = new Square(e, angle);
+      // debugger
+      break;
+    case "hexagon":
+      currentShape = new Hexagon(e, angle);
+      break;
+    case "skinny":
+      currentShape = new Skinny(e, angle);
+      break;
+    case "diamond":
+      currentShape = new Diamond(e, angle);
+      break;
+    case "trapezoid":
+      currentShape = new Trapezoid(e, angle);
+      break;
+    default:
+      break;
+  }
+  return currentShape;
+  // console.log(`after putshape ${currentShape.name}`);
+};
 
 
 export const addShape = function(e, select) {

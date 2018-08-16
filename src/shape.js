@@ -12,7 +12,6 @@ class Shape {
       context.rotate(handle.angle * (Math.PI / 180));
       context.drawImage(shape, -shape.width * 0.15, -shape.height * 0.15, shape.width * 0.3, shape.height * 0.3);
       context.restore();
-  
   }
 }
 

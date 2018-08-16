@@ -5,6 +5,7 @@ import Skinny from './skinny';
 import Triangle from './triangle';
 import Hexagon from './hexagon';
 import Trapezoid from './trapezoid';
+import {addCurrent} from './shapes';
 
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
@@ -12,7 +13,9 @@ let select = true;
 let drag = false;
 let follow = false;
 let angle = 0;
-let currentShape = {};
+let currentShape;
+let x = 0;
+
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
@@ -29,7 +32,6 @@ let placedShapes = {
 };
 
 
-
   //draws the shape based on which shape is selected in the tool bar
   const putShape = function(e) {
     e.stopPropagation();
@@ -38,42 +40,37 @@ let placedShapes = {
         case "triangle":
           let triangle = new Triangle(e, angle);
           console.log("new triangle");
-          currentShape = triangle;
-          triangle.draw();
+          currentShape = addCurrent(e, angle);
+          currentShape.draw();
+          // angle = 0;
           placedShapes["triangle"].push(currentShape);
           break;
         case "square":
-          // debugger
-          let square = new Square(e, angle);
-          currentShape = square;
-          square.draw();
+          currentShape = addCurrent(e, angle);
+          currentShape.draw();
           placedShapes["square"].push(currentShape);
           // debugger
           break;
         case "hexagon":
-          let hexagon = new Hexagon(e, angle);
-          currentShape = hexagon;
+          currentShape = addCurrent(e, angle);
           // debugger
-          hexagon.draw();
+          currentShape.draw();
           placedShapes["hexagon"].push(currentShape);
           break;
         case "skinny":
-          let skinny = new Skinny(e, angle);
-          currentShape = skinny;
-          skinny.draw();
+          currentShape = addCurrent(e, angle);
+          currentShape.draw();
           // onMouseMove(e);
           placedShapes["skinny"].push(currentShape);
           break;
         case "diamond":
-          let diamond = new Diamond(e, angle);
-          currentShape = diamond;
-          diamond.draw();
+          currentShape = addCurrent(e, angle);
+          currentShape.draw();
           placedShapes["diamond"].push(currentShape);
           break;
         case "trapezoid":
-          let trapezoid = new Trapezoid(e, angle);
-          currentShape = trapezoid;
-          trapezoid.draw();
+          currentShape = addCurrent(e, angle);
+          currentShape.draw();
           placedShapes["trapezoid"].push(currentShape);
           break;
         default:
@@ -104,13 +101,13 @@ function circlePointCollision(mouseX, mouseY, circle) {
 
 function shapeFollow(e) {
   e.stopPropagation();
-   
+    currentShape = 
       // debugger
       context.clearRect(0, 0, width, height);
       currentShape.handle.x = e.clientX;
       currentShape.handle.y = e.clientY;
       currentShape.draw();
-    
+    console.log('shape is following');
 }
 
 function onMouseDown(e) {
@@ -121,11 +118,11 @@ function onMouseDown(e) {
     for (let i = 0; i < sub.length; i++) {
      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
         currentShape = sub[i];
+        // currentShape.handle.angle = angle;
         updateActive(currentShape); // places the active class on the selected canvas shape.
         sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
         canvas.addEventListener('mousemove', onMouseMove);
-        // canvas.addEventListener('mouseup', onMouseUp);
-        // canvas.removeEventListener("mousemove", shapeFollow);
+
         console.log("yooo MOUSE DOWN");
         break;
       }
@@ -157,19 +154,20 @@ export const removeTrail = function(e) {
 
 export const onMouseMove = (e) => {
   e.stopPropagation();
-  // debugger
     select = true;
     if(select) {
     // drawShapes();
     putShape(e);
     removeTrail();
+      // context.clearRect(0, 0, width, height);
     rotateShape(e);
     context.clearRect(0, 0, width, height);
-    currentShape.handle.x = e.clientX;
-      currentShape.handle.y = e.clientY;
-      currentShape.draw();
+    // currentShape.handle.x = e.clientX;
+    currentShape.draw();
+    //   currentShape.handle.y = e.clientY;
     // context.clearRect(0, 0, width, height);
       console.log(`onmouse move:${currentShape}`);
+      // console.log
     }
  
 };
@@ -198,6 +196,7 @@ function onMouseUp(e) {
   e.stopPropagation();
   // select = false;
   // debugger
+  angle = 0;
   canvas.removeEventListener('click', dropShape);
   if (drag) {
     putShape(e);
@@ -249,17 +248,19 @@ function rotateShape(e) {
   switch (e.keyCode) {
     case 37:
     console.log('left');
-    currentShape.handle.angle += 10;
+    currentShape.handle.angle += 5;
     angle += 10;
     context.clearRect(0, 0, width, height);
+    currentShape.draw(e);
     console.log(currentShape.handle.angle);
     console.log(placedShapes);
     break;
     case 39:
     console.log("right");
-    currentShape.handle.angle -= 10;
+    currentShape.handle.angle -= 5;
     angle -= 10;
     context.clearRect(0, 0, width, height);
+    currentShape.draw();
     console.log(currentShape.handle.angle);
     console.log(placedShapes);
     break;
