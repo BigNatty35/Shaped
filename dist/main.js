@@ -86,12 +86,12 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 const TO_RADIANS = Math.PI / 180;
 
-function Diamond(e) {
+function Diamond(e, angle) {
   this.name = 'diamond';
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
-    angle: 0,
+    angle: angle,
     radius: 50
   };
   this.draw = function () {
@@ -121,12 +121,12 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 const TO_RADIANS = Math.PI / 180;
 
-function Hexagon(e) {
+function Hexagon(e, angle) {
   this.name = 'hexagon';
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
-    angle: 0,
+    angle: angle,
     radius: 70
   };
   this.draw = function () {
@@ -175,6 +175,7 @@ let context = canvas.getContext('2d');
 let select = true;
 let drag = false;
 let follow = false;
+let angle = 0;
 let currentShape = {};
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
@@ -197,40 +198,41 @@ const putShape = function (e) {
   let selected = document.getElementsByClassName("active")[0];
   switch (selected.id) {
     case "triangle":
-      let triangle = new _triangle__WEBPACK_IMPORTED_MODULE_4__["default"](e);
+      let triangle = new _triangle__WEBPACK_IMPORTED_MODULE_4__["default"](e, angle);
+      console.log("new triangle");
       currentShape = triangle;
       triangle.draw();
       placedShapes["triangle"].push(currentShape);
       break;
     case "square":
-      let square = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e);
+      let square = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e, angle);
       currentShape = square;
       square.draw();
       placedShapes["square"].push(currentShape);
       // debugger
       break;
     case "hexagon":
-      let hexagon = new _hexagon__WEBPACK_IMPORTED_MODULE_5__["default"](e);
+      let hexagon = new _hexagon__WEBPACK_IMPORTED_MODULE_5__["default"](e, angle);
       currentShape = hexagon;
       // debugger
       hexagon.draw();
       placedShapes["hexagon"].push(currentShape);
       break;
     case "skinny":
-      let skinny = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e);
+      let skinny = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e, angle);
       currentShape = skinny;
       skinny.draw();
       // onMouseMove(e);
       placedShapes["skinny"].push(currentShape);
       break;
     case "diamond":
-      let diamond = new _diamond__WEBPACK_IMPORTED_MODULE_2__["default"](e);
+      let diamond = new _diamond__WEBPACK_IMPORTED_MODULE_2__["default"](e, angle);
       currentShape = diamond;
       diamond.draw();
       placedShapes["diamond"].push(currentShape);
       break;
     case "trapezoid":
-      let trapezoid = new _trapezoid__WEBPACK_IMPORTED_MODULE_6__["default"](e);
+      let trapezoid = new _trapezoid__WEBPACK_IMPORTED_MODULE_6__["default"](e, angle);
       currentShape = trapezoid;
       trapezoid.draw();
       placedShapes["trapezoid"].push(currentShape);
@@ -310,6 +312,7 @@ const onMouseMove = e => {
     // drawShapes();
     putShape(e);
     removeTrail();
+    rotateShape(e);
     context.clearRect(0, 0, width, height);
     currentShape.handle.x = e.clientX;
     currentShape.handle.y = e.clientY;
@@ -392,14 +395,16 @@ function rotateShape(e) {
   switch (e.keyCode) {
     case 37:
       console.log('left');
-      currentShape.handle.angle += 5;
+      currentShape.handle.angle += 10;
+      angle += 10;
       context.clearRect(0, 0, width, height);
       console.log(currentShape.handle.angle);
       console.log(placedShapes);
       break;
     case 39:
       console.log("right");
-      currentShape.handle.angle -= 5;
+      currentShape.handle.angle -= 10;
+      angle -= 10;
       context.clearRect(0, 0, width, height);
       console.log(currentShape.handle.angle);
       console.log(placedShapes);
@@ -408,7 +413,7 @@ function rotateShape(e) {
 }
 
 document.addEventListener('keydown', rotateShape);
-canvas.addEventListener('dblclick', deleteShape);
+// canvas.addEventListener('dblclick', deleteShape);
 canvas.addEventListener("mousedown", onMouseDown);
 canvas.addEventListener("click", dropShape);
 // canvas.addEventListener("mouseup", onMouseUp);
@@ -510,12 +515,12 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 const TO_RADIANS = Math.PI / 180;
 
-function Skinny(e) {
+function Skinny(e, angle) {
   this.name = "skinny";
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
-    angle: 0,
+    angle: angle,
     radius: 70
   };
   this.draw = function () {
@@ -548,6 +553,7 @@ let context = canvas.getContext('2d');
 let width = canvas.width;
 let height = canvas.height;
 
+
 const TO_RADIANS = Math.PI / 180;
 
 function Square(e, angle) {
@@ -555,7 +561,7 @@ function Square(e, angle) {
   this.handle = {
     x: e.clientX,
     y: e.clientY,
-    angle: 0,
+    angle: angle,
     radius: 40
   };
   // this.angle = angle;
@@ -568,9 +574,23 @@ function Square(e, angle) {
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(square, -square.width * 0.15, -square.height * 0.15, square.width * 0.3, square.height * 0.3);
     context.restore();
-    // removeTrail();
   };
 }
+
+// class Square extends Shape {
+//   constructor(e, imgUrl, name) {
+//     super(imgUrl);
+//     this.handle = {
+//       x: e.clientX,
+//       y: e.clientY,
+//       angle: 0,
+//       radius: 40
+//     };
+//     this.name = name;
+//   }
+// }
+
+// export default Square;
 
 /***/ }),
 
@@ -640,12 +660,12 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 const TO_RADIANS = Math.PI / 180;
 
-function Trapezoid(e) {
+function Trapezoid(e, angle) {
   this.name = 'trapezoid';
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
-    angle: 0,
+    angle: angle,
     radius: 55
   };
   this.draw = function () {
@@ -677,12 +697,12 @@ let width = canvas.width;
 let height = canvas.height;
 const TO_RADIANS = Math.PI / 180;
 
-function Triangle(e) {
+function Triangle(e, angle) {
   this.name = "triangle";
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
-    angle: 0,
+    angle: angle,
     radius: 25
   };
   this.draw = function () {

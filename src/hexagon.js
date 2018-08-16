@@ -3,12 +3,12 @@ let context = canvas.getContext('2d');
 const TO_RADIANS = Math.PI / 180;
 
 
-export default function Hexagon(e) {
+export default function Hexagon(e, angle) {
   this.name = 'hexagon';
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
-    angle: 0,
+    angle: angle,
     radius: 70
   };
   this.draw = function () {

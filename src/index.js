@@ -11,6 +11,7 @@ let context = canvas.getContext('2d');
 let select = true;
 let drag = false;
 let follow = false;
+let angle = 0;
 let currentShape = {};
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
@@ -35,40 +36,41 @@ let placedShapes = {
     let selected = document.getElementsByClassName("active")[0];
       switch (selected.id) {
         case "triangle":
-          let triangle = new Triangle(e);
+          let triangle = new Triangle(e, angle);
+          console.log("new triangle");
           currentShape = triangle;
           triangle.draw();
           placedShapes["triangle"].push(currentShape);
           break;
         case "square":
-          let square = new Square(e,);
+          let square = new Square(e, angle);
           currentShape = square;
           square.draw();
           placedShapes["square"].push(currentShape);
           // debugger
           break;
         case "hexagon":
-          let hexagon = new Hexagon(e);
+          let hexagon = new Hexagon(e, angle);
           currentShape = hexagon;
           // debugger
           hexagon.draw();
           placedShapes["hexagon"].push(currentShape);
           break;
         case "skinny":
-          let skinny = new Skinny(e);
+          let skinny = new Skinny(e, angle);
           currentShape = skinny;
           skinny.draw();
           // onMouseMove(e);
           placedShapes["skinny"].push(currentShape);
           break;
         case "diamond":
-          let diamond = new Diamond(e);
+          let diamond = new Diamond(e, angle);
           currentShape = diamond;
           diamond.draw();
           placedShapes["diamond"].push(currentShape);
           break;
         case "trapezoid":
-          let trapezoid = new Trapezoid(e);
+          let trapezoid = new Trapezoid(e, angle);
           currentShape = trapezoid;
           trapezoid.draw();
           placedShapes["trapezoid"].push(currentShape);
@@ -160,6 +162,7 @@ export const onMouseMove = (e) => {
     // drawShapes();
     putShape(e);
     removeTrail();
+    rotateShape(e);
     context.clearRect(0, 0, width, height);
     currentShape.handle.x = e.clientX;
       currentShape.handle.y = e.clientY;
@@ -245,17 +248,19 @@ function rotateShape(e) {
   switch (e.keyCode) {
     case 37:
     console.log('left');
-    currentShape.handle.angle += 5;
+    currentShape.handle.angle += 10;
+    angle += 10;
     context.clearRect(0, 0, width, height);
     console.log(currentShape.handle.angle);
-    console.log(placedShapes)
+    console.log(placedShapes);
     break;
     case 39:
     console.log("right");
-    currentShape.handle.angle -= 5;
+    currentShape.handle.angle -= 10;
+    angle -= 10;
     context.clearRect(0, 0, width, height);
     console.log(currentShape.handle.angle);
-    console.log(placedShapes)
+    console.log(placedShapes);
     break;
   }
 }
@@ -263,7 +268,7 @@ function rotateShape(e) {
 
 
 document.addEventListener('keydown', rotateShape);
-canvas.addEventListener('dblclick', deleteShape);
+// canvas.addEventListener('dblclick', deleteShape);
 canvas.addEventListener("mousedown", onMouseDown);
 canvas.addEventListener("click", dropShape);
 // canvas.addEventListener("mouseup", onMouseUp);

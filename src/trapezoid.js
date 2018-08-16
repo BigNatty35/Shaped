@@ -3,12 +3,12 @@ let context = canvas.getContext('2d');
 const TO_RADIANS = Math.PI / 180;
 
 
-export default function Trapezoid(e) {
+export default function Trapezoid(e, angle) {
   this.name = 'trapezoid';
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
-    angle: 0,
+    angle: angle,
     radius: 55
   };
   this.draw = function () {

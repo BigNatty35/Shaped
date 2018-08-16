@@ -4,12 +4,12 @@ let width = canvas.width;
 let height = canvas.height;
 const TO_RADIANS = Math.PI / 180;
 
-export default function Triangle(e) {
+export default function Triangle(e, angle) {
   this.name = "triangle";
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
-    angle: 0,
+    angle: angle,
     radius: 25
   };
   this.draw = function () {

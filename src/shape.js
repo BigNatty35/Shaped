@@ -1,10 +1,8 @@
-export default class Shape {
-  constructor(name, width, height, imgUrl) {
-    this.name = name;
-    this.width = width;
-    this.height = height;
+class Shape {
+  constructor(imgUrl) {
     this.imgUrl = imgUrl;
   }
+
   draw() {
       let shape = new Image();
       shape.src = this.imgUrl;
@@ -18,3 +16,4 @@ export default class Shape {
 }
 
 
+export default Shape;

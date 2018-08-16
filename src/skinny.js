@@ -3,12 +3,12 @@ let context = canvas.getContext('2d');
 const TO_RADIANS = Math.PI /180;
 
 
-export default function Skinny(e) {
+export default function Skinny(e, angle) {
   this.name = "skinny";
   this.handle = {
     x: e.clientX || 0,
     y: e.clientY || 0,
-    angle: 0,
+    angle: angle,
     radius: 70
   };
   this.draw = function () {

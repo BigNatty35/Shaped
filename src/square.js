@@ -3,6 +3,7 @@ let context = canvas.getContext('2d');
 let width = canvas.width;
 let height = canvas.height;
 import {removeTrail} from './index';
+import Shape from './index';
 export const TO_RADIANS = Math.PI / 180;
 
 export default function Square(e, angle) {
@@ -10,7 +11,7 @@ export default function Square(e, angle) {
   this.handle = {
     x: e.clientX,
     y: e.clientY,
-    angle: 0,
+    angle: angle,
     radius: 40
   };
   // this.angle = angle;
@@ -23,7 +24,22 @@ export default function Square(e, angle) {
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(square, -square.width * 0.15, -square.height * 0.15,square.width * 0.3, square.height * 0.3);
     context.restore();
-    // removeTrail();
   };
 
 }
+
+
+// class Square extends Shape {
+//   constructor(e, imgUrl, name) {
+//     super(imgUrl);
+//     this.handle = {
+//       x: e.clientX,
+//       y: e.clientY,
+//       angle: 0,
+//       radius: 40
+//     };
+//     this.name = name;
+//   }
+// }
+
+// export default Square;
