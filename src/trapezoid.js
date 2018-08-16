@@ -15,7 +15,7 @@ export default function Trapezoid(e) {
     let trapezoid = new Image();
     trapezoid.src = "../shapePics/trapezoid.png";
     context.save();
-    context.translate(this.handle.x - (trapezoid.width * 0.15), this.handle.y - (trapezoid.height * 0.15));
+    context.translate(this.handle.x, this.handle.y);
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(trapezoid, -trapezoid.width * 0.15, -trapezoid.height * 0.15, trapezoid.width * 0.3, trapezoid.height * 0.3);
     context.restore();

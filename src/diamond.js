@@ -15,7 +15,7 @@ export default function Diamond(e) {
     let diamond = new Image();
     diamond.src = "../shapePics/diamond.png";
     context.save();
-    context.translate(this.handle.x - (diamond.width * 0.15), this.handle.y - (diamond.height * 0.15));
+    context.translate(this.handle.x, this.handle.y);
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(diamond, -diamond.width * 0.15, -diamond.height * 0.15, diamond.width * 0.3, diamond.height * 0.3);
     context.restore();

@@ -19,7 +19,7 @@ export default function Square(e, angle) {
     let square = new Image();
     square.src = "../shapePics/square.png";
     context.save();
-    context.translate(this.handle.x - (square.width * 0.15), this.handle.y - (square.height * 0.15));
+    context.translate(this.handle.x, this.handle.y);
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(square, -square.width * 0.15, -square.height * 0.15,square.width * 0.3, square.height * 0.3);
     context.restore();

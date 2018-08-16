@@ -16,7 +16,7 @@ export default function Triangle(e) {
     let triangle = new Image();
     triangle.src = "../shapePics/triangle.png";
     context.save();
-    context.translate(this.handle.x - (triangle.width * 0.15), this.handle.y - (triangle.height * 0.15));
+    context.translate(this.handle.x, this.handle.y);
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(triangle, -triangle.width * 0.15, -triangle.height * 0.15, triangle.width * 0.3, triangle.height * 0.3);
     context.restore();

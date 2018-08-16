@@ -98,7 +98,7 @@ function Diamond(e) {
     let diamond = new Image();
     diamond.src = "../shapePics/diamond.png";
     context.save();
-    context.translate(this.handle.x - diamond.width * 0.15, this.handle.y - diamond.height * 0.15);
+    context.translate(this.handle.x, this.handle.y);
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(diamond, -diamond.width * 0.15, -diamond.height * 0.15, diamond.width * 0.3, diamond.height * 0.3);
     context.restore();
@@ -119,7 +119,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Hexagon; });
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
-const TO_RADIANS = Math.PI * 180;
+const TO_RADIANS = Math.PI / 180;
 
 function Hexagon(e) {
   this.name = 'hexagon';
@@ -133,7 +133,7 @@ function Hexagon(e) {
     let hexagon = new Image();
     hexagon.src = "../shapePics/hexagon.png";
     context.save();
-    context.translate(this.handle.x - hexagon.width * 0.15, this.handle.y - hexagon.height * 0.15);
+    context.translate(this.handle.x, this.handle.y);
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(hexagon, -hexagon.width * 0.15, -hexagon.height * 0.15, hexagon.width * 0.3, hexagon.height * 0.3);
     context.restore();
@@ -522,7 +522,7 @@ function Skinny(e) {
     let skinny = new Image();
     skinny.src = "../shapePics/skinny.png";
     context.save();
-    context.translate(this.handle.x - skinny.width * 0.15, this.handle.y - skinny.height * 0.15);
+    context.translate(this.handle.x, this.handle.y);
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(skinny, -skinny.width * 0.15, -skinny.height * 0.15, skinny.width * 0.3, skinny.height * 0.3);
     context.restore();
@@ -564,7 +564,7 @@ function Square(e, angle) {
     let square = new Image();
     square.src = "../shapePics/square.png";
     context.save();
-    context.translate(this.handle.x - square.width * 0.15, this.handle.y - square.height * 0.15);
+    context.translate(this.handle.x, this.handle.y);
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(square, -square.width * 0.15, -square.height * 0.15, square.width * 0.3, square.height * 0.3);
     context.restore();
@@ -652,7 +652,7 @@ function Trapezoid(e) {
     let trapezoid = new Image();
     trapezoid.src = "../shapePics/trapezoid.png";
     context.save();
-    context.translate(this.handle.x - trapezoid.width * 0.15, this.handle.y - trapezoid.height * 0.15);
+    context.translate(this.handle.x, this.handle.y);
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(trapezoid, -trapezoid.width * 0.15, -trapezoid.height * 0.15, trapezoid.width * 0.3, trapezoid.height * 0.3);
     context.restore();
@@ -689,7 +689,7 @@ function Triangle(e) {
     let triangle = new Image();
     triangle.src = "../shapePics/triangle.png";
     context.save();
-    context.translate(this.handle.x - triangle.width * 0.15, this.handle.y - triangle.height * 0.15);
+    context.translate(this.handle.x, this.handle.y);
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(triangle, -triangle.width * 0.15, -triangle.height * 0.15, triangle.width * 0.3, triangle.height * 0.3);
     context.restore();
