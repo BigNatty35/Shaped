@@ -1,25 +1,19 @@
-let canvas = document.getElementById("canvas");
-let context = canvas.getContext('2d');
-let width = canvas.width;
-let height = canvas.height;
-const TO_RADIANS = Math.PI / 180;
+import Shape from './shape';
 
-export default function Triangle(e, angle) {
-  this.name = "triangle";
-  this.handle = {
-    x: e.clientX || 0,
-    y: e.clientY || 0,
-    angle: angle,
-    radius: 25
-  };
-  this.draw = function () {
-    let triangle = new Image();
-    triangle.src = "../shapePics/triangle.png";
-    context.save();
-    context.translate(this.handle.x, this.handle.y);
-    context.rotate(this.handle.angle * TO_RADIANS);
-    context.drawImage(triangle, -triangle.width * 0.15, -triangle.height * 0.15, triangle.width * 0.3, triangle.height * 0.3);
-    context.restore();
-  };
 
+class Triangle extends Shape {
+  constructor(e, angle) {
+    super(angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/triangle.png";
+    this.handle = {
+      x: e.clientX,
+      y: e.clientY,
+      angle: angle,
+      radius: 25
+    };
+    this.name = "triangle";
+  }
 }
+
+export default Triangle;

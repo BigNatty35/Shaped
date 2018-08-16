@@ -447,9 +447,9 @@ class Shape {
   draw() {
     const { shape, handle } = this;
     context.save();
-    context.translate(this.handle.x, this.handle.y);
-    context.rotate(this.handle.angle * (Math.PI / 180));
-    context.drawImage(this.shape, -shape.width * 0.15, -shape.height * 0.15, shape.width * 0.3, shape.height * 0.3);
+    context.translate(handle.x, handle.y);
+    context.rotate(handle.angle * (Math.PI / 180));
+    context.drawImage(shape, -shape.width * 0.15, -shape.height * 0.15, shape.width * 0.3, shape.height * 0.3);
     context.restore();
   }
 }
@@ -533,29 +533,25 @@ const updateActive = function (currentShape) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Skinny; });
-let canvas = document.getElementById("canvas");
-let context = canvas.getContext('2d');
-const TO_RADIANS = Math.PI / 180;
+/* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
 
-function Skinny(e, angle) {
-  this.name = "skinny";
-  this.handle = {
-    x: e.clientX || 0,
-    y: e.clientY || 0,
-    angle: angle,
-    radius: 70
-  };
-  this.draw = function () {
-    let skinny = new Image();
-    skinny.src = "../shapePics/skinny.png";
-    context.save();
-    context.translate(this.handle.x, this.handle.y);
-    context.rotate(this.handle.angle * TO_RADIANS);
-    context.drawImage(skinny, -skinny.width * 0.15, -skinny.height * 0.15, skinny.width * 0.3, skinny.height * 0.3);
-    context.restore();
-  };
+
+class Skinny extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(e, angle) {
+    super(angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/skinny.png";
+    this.handle = {
+      x: e.clientX,
+      y: e.clientY,
+      angle: angle,
+      radius: 70
+    };
+    this.name = "skinny";
+  }
 }
+
+/* harmony default export */ __webpack_exports__["default"] = (Skinny);
 
 /***/ }),
 
@@ -651,29 +647,25 @@ function enableScroll() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Trapezoid; });
-let canvas = document.getElementById("canvas");
-let context = canvas.getContext('2d');
-const TO_RADIANS = Math.PI / 180;
+/* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
 
-function Trapezoid(e, angle) {
-  this.name = 'trapezoid';
-  this.handle = {
-    x: e.clientX || 0,
-    y: e.clientY || 0,
-    angle: angle,
-    radius: 55
-  };
-  this.draw = function () {
-    let trapezoid = new Image();
-    trapezoid.src = "../shapePics/trapezoid.png";
-    context.save();
-    context.translate(this.handle.x, this.handle.y);
-    context.rotate(this.handle.angle * TO_RADIANS);
-    context.drawImage(trapezoid, -trapezoid.width * 0.15, -trapezoid.height * 0.15, trapezoid.width * 0.3, trapezoid.height * 0.3);
-    context.restore();
-  };
+
+class Trapezoid extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(e, angle) {
+    super(angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/trapeziod.png";
+    this.handle = {
+      x: e.clientX,
+      y: e.clientY,
+      angle: angle,
+      radius: 55
+    };
+    this.name = "trapeziod";
+  }
 }
+
+/* harmony default export */ __webpack_exports__["default"] = (Trapezoid);
 
 /***/ }),
 
@@ -686,31 +678,25 @@ function Trapezoid(e, angle) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Triangle; });
-let canvas = document.getElementById("canvas");
-let context = canvas.getContext('2d');
-let width = canvas.width;
-let height = canvas.height;
-const TO_RADIANS = Math.PI / 180;
+/* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
 
-function Triangle(e, angle) {
-  this.name = "triangle";
-  this.handle = {
-    x: e.clientX || 0,
-    y: e.clientY || 0,
-    angle: angle,
-    radius: 25
-  };
-  this.draw = function () {
-    let triangle = new Image();
-    triangle.src = "../shapePics/triangle.png";
-    context.save();
-    context.translate(this.handle.x, this.handle.y);
-    context.rotate(this.handle.angle * TO_RADIANS);
-    context.drawImage(triangle, -triangle.width * 0.15, -triangle.height * 0.15, triangle.width * 0.3, triangle.height * 0.3);
-    context.restore();
-  };
+
+class Triangle extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(e, angle) {
+    super(angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/triangle.png";
+    this.handle = {
+      x: e.clientX,
+      y: e.clientY,
+      angle: angle,
+      radius: 25
+    };
+    this.name = "triangle";
+  }
 }
+
+/* harmony default export */ __webpack_exports__["default"] = (Triangle);
 
 /***/ })
 

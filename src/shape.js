@@ -8,9 +8,9 @@ class Shape {
   draw() {
     const {shape, handle} = this;
       context.save();
-      context.translate(this.handle.x, this.handle.y);
-      context.rotate(this.handle.angle * (Math.PI / 180));
-      context.drawImage(this.shape, -shape.width * 0.15, -shape.height * 0.15, shape.width * 0.3, shape.height * 0.3);
+      context.translate(handle.x, handle.y);
+      context.rotate(handle.angle * (Math.PI / 180));
+      context.drawImage(shape, -shape.width * 0.15, -shape.height * 0.15, shape.width * 0.3, shape.height * 0.3);
       context.restore();
   
   }
