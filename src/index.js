@@ -43,6 +43,7 @@ let placedShapes = {
           placedShapes["triangle"].push(currentShape);
           break;
         case "square":
+          // debugger
           let square = new Square(e, angle);
           currentShape = square;
           square.draw();

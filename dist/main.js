@@ -75,35 +75,32 @@
 /*!************************!*\
   !*** ./src/diamond.js ***!
   \************************/
-/*! exports provided: TO_RADIANS, default */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TO_RADIANS", function() { return TO_RADIANS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Diamond; });
+/* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
-const TO_RADIANS = Math.PI / 180;
 
-function Diamond(e, angle) {
-  this.name = 'diamond';
-  this.handle = {
-    x: e.clientX || 0,
-    y: e.clientY || 0,
-    angle: angle,
-    radius: 50
-  };
-  this.draw = function () {
-    let diamond = new Image();
-    diamond.src = "../shapePics/diamond.png";
-    context.save();
-    context.translate(this.handle.x, this.handle.y);
-    context.rotate(this.handle.angle * TO_RADIANS);
-    context.drawImage(diamond, -diamond.width * 0.15, -diamond.height * 0.15, diamond.width * 0.3, diamond.height * 0.3);
-    context.restore();
-  };
+
+class Diamond extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(e, angle) {
+    super(angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/diamond.png";
+    this.handle = {
+      x: e.clientX,
+      y: e.clientY,
+      angle: angle,
+      radius: 50
+    };
+    this.name = "diamond";
+  }
 }
+
+/* harmony default export */ __webpack_exports__["default"] = (Diamond);
 
 /***/ }),
 
@@ -116,29 +113,25 @@ function Diamond(e, angle) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Hexagon; });
-let canvas = document.getElementById("canvas");
-let context = canvas.getContext('2d');
-const TO_RADIANS = Math.PI / 180;
+/* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
 
-function Hexagon(e, angle) {
-  this.name = 'hexagon';
-  this.handle = {
-    x: e.clientX || 0,
-    y: e.clientY || 0,
-    angle: angle,
-    radius: 70
-  };
-  this.draw = function () {
-    let hexagon = new Image();
-    hexagon.src = "../shapePics/hexagon.png";
-    context.save();
-    context.translate(this.handle.x, this.handle.y);
-    context.rotate(this.handle.angle * TO_RADIANS);
-    context.drawImage(hexagon, -hexagon.width * 0.15, -hexagon.height * 0.15, hexagon.width * 0.3, hexagon.height * 0.3);
-    context.restore();
-  };
+
+class Hexagon extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(e, angle) {
+    super(angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/hexagon.png";
+    this.handle = {
+      x: e.clientX,
+      y: e.clientY,
+      angle: angle,
+      radius: 70
+    };
+    this.name = "hexagon";
+  }
 }
+
+/* harmony default export */ __webpack_exports__["default"] = (Hexagon);
 
 /***/ }),
 
@@ -205,6 +198,7 @@ const putShape = function (e) {
       placedShapes["triangle"].push(currentShape);
       break;
     case "square":
+      // debugger
       let square = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e, angle);
       currentShape = square;
       square.draw();
@@ -435,6 +429,35 @@ function animate() {
 
 /***/ }),
 
+/***/ "./src/shape.js":
+/*!**********************!*\
+  !*** ./src/shape.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext('2d');
+
+class Shape {
+  constructor() {}
+
+  draw() {
+    const { shape, handle } = this;
+    context.save();
+    context.translate(this.handle.x, this.handle.y);
+    context.rotate(this.handle.angle * (Math.PI / 180));
+    context.drawImage(this.shape, -shape.width * 0.15, -shape.height * 0.15, shape.width * 0.3, shape.height * 0.3);
+    context.restore();
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Shape);
+
+/***/ }),
+
 /***/ "./src/shapes.js":
 /*!***********************!*\
   !*** ./src/shapes.js ***!
@@ -540,57 +563,30 @@ function Skinny(e, angle) {
 /*!***********************!*\
   !*** ./src/square.js ***!
   \***********************/
-/*! exports provided: TO_RADIANS, default */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TO_RADIANS", function() { return TO_RADIANS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Square; });
-/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ "./src/index.js");
-let canvas = document.getElementById("canvas");
-let context = canvas.getContext('2d');
-let width = canvas.width;
-let height = canvas.height;
+/* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
 
 
-const TO_RADIANS = Math.PI / 180;
-
-function Square(e, angle) {
-  this.name = "square";
-  this.handle = {
-    x: e.clientX,
-    y: e.clientY,
-    angle: angle,
-    radius: 40
-  };
-  // this.angle = angle;
-
-  this.draw = function () {
-    let square = new Image();
-    square.src = "../shapePics/square.png";
-    context.save();
-    context.translate(this.handle.x, this.handle.y);
-    context.rotate(this.handle.angle * TO_RADIANS);
-    context.drawImage(square, -square.width * 0.15, -square.height * 0.15, square.width * 0.3, square.height * 0.3);
-    context.restore();
-  };
+class Square extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(e, angle) {
+    super(angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/square.png";
+    this.handle = {
+      x: e.clientX,
+      y: e.clientY,
+      angle: angle,
+      radius: 40
+    };
+    this.name = "square";
+  }
 }
 
-// class Square extends Shape {
-//   constructor(e, imgUrl, name) {
-//     super(imgUrl);
-//     this.handle = {
-//       x: e.clientX,
-//       y: e.clientY,
-//       angle: 0,
-//       radius: 40
-//     };
-//     this.name = name;
-//   }
-// }
-
-// export default Square;
+/* harmony default export */ __webpack_exports__["default"] = (Square);
 
 /***/ }),
 
