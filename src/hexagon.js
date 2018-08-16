@@ -15,7 +15,7 @@ export default function Hexagon(e) {
     let hexagon = new Image();
     hexagon.src = "../shapePics/hexagon.png";
     context.save();
-    context.translate(this.handle.x - (diamond.width * 0.15), this.handle.y - (diamond.height * 0.15));
+    context.translate(this.handle.x - (hexagon.width * 0.15), this.handle.y - (hexagon.height * 0.15));
     context.rotate(this.handle.angle * TO_RADIANS);
     context.drawImage(hexagon, -hexagon.width * 0.15, -hexagon.height * 0.15, hexagon.width * 0.3, hexagon.height * 0.3);
     context.restore();
