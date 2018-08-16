@@ -1,6 +1,6 @@
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
-
+export const TO_RADIANS = Math.PI / 180;
 
 
 export default function Diamond(e) {
@@ -14,8 +14,11 @@ export default function Diamond(e) {
   this.draw = function () {
     let diamond = new Image();
     diamond.src = "../shapePics/diamond.png";
-    context.drawImage(diamond, this.handle.x - (diamond.width * 0.15), this.handle.y - (diamond.height * 0.15),
-      diamond.width * 0.3, diamond.height * 0.3);
+    context.save();
+    context.translate(this.handle.x - (diamond.width * 0.15), this.handle.y - (diamond.height * 0.15));
+    context.rotate(this.handle.angle * TO_RADIANS);
+    context.drawImage(diamond, -diamond.width * 0.15, -diamond.height * 0.15, diamond.width * 0.3, diamond.height * 0.3);
+    context.restore();
   };
 
 }

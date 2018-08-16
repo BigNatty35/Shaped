@@ -1,6 +1,6 @@
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
-
+const TO_RADIANS = Math.PI * 180;
 
 
 export default function Hexagon(e) {
@@ -14,8 +14,11 @@ export default function Hexagon(e) {
   this.draw = function () {
     let hexagon = new Image();
     hexagon.src = "../shapePics/hexagon.png";
-    context.drawImage(hexagon, this.handle.x - (hexagon.width * 0.15), this.handle.y - (hexagon.height * 0.15),
-      hexagon.width * 0.3, hexagon.height * 0.3);
+    context.save();
+    context.translate(this.handle.x - (diamond.width * 0.15), this.handle.y - (diamond.height * 0.15));
+    context.rotate(this.handle.angle * TO_RADIANS);
+    context.drawImage(hexagon, -hexagon.width * 0.15, -hexagon.height * 0.15, hexagon.width * 0.3, hexagon.height * 0.3);
+    context.restore();
   };
 
 }

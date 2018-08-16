@@ -253,6 +253,7 @@ function rotateShape(e) {
     case 39:
     console.log("right");
     currentShape.handle.angle -= 5;
+    context.clearRect(0, 0, width, height);
     console.log(currentShape.handle.angle);
     console.log(placedShapes)
     break;

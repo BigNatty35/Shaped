@@ -75,14 +75,16 @@
 /*!************************!*\
   !*** ./src/diamond.js ***!
   \************************/
-/*! exports provided: default */
+/*! exports provided: TO_RADIANS, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TO_RADIANS", function() { return TO_RADIANS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Diamond; });
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
+const TO_RADIANS = Math.PI / 180;
 
 function Diamond(e) {
   this.name = 'diamond';
@@ -95,7 +97,11 @@ function Diamond(e) {
   this.draw = function () {
     let diamond = new Image();
     diamond.src = "../shapePics/diamond.png";
-    context.drawImage(diamond, this.handle.x - diamond.width * 0.15, this.handle.y - diamond.height * 0.15, diamond.width * 0.3, diamond.height * 0.3);
+    context.save();
+    context.translate(this.handle.x - diamond.width * 0.15, this.handle.y - diamond.height * 0.15);
+    context.rotate(this.handle.angle * TO_RADIANS);
+    context.drawImage(diamond, -diamond.width * 0.15, -diamond.height * 0.15, diamond.width * 0.3, diamond.height * 0.3);
+    context.restore();
   };
 }
 
@@ -113,6 +119,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Hexagon; });
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
+const TO_RADIANS = Math.PI * 180;
 
 function Hexagon(e) {
   this.name = 'hexagon';
@@ -125,7 +132,11 @@ function Hexagon(e) {
   this.draw = function () {
     let hexagon = new Image();
     hexagon.src = "../shapePics/hexagon.png";
-    context.drawImage(hexagon, this.handle.x - hexagon.width * 0.15, this.handle.y - hexagon.height * 0.15, hexagon.width * 0.3, hexagon.height * 0.3);
+    context.save();
+    context.translate(this.handle.x - diamond.width * 0.15, this.handle.y - diamond.height * 0.15);
+    context.rotate(this.handle.angle * TO_RADIANS);
+    context.drawImage(hexagon, -hexagon.width * 0.15, -hexagon.height * 0.15, hexagon.width * 0.3, hexagon.height * 0.3);
+    context.restore();
   };
 }
 
@@ -389,6 +400,7 @@ function rotateShape(e) {
     case 39:
       console.log("right");
       currentShape.handle.angle -= 5;
+      context.clearRect(0, 0, width, height);
       console.log(currentShape.handle.angle);
       console.log(placedShapes);
       break;
@@ -621,6 +633,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Trapezoid; });
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
+const TO_RADIANS = Math.PI / 180;
 
 function Trapezoid(e) {
   this.name = 'trapezoid';
@@ -633,7 +646,11 @@ function Trapezoid(e) {
   this.draw = function () {
     let trapezoid = new Image();
     trapezoid.src = "../shapePics/trapezoid.png";
-    context.drawImage(trapezoid, this.handle.x - trapezoid.width * 0.3 / 2, this.handle.y - trapezoid.height * 0.3 / 2, trapezoid.width * 0.3, trapezoid.height * 0.3);
+    context.save();
+    context.translate(this.handle.x - trapezoid.width * 0.15, this.handle.y - trapezoid.height * 0.15);
+    context.rotate(this.handle.angle * TO_RADIANS);
+    context.drawImage(trapezoid, -trapezoid.width * 0.15, -trapezoid.height * 0.15, trapezoid.width * 0.3, trapezoid.height * 0.3);
+    context.restore();
   };
 }
 
