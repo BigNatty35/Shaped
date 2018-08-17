@@ -12,8 +12,8 @@ let context = canvas.getContext('2d');
 let select = true;
 let drag = false;
 let follow = false;
-let angle = 0;
 let currentShape;
+let angle = 0;
 let x = 0;
 
 canvas.height = window.innerHeight;
@@ -38,39 +38,30 @@ let placedShapes = {
     let selected = document.getElementsByClassName("active")[0];
       switch (selected.id) {
         case "triangle":
-          let triangle = new Triangle(e, angle);
-          console.log("new triangle");
           currentShape = addCurrent(e, angle);
-          currentShape.draw();
-          // angle = 0;
           placedShapes["triangle"].push(currentShape);
           break;
         case "square":
           currentShape = addCurrent(e, angle);
-          currentShape.draw();
           placedShapes["square"].push(currentShape);
           // debugger
           break;
         case "hexagon":
           currentShape = addCurrent(e, angle);
           // debugger
-          currentShape.draw();
           placedShapes["hexagon"].push(currentShape);
           break;
         case "skinny":
           currentShape = addCurrent(e, angle);
-          currentShape.draw();
-          // onMouseMove(e);
+          // onMouseMove(e, angle);
           placedShapes["skinny"].push(currentShape);
           break;
         case "diamond":
           currentShape = addCurrent(e, angle);
-          currentShape.draw();
           placedShapes["diamond"].push(currentShape);
           break;
         case "trapezoid":
           currentShape = addCurrent(e, angle);
-          currentShape.draw();
           placedShapes["trapezoid"].push(currentShape);
           break;
         default:
@@ -101,8 +92,6 @@ function circlePointCollision(mouseX, mouseY, circle) {
 
 function shapeFollow(e) {
   e.stopPropagation();
-    currentShape = 
-      // debugger
       context.clearRect(0, 0, width, height);
       currentShape.handle.x = e.clientX;
       currentShape.handle.y = e.clientY;
@@ -118,7 +107,7 @@ function onMouseDown(e) {
     for (let i = 0; i < sub.length; i++) {
      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
         currentShape = sub[i];
-        // currentShape.handle.angle = angle;
+      //  angle = currentShape.handle.angle;
         updateActive(currentShape); // places the active class on the selected canvas shape.
         sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
         canvas.addEventListener('mousemove', onMouseMove);
@@ -159,15 +148,12 @@ export const onMouseMove = (e) => {
     // drawShapes();
     putShape(e);
     removeTrail();
-      // context.clearRect(0, 0, width, height);
-    rotateShape(e);
-    context.clearRect(0, 0, width, height);
-    // currentShape.handle.x = e.clientX;
-    currentShape.draw();
-    //   currentShape.handle.y = e.clientY;
     // context.clearRect(0, 0, width, height);
+    rotateShape(e);
+    shapeFollow(e);
+        // context.clearRect(0, 0, width, height);
       console.log(`onmouse move:${currentShape}`);
-      // console.log
+      console.log(currentShape.handle.angle);
     }
  
 };
@@ -196,7 +182,7 @@ function onMouseUp(e) {
   e.stopPropagation();
   // select = false;
   // debugger
-  angle = 0;
+  // angle = 0;
   canvas.removeEventListener('click', dropShape);
   if (drag) {
     putShape(e);
@@ -248,7 +234,7 @@ function rotateShape(e) {
   switch (e.keyCode) {
     case 37:
     console.log('left');
-    currentShape.handle.angle += 5;
+    // currentShape.handle.angle += 5;
     angle += 10;
     context.clearRect(0, 0, width, height);
     currentShape.draw(e);
@@ -257,7 +243,7 @@ function rotateShape(e) {
     break;
     case 39:
     console.log("right");
-    currentShape.handle.angle -= 5;
+    // currentShape.handle.angle -= 5;
     angle -= 10;
     context.clearRect(0, 0, width, height);
     currentShape.draw();
@@ -277,7 +263,6 @@ canvas.addEventListener("click", dropShape);
 
 let background = new Image();
 background.src = '../shapePics/background.jpg';
-// canvas.addEventListener("mouseover", shapeFollow);
 addMouseOver(select, currentShape);
 
 export default function animate(){

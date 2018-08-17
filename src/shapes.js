@@ -81,8 +81,8 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 //this function changes the active shape to the one that was clicked on.
-export const updateActive = function(currentShape) {
-  let name = currentShape.name;
+export const updateActive = function(cShape) {
+  let name = cShape.name;
   let shape = document.getElementById(name); //selects toolbar shape based on currentShape's name
   let active = document.getElementsByClassName("active")[0];
    // if there is an element that has active on it, change className to shape-img
