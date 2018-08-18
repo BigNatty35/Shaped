@@ -129,12 +129,11 @@ class Hexagon extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: removeTrail, onMouseMove, default */
+/*! exports provided: onMouseMove, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeTrail", function() { return removeTrail; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "onMouseMove", function() { return onMouseMove; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return animate; });
 /* harmony import */ var _shapes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shapes */ "./src/shapes.js");
@@ -237,17 +236,6 @@ function onMouseDown(e) {
     });
   }
 }
-
-const removeTrail = function (e) {
-  let selected = document.getElementsByClassName("active")[0];
-  let shapesArr = PLACED_SHAPES[selected.id];
-  // debugger
-  for (let i = shapesArr.length - 1; i < shapesArr.length; i++) {
-    if (shapesArr.length > 0) {
-      shapesArr.splice(i, 1);
-    }
-  }
-};
 
 const onMouseMove = e => {
   e.stopPropagation();

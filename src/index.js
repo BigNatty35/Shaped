@@ -96,19 +96,6 @@ function onMouseDown(e) {
 }
 
 
-export const removeTrail = function(e) {
-  let selected = document.getElementsByClassName("active")[0];
-  let shapesArr = PLACED_SHAPES[selected.id];
-  // debugger
-  for(let i = shapesArr.length - 1; i < shapesArr.length; i++){
-    if(shapesArr.length > 0){
-    shapesArr.splice(i, 1);
-    } 
-  }
-};
-
-
-
 export const onMouseMove = (e) => {
   e.stopPropagation();
     follow = true;
