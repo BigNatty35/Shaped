@@ -181,7 +181,6 @@ const PLACED_SHAPES = {
   trapezoid: []
 };
 
-// addCurrent(angle, currentShape);
 const addClickListener = () => {
   let shapes = document.getElementsByClassName("shape-img");
   for (let i = 0; i < shapes.length; i++) {
@@ -198,7 +197,7 @@ function distanceXY(x0, y0, x1, y1) {
       dy = y1 - y0;
   return Math.sqrt(dx * dx + dy * dy);
 }
-// c
+
 function circlePointCollision(mouseX, mouseY, circle) {
   return distanceXY(mouseX, mouseY, circle.x, circle.y) < circle.radius;
 }
@@ -215,8 +214,6 @@ function shapeFollow(e) {
 function onMouseDown(e) {
   e.stopPropagation();
   let placedCoords = Object.values(PLACED_SHAPES);
-
-  // debugger
   if (follow === false) {
     placedCoords.forEach(sub => {
       // iterate through all of the shapes on the canvas,
