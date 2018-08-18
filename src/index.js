@@ -26,9 +26,6 @@ let height = canvas.height;
 let width = canvas.width;
 let shapes = document.getElementsByClassName("shape-img");
 
-
-// let angle = currentShape.handle.angle;
-
  const PLACED_SHAPES = {
   triangle: [],
   hexagon: [],
