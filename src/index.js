@@ -64,45 +64,36 @@ function circlePointCollision(mouseX, mouseY, circle) {
 function shapeFollow(e) {
   e.stopPropagation();
   // debugger
-  let selected = document.getElementsByClassName("active")[0];
     context.clearRect(0, 0, width, height);
-    // debugger
-    // if (currentShape.name !== selected.id) {
-    //   currentShape = addCurrent(angle);
-    // } 
     currentShape[0].handle.x = e.clientX;
     currentShape[0].handle.y = e.clientY;
-    // currentShape.draw();
     console.log('shape is following');
 }
 
 function onMouseDown(e) {
   e.stopPropagation();
   let placedCoords = Object.values(PLACED_SHAPES);
-  follow = false;
+  
   // debugger
-  placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
-
-    for (let i = 0; i < sub.length; i++) {
-     if (circlePointCollision(e.clientX, e.clientY, sub[i].handle) && follow === false) { // if the mouse is clicking on a shape.
-        currentShape.shift();
-        currentShape.push(sub[i]);
-        // debugger
-      //  angle = currentShape.handle.angle;
-        updateActive(currentShape[0]); // places the active class on the selected canvas shape.
-        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
-        canvas.addEventListener('mousemove', onMouseMove);
-
-        console.log("yooo MOUSE DOWN");
-        break;
+  if(follow === false) {
+    placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
+      for (let i = 0; i < sub.length; i++) {
+       if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
+          currentShape[0] = sub[i];
+          // debugger
+          updateActive(currentShape[0]); // places the active class on the selected canvas shape.
+          // sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
+          canvas.addEventListener('mousemove', onMouseMove);
+  
+          console.log("yooo MOUSE DOWN");
+          break;
+        }
       }
-    }
-
-  }));
+  
+    }));
+  }
 }
 
-
-function put
 
 export const deletePrevious = function(e) {
   let selected = document.getElementsByClassName("active")[0];
@@ -125,22 +116,13 @@ export const removeTrail = function(e) {
 
 
 export const onMouseMove = (e) => {
-  // debugger
   e.stopPropagation();
-    select = true;
-    if(select) {
-    // drawShapes();
-    // putShape(e);
+    follow = true;
     shapeFollow(e);
-    // removeTrail();
-    // context.clearRect(0, 0, width, height);
     rotateShape(e);
-    
-        // context.clearRect(0, 0, width, height);
-      console.log(`onmouse move:${currentShape}`);
-      console.log(PLACED_SHAPES);
-    }
- 
+    console.log(`onmouse move:${currentShape[0].name}`);
+    console.log(PLACED_SHAPES);
+    console.log(`Follow is ${follow}`);
 };
 
 function deleteShape(e) {
@@ -165,7 +147,7 @@ function deleteShape(e) {
 
 function onMouseUp(e) {
   e.stopPropagation();
-  // select = false;
+  follow = false;
   // debugger
   // angle = 0;
   
@@ -173,7 +155,7 @@ function onMouseUp(e) {
   
   canvas.removeEventListener('click', dropShape);
   // currentShape = null;
-  drag = false;
+  // drag = false;
   canvas.removeEventListener('mousemove', onMouseMove);
   console.log("im up");
   console.log(PLACED_SHAPES);
@@ -224,19 +206,19 @@ function rotateShape(e) {
     case 37:
     console.log('left');
     // currentShape.handle.angle += 5;
-    currentShape.handle.angle += 10;
+    currentShape[0].handle.angle += 10;
     context.clearRect(0, 0, width, height);
-    currentShape.draw(e);
-    console.log(currentShape.handle.angle);
+    currentShape[0].draw(e);
+    console.log(currentShape[0].handle.angle);
     console.log(PLACED_SHAPES);
     break;
     case 39:
     console.log("right");
-    // currentShape.handle.angle -= 5;
-    currentShape.handle.angle -= 10;
+    // currentShape[0].handle.angle -= 5;
+    currentShape[0].handle.angle -= 10;
     context.clearRect(0, 0, width, height);
-    currentShape.draw();
-    console.log(currentShape.handle.angle);
+    currentShape[0].draw();
+    console.log(currentShape[0].handle.angle);
     console.log(PLACED_SHAPES);
     break;
   }
@@ -245,7 +227,6 @@ function rotateShape(e) {
 
 
 
-// canvas.addEventListener("click", addCurrent);
 document.addEventListener('keydown', rotateShape);
 // canvas.addEventListener('dblclick', deleteShape);
 canvas.addEventListener("mousedown", onMouseDown);
@@ -254,7 +235,7 @@ canvas.addEventListener("mouseup", onMouseUp);
 
 let background = new Image();
 background.src = '../shapePics/background.jpg';
-addClickListener(PLACED_SHAPES, currentShape, angle);
+addClickListener(PLACED_SHAPES, currentShape, angle, follow);
 
 export default function animate(){
   drawShapes();

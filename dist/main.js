@@ -71,14 +71,524 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/diamond.js":
+/*!************************!*\
+  !*** ./src/diamond.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext('2d');
+
+
+class Diamond extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(x, y, angle) {
+    super(x, y, angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/diamond.png";
+    this.handle.radius = 50;
+    this.name = "diamond";
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Diamond);
+
+/***/ }),
+
+/***/ "./src/hexagon.js":
+/*!************************!*\
+  !*** ./src/hexagon.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
+
+
+class Hexagon extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(x, y, angle) {
+    super(x, y, angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/hexagon.png";
+    this.handle.radius = 70;
+    this.name = "hexagon";
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Hexagon);
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: putShape, deletePrevious, removeTrail, onMouseMove, default */
-/***/ (function(module, exports) {
+/*! exports provided: deletePrevious, removeTrail, onMouseMove, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: Unexpected token, expected ( (107:0)\n\n\u001b[0m \u001b[90m 105 | \u001b[39m\u001b[36mfunction\u001b[39m put\n \u001b[90m 106 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 107 | \u001b[39m\u001b[36mexport\u001b[39m \u001b[36mconst\u001b[39m deletePrevious \u001b[33m=\u001b[39m \u001b[36mfunction\u001b[39m(e) {\n \u001b[90m     | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 108 | \u001b[39m  let selected \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mgetElementsByClassName(\u001b[32m\"active\"\u001b[39m)[\u001b[35m0\u001b[39m]\u001b[33m;\u001b[39m\n \u001b[90m 109 | \u001b[39m  let shapesArr \u001b[33m=\u001b[39m \u001b[33mPLACED_SHAPES\u001b[39m[selected\u001b[33m.\u001b[39mid]\u001b[33m;\u001b[39m\n \u001b[90m 110 | \u001b[39m  \u001b[90m// debugger\u001b[39m\u001b[0m\n");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deletePrevious", function() { return deletePrevious; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeTrail", function() { return removeTrail; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "onMouseMove", function() { return onMouseMove; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return animate; });
+/* harmony import */ var _shapes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shapes */ "./src/shapes.js");
+/* harmony import */ var _square__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./square */ "./src/square.js");
+/* harmony import */ var _diamond__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./diamond */ "./src/diamond.js");
+/* harmony import */ var _skinny__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./skinny */ "./src/skinny.js");
+/* harmony import */ var _triangle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./triangle */ "./src/triangle.js");
+/* harmony import */ var _hexagon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./hexagon */ "./src/hexagon.js");
+/* harmony import */ var _trapezoid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./trapezoid */ "./src/trapezoid.js");
+
+
+
+
+
+
+
+
+
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext('2d');
+let select = true;
+let drag = false;
+let follow = false;
+let angle = 0;
+let currentShape = [];
+let x = 0;
+let count = 0;
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+let height = canvas.height;
+let width = canvas.width;
+let shapes = document.getElementsByClassName("shape-img");
+
+// let angle = currentShape.handle.angle;
+
+const PLACED_SHAPES = {
+  triangle: [],
+  hexagon: [],
+  square: [],
+  diamond: [],
+  skinny: [],
+  trapezoid: []
+};
+
+// addCurrent(angle, currentShape);
+const addClickListener = () => {
+  let shapes = document.getElementsByClassName("shape-img");
+  for (let i = 0; i < shapes.length; i++) {
+    let shape = shapes[i];
+    shape.addEventListener("click", _shapes__WEBPACK_IMPORTED_MODULE_0__["addActive"]);
+    shape.addEventListener("click", e => {
+      Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addToPojo"])(e, PLACED_SHAPES, currentShape, angle = 0, follow);
+    });
+  }
+};
+
+function distanceXY(x0, y0, x1, y1) {
+  let dx = x1 - x0,
+      dy = y1 - y0;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+// c
+function circlePointCollision(mouseX, mouseY, circle) {
+  return distanceXY(mouseX, mouseY, circle.x, circle.y) < circle.radius;
+}
+
+function shapeFollow(e) {
+  e.stopPropagation();
+  // debugger
+  context.clearRect(0, 0, width, height);
+  currentShape[0].handle.x = e.clientX;
+  currentShape[0].handle.y = e.clientY;
+  console.log('shape is following');
+}
+
+function onMouseDown(e) {
+  e.stopPropagation();
+  let placedCoords = Object.values(PLACED_SHAPES);
+
+  // debugger
+  if (follow === false) {
+    placedCoords.forEach(sub => {
+      // iterate through all of the shapes on the canvas,
+      for (let i = 0; i < sub.length; i++) {
+        if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
+          // if the mouse is clicking on a shape.
+          currentShape[0] = sub[i];
+          // debugger
+          Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["updateActive"])(currentShape[0]); // places the active class on the selected canvas shape.
+          // sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
+          canvas.addEventListener('mousemove', onMouseMove);
+
+          console.log("yooo MOUSE DOWN");
+          break;
+        }
+      }
+    });
+  }
+}
+
+const deletePrevious = function (e) {
+  let selected = document.getElementsByClassName("active")[0];
+  let shapesArr = PLACED_SHAPES[selected.id];
+  // debugger
+  shapesArr.splice(shapesArr[shapesArr - 1], 1);
+};
+
+const removeTrail = function (e) {
+  let selected = document.getElementsByClassName("active")[0];
+  let shapesArr = PLACED_SHAPES[selected.id];
+  // debugger
+  for (let i = shapesArr.length - 1; i < shapesArr.length; i++) {
+    if (shapesArr.length > 0) {
+      shapesArr.splice(i, 1);
+    }
+  }
+};
+
+const onMouseMove = e => {
+  e.stopPropagation();
+  follow = true;
+  shapeFollow(e);
+  rotateShape(e);
+  console.log(`onmouse move:${currentShape[0].name}`);
+  console.log(PLACED_SHAPES);
+  console.log(`Follow is ${follow}`);
+};
+
+function deleteShape(e) {
+  e.stopPropagation();
+  let placedCoords = Object.values(PLACED_SHAPES);
+  placedCoords.forEach(sub => {
+    // iterate through all of the shapes on the canvas,
+    for (let i = 0; i < sub.length; i++) {
+      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
+        // if the mouse is clicking on a shape.
+        // currentShape = sub[i];
+        // updateActive(currentShape); // places the active class on the selected canvas shape.
+        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
+        // canvas.addEventListener('mousemove', shapeFollow);
+        // canvas.addEventListener('mouseup', onMouseUp);
+        // canvas.removeEventListener("mousemove", shapeFollow);
+        console.log("pimpin");
+        break;
+      }
+    }
+  });
+}
+
+function onMouseUp(e) {
+  e.stopPropagation();
+  follow = false;
+  // debugger
+  // angle = 0;
+
+  // putShape(e);
+
+  canvas.removeEventListener('click', dropShape);
+  // currentShape = null;
+  // drag = false;
+  canvas.removeEventListener('mousemove', onMouseMove);
+  console.log("im up");
+  console.log(PLACED_SHAPES);
+}
+
+function drawShapes() {
+  let placedCoords = Object.values(PLACED_SHAPES);
+  // debugger
+  placedCoords.forEach(sub => {
+    for (let i = 0; i < sub.length; i++) {
+      if (sub[i] === null) {
+        continue;
+      }
+      sub[i].draw();
+    }
+  });
+}
+
+function clearCanvas(e) {
+  e.stopPropagation();
+  let shapes = Object.keys(PLACED_SHAPES);
+  shapes.forEach(shape => {
+    PLACED_SHAPES[shape] = [];
+    return PLACED_SHAPES;
+  });
+  context.clearRect(0, 0, width, height);
+  console.log("hello");
+}
+
+let button = document.getElementById("clear");
+
+function dropShape(e) {
+  e.stopPropagation();
+  // debugger
+  console.log(`The current shape is: ${currentShape}`);
+  // select = false;
+  putShape(e);
+  // select = true;
+  console.log(PLACED_SHAPES, "DROPSHAPE");
+  canvas.removeEventListener("mousemove", onMouseMove);
+}
+
+function rotateShape(e) {
+  e.stopPropagation();
+  switch (e.keyCode) {
+    case 37:
+      console.log('left');
+      // currentShape.handle.angle += 5;
+      currentShape[0].handle.angle += 10;
+      context.clearRect(0, 0, width, height);
+      currentShape[0].draw(e);
+      console.log(currentShape[0].handle.angle);
+      console.log(PLACED_SHAPES);
+      break;
+    case 39:
+      console.log("right");
+      // currentShape[0].handle.angle -= 5;
+      currentShape[0].handle.angle -= 10;
+      context.clearRect(0, 0, width, height);
+      currentShape[0].draw();
+      console.log(currentShape[0].handle.angle);
+      console.log(PLACED_SHAPES);
+      break;
+  }
+}
+
+document.addEventListener('keydown', rotateShape);
+// canvas.addEventListener('dblclick', deleteShape);
+canvas.addEventListener("mousedown", onMouseDown);
+// canvas.addEventListener("click", dropShape);
+canvas.addEventListener("mouseup", onMouseUp);
+
+let background = new Image();
+background.src = '../shapePics/background.jpg';
+addClickListener(PLACED_SHAPES, currentShape, angle, follow);
+
+function animate() {
+  drawShapes();
+  // canvas.addEventListener('keydown', rotateShape, false);
+  // canvas.addEventListener('mousemove', onMouseMove);
+  // canvas.addEventListener("click", putShape);
+  button.addEventListener("click", clearCanvas);
+  // canvas.addEventListener("mousemove", shapeFollow);  
+  requestAnimationFrame(animate);
+}
+
+/***/ }),
+
+/***/ "./src/shape.js":
+/*!**********************!*\
+  !*** ./src/shape.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext('2d');
+
+class Shape {
+  constructor(x, y, angle) {
+    this.handle = {
+      x: this.x,
+      y: this.y,
+      angle
+    };
+  }
+
+  draw() {
+    const { shape, handle } = this;
+    context.save();
+    context.translate(handle.x, handle.y);
+    context.rotate(handle.angle * (Math.PI / 180));
+    context.drawImage(shape, -shape.width * 0.15, -shape.height * 0.15, shape.width * 0.3, shape.height * 0.3);
+    context.restore();
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Shape);
+
+/***/ }),
+
+/***/ "./src/shapes.js":
+/*!***********************!*\
+  !*** ./src/shapes.js ***!
+  \***********************/
+/*! exports provided: addToPojo, addActive, updateActive */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addToPojo", function() { return addToPojo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addActive", function() { return addActive; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateActive", function() { return updateActive; });
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ "./src/index.js");
+/* harmony import */ var _square__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./square */ "./src/square.js");
+/* harmony import */ var _hexagon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./hexagon */ "./src/hexagon.js");
+/* harmony import */ var _skinny__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./skinny */ "./src/skinny.js");
+/* harmony import */ var _diamond__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./diamond */ "./src/diamond.js");
+/* harmony import */ var _trapezoid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./trapezoid */ "./src/trapezoid.js");
+/* harmony import */ var _triangle__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./triangle */ "./src/triangle.js");
+
+
+
+
+
+
+
+
+// import {PLACED_SHAPES} from './index';
+// let currentShape = {};
+let count = 0;
+
+const addToPojo = function (e, pojo, current, angle = 0, follow) {
+  // debugger
+  e.stopPropagation();
+  count += 1;
+  let selected = document.getElementsByClassName("active")[0];
+  // debugger
+  follow = true;
+  switch (selected.id) {
+
+    case "triangle":
+      current[0] = new _triangle__WEBPACK_IMPORTED_MODULE_6__["default"](e.clientX, e.clientY, angle);
+      current[0].draw();
+      pojo["triangle"].push(current[0]);
+      break;
+    case "square":
+      current[0] = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e.clientX, e.clientY, angle);
+      current[0].draw();
+      pojo["square"].push(current[0]);
+      break;
+    case "hexagon":
+      current[0] = new _hexagon__WEBPACK_IMPORTED_MODULE_2__["default"](e.clientX, e.clientY, angle);
+      current[0].draw();
+      pojo["hexagon"].push(current[0]);
+      break;
+    case "skinny":
+      current[0] = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e.clientX, e.clientY, angle);
+      current[0].draw();
+      pojo["skinny"].push(current[0]);
+      break;
+    case "diamond":
+      current[0] = new _diamond__WEBPACK_IMPORTED_MODULE_4__["default"](e.clientX, e.clientY, angle);
+      current[0].draw();
+      pojo["diamond"].push(current[0]);
+      break;
+    case "trapezoid":
+      current[0] = new _trapezoid__WEBPACK_IMPORTED_MODULE_5__["default"](e.clientX, e.clientY, angle);
+      current[0].draw();
+      pojo["trapezoid"].push(current[0]);
+      break;
+    default:
+      break;
+  }
+  console.log("the" + count);
+  return current;
+  // console.log(`after putshape ${currentShape.name}`);
+};
+
+const addActive = function (e, select) {
+  e.stopPropagation();
+  let active = document.getElementsByClassName("active")[0]; // find the element that has the className "active"
+  let shape = e.target; // shape is the element in the toolbar that was clicked.
+  // debugger
+  if (active) {
+    // if there is an element that has active on it, change className to shape-img
+    // debugger
+    active.className = "shape-img";
+  }
+  shape.className += " active"; // the element that was clicked now has the active Class;
+  select = true;
+  // currentShape.name = shape.id;
+  canvas.addEventListener('mousemove', _index__WEBPACK_IMPORTED_MODULE_0__["onMouseMove"]);
+  canvas.addEventListener("mouseup", _index__WEBPACK_IMPORTED_MODULE_0__["onMouseUp"]);
+  console.log(`Select is ${select}`);
+};
+
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext('2d');
+
+//this function changes the active shape to the one that was clicked on.
+const updateActive = function (cShape) {
+  let name = cShape.name;
+  let shape = document.getElementById(name); //selects toolbar shape based on currentShape's name
+  let active = document.getElementsByClassName("active")[0];
+  // if there is an element that has active on it, change className to shape-img
+  if (active) {
+    active.className = "shape-img";
+  }
+
+  shape.className += " active";
+};
+
+// console.log({ shapes });
+
+/***/ }),
+
+/***/ "./src/skinny.js":
+/*!***********************!*\
+  !*** ./src/skinny.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
+
+
+class Skinny extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(e, angle) {
+    super(angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/skinny.png";
+    this.handle = {
+      x: e.clientX,
+      y: e.clientY,
+      angle: angle,
+      radius: 70
+    };
+    this.name = "skinny";
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Skinny);
+
+/***/ }),
+
+/***/ "./src/square.js":
+/*!***********************!*\
+  !*** ./src/square.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
+
+
+class Square extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(x, y, angle) {
+    super(x, y, angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/square.png";
+    this.handle.radius = 40;
+    this.name = "square";
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Square);
 
 /***/ }),
 
@@ -131,6 +641,58 @@ function enableScroll() {
   window.ontouchmove = null;
   document.onkeydown = null;
 }
+
+/***/ }),
+
+/***/ "./src/trapezoid.js":
+/*!**************************!*\
+  !*** ./src/trapezoid.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
+
+
+class Trapezoid extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(x, y, angle) {
+    super(x, y, angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/trapezoid.png";
+    this.handle.radius = 55;
+    this.name = "trapezoid";
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Trapezoid);
+
+/***/ }),
+
+/***/ "./src/triangle.js":
+/*!*************************!*\
+  !*** ./src/triangle.js ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
+
+
+class Triangle extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(x, y, angle) {
+    super(x, y, angle);
+    this.shape = new Image();
+    this.shape.src = "../shapePics/triangle.png";
+    this.handle.radius = 25;
+    this.name = "triangle";
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Triangle);
 
 /***/ })
 

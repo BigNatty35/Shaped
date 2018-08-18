@@ -1,5 +1,5 @@
 import putShape from './index';
-import {onMouseMove, onMoveSelect, shapeFollow, deletePrevious }  from './index';
+import {onMouseMove, onMoveSelect, shapeFollow, onMouseUp }  from './index';
 import Square from './square';
 import Hexagon from './hexagon';
 import Skinny from './skinny';
@@ -11,7 +11,7 @@ import Triangle from './triangle';
 let count = 0;
 
 
-export const addToPojo = function(e, PLACED_SHAPES, currentShape, angle = 0, follow) {
+export const addToPojo = function(e, pojo, current, angle = 0, follow) {
   // debugger
   e.stopPropagation();
   count += 1;
@@ -21,40 +21,40 @@ export const addToPojo = function(e, PLACED_SHAPES, currentShape, angle = 0, fol
   switch (selected.id) {
 
     case "triangle":
-      currentShape.push(new Triangle(e.clientX, e.clientY,angle));
-      currentShape[0].draw();
-      PLACED_SHAPES["triangle"].push(currentShape[0]);
+      current[0] = new Triangle(e.clientX, e.clientY,angle);
+      current[0].draw();
+      pojo["triangle"].push(current[0]);
       break;
     case "square":
-      currentShape.push(new Square(e.clientX, e.clientY, angle));
-      currentShape[0].draw();
-      PLACED_SHAPES["square"].push(currentShape[0]);
+      current[0] = new Square(e.clientX, e.clientY, angle);
+      current[0].draw();
+      pojo["square"].push(current[0]);
       break;
     case "hexagon":
-      currentShape.push(new Hexagon(e.clientX, e.clientY, angle));
-      currentShape[0].draw();
-      PLACED_SHAPES["hexagon"].push(currentShape[0])
+      current[0] = new Hexagon(e.clientX, e.clientY, angle);
+      current[0].draw();
+      pojo["hexagon"].push(current[0])
       break;
     case "skinny":
-      currentShape.push(new Skinny(e.clientX, e.clientY,angle));
-      currentShape[0].draw();
-      PLACED_SHAPES["skinny"].push(currentShape[0]);
+      current[0] = new Skinny(e.clientX, e.clientY,angle);
+      current[0].draw();
+      pojo["skinny"].push(current[0]);
       break;
     case "diamond":
-      currentShape.push(new Diamond(e.clientX, e.clientY,angle));
-      currentShape[0].draw();
-      PLACED_SHAPES["diamond"].push(currentShape[0]);
+      current[0] = new Diamond(e.clientX, e.clientY,angle);
+      current[0].draw();
+      pojo["diamond"].push(current[0]);
       break;
     case "trapezoid":
-      currentShape.push(new Trapezoid(e.clientX, e.clientY,angle));
-      currentShape[0].draw();
-      PLACED_SHAPES["trapezoid"].push(currentShape[0]);
+      current[0] = new Trapezoid(e.clientX, e.clientY,angle);
+      current[0].draw();
+      pojo["trapezoid"].push(current[0]);
       break;
     default:
       break;
   }
   console.log("the" + count);
-  return currentShape;
+  return current;
   // console.log(`after putshape ${currentShape.name}`);
 };
 
@@ -72,7 +72,7 @@ export const addActive = function(e, select) {
   select = true;
   // currentShape.name = shape.id;
   canvas.addEventListener('mousemove', onMouseMove);
-  // canvas.addEventListener("click", putShape);
+  canvas.addEventListener("mouseup", onMouseUp);
   console.log(`Select is ${select}`);
 };
 
