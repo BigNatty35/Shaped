@@ -99,13 +99,6 @@ function onMouseDown(e) {
 }
 
 
-export const deletePrevious = function(e) {
-  let selected = document.getElementsByClassName("active")[0];
-  let shapesArr = PLACED_SHAPES[selected.id];
-  // debugger
- shapesArr.splice(shapesArr[shapesArr - 1], 1);
-};
-
 export const removeTrail = function(e) {
   let selected = document.getElementsByClassName("active")[0];
   let shapesArr = PLACED_SHAPES[selected.id];
@@ -132,21 +125,7 @@ export const onMouseMove = (e) => {
 function deleteShape(e) {
   e.stopPropagation();
   let placedCoords = Object.values(PLACED_SHAPES);
-  placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
-    for (let i = 0; i < sub.length; i++) {
-      if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
-        // currentShape = sub[i];
-        // updateActive(currentShape); // places the active class on the selected canvas shape.
-        sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
-        // canvas.addEventListener('mousemove', shapeFollow);
-        // canvas.addEventListener('mouseup', onMouseUp);
-        // canvas.removeEventListener("mousemove", shapeFollow);
-        console.log("pimpin");
-        break;
-      }
-    }
-
-  }));
+  
 }
 
 function onMouseUp(e) {
