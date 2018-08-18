@@ -86,16 +86,11 @@ let context = canvas.getContext('2d');
 
 
 class Diamond extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
-  constructor(e, angle) {
-    super(angle);
+  constructor(x, y, angle) {
+    super(x, y, angle);
     this.shape = new Image();
     this.shape.src = "../shapePics/diamond.png";
-    this.handle = {
-      x: e.clientX,
-      y: e.clientY,
-      angle: angle,
-      radius: 50
-    };
+    this.handle.radius = 50;
     this.name = "diamond";
   }
 }
@@ -117,16 +112,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class Hexagon extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
-  constructor(e, angle) {
-    super(angle);
+  constructor(x, y, angle) {
+    super(x, y, angle);
     this.shape = new Image();
     this.shape.src = "../shapePics/hexagon.png";
-    this.handle = {
-      x: e.clientX,
-      y: e.clientY,
-      angle: angle,
-      radius: 70
-    };
+    this.handle.radius = 70;
     this.name = "hexagon";
   }
 }
@@ -139,11 +129,12 @@ class Hexagon extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: deletePrevious, removeTrail, onMouseMove, default */
+/*! exports provided: putShape, deletePrevious, removeTrail, onMouseMove, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "putShape", function() { return putShape; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deletePrevious", function() { return deletePrevious; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeTrail", function() { return removeTrail; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "onMouseMove", function() { return onMouseMove; });
@@ -169,17 +160,17 @@ let context = canvas.getContext('2d');
 let select = true;
 let drag = false;
 let follow = false;
-let currentShape;
 let angle = 0;
+let currentShape;
 let x = 0;
-
+let count = 0;
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
 let width = canvas.width;
 // let angle = currentShape.handle.angle;
 
-let placedShapes = {
+const PLACED_SHAPES = {
   triangle: [],
   hexagon: [],
   square: [],
@@ -188,43 +179,61 @@ let placedShapes = {
   trapezoid: []
 };
 
+// addCurrent(angle, currentShape);
+const addClickListener = () => {
+  let shapes = document.getElementsByClassName("shape-img");
+  for (let i = 0; i < shapes.length; i++) {
+    let shape = shapes[i];
+    shape.addEventListener("click", _shapes__WEBPACK_IMPORTED_MODULE_0__["addActive"]);
+    shape.addEventListener("click", e => {
+      Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addToPojo"])(PLACED_SHAPES, e, currentShape, angle);
+    });
+  }
+};
 //draws the shape based on which shape is selected in the tool bar
 const putShape = function (e) {
   e.stopPropagation();
   let selected = document.getElementsByClassName("active")[0];
+  // debugger
+
+  count += 1;
+  // debugger
   switch (selected.id) {
     case "triangle":
-      currentShape = Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addCurrent"])(e, angle);
-      placedShapes["triangle"].push(currentShape);
+      // currentShape = addCurrent(e, angle);
+      // debugger
+      PLACED_SHAPES["triangle"].push(currentShape);
       break;
     case "square":
-      currentShape = Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addCurrent"])(e, angle);
-      placedShapes["square"].push(currentShape);
+      // currentShape = addCurrent(e, angle);
+      // currentShape.handle.x = e.clientX;
+      // currentShape.handle.y = e.clientY;
+      PLACED_SHAPES["square"].push(currentShape);
       // debugger
       break;
     case "hexagon":
-      currentShape = Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addCurrent"])(e, angle);
+      // currentShape = addCurrent(e, angle);
       // debugger
-      placedShapes["hexagon"].push(currentShape);
+      PLACED_SHAPES["hexagon"].push(currentShape);
       break;
     case "skinny":
-      currentShape = Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addCurrent"])(e, angle);
+      // currentShape = addCurrent(e, angle);
       // onMouseMove(e, angle);
-      placedShapes["skinny"].push(currentShape);
+      PLACED_SHAPES["skinny"].push(currentShape);
       break;
     case "diamond":
-      currentShape = Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addCurrent"])(e, angle);
-      placedShapes["diamond"].push(currentShape);
+      // currentShape = addCurrent(e, angle);
+      PLACED_SHAPES["diamond"].push(currentShape);
       break;
     case "trapezoid":
-      currentShape = Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addCurrent"])(e, angle);
-      placedShapes["trapezoid"].push(currentShape);
+      // currentShape = addCurrent(e, angle);
+      PLACED_SHAPES["trapezoid"].push(currentShape);
       break;
     default:
       break;
   }
 
-  console.log(`after putshape ${currentShape.name}`);
+  console.log(count);
 };
 
 function distanceXY(x0, y0, x1, y1) {
@@ -239,22 +248,33 @@ function circlePointCollision(mouseX, mouseY, circle) {
 
 function shapeFollow(e) {
   e.stopPropagation();
+  // debugger
+  let selected = document.getElementsByClassName("active")[0];
   context.clearRect(0, 0, width, height);
+  // debugger
+  // if (currentShape.name !== selected.id) {
+  //   currentShape = addCurrent(angle);
+  // } 
   currentShape.handle.x = e.clientX;
   currentShape.handle.y = e.clientY;
-  currentShape.draw();
+  // currentShape.draw();
   console.log('shape is following');
 }
 
 function onMouseDown(e) {
   e.stopPropagation();
-  let placedCoords = Object.values(placedShapes);
+  let placedCoords = Object.values(PLACED_SHAPES);
   drag = true;
+  // debugger
   placedCoords.forEach(sub => {
     // iterate through all of the shapes on the canvas,
+
     for (let i = 0; i < sub.length; i++) {
       if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
         // if the mouse is clicking on a shape.
+        // if(sub[i] === null) {
+        //   continue;
+        // }
         currentShape = sub[i];
         //  angle = currentShape.handle.angle;
         Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["updateActive"])(currentShape); // places the active class on the selected canvas shape.
@@ -270,14 +290,14 @@ function onMouseDown(e) {
 
 const deletePrevious = function (e) {
   let selected = document.getElementsByClassName("active")[0];
-  let shapesArr = placedShapes[selected.id];
+  let shapesArr = PLACED_SHAPES[selected.id];
   // debugger
   shapesArr.splice(shapesArr[shapesArr - 1], 1);
 };
 
 const removeTrail = function (e) {
   let selected = document.getElementsByClassName("active")[0];
-  let shapesArr = placedShapes[selected.id];
+  let shapesArr = PLACED_SHAPES[selected.id];
   // debugger
   for (let i = shapesArr.length - 1; i < shapesArr.length; i++) {
     if (shapesArr.length > 0) {
@@ -287,24 +307,26 @@ const removeTrail = function (e) {
 };
 
 const onMouseMove = e => {
+  // debugger
   e.stopPropagation();
   select = true;
   if (select) {
     // drawShapes();
-    putShape(e);
-    removeTrail();
+    // putShape(e);
+    shapeFollow(e);
+    // removeTrail();
     // context.clearRect(0, 0, width, height);
     rotateShape(e);
-    shapeFollow(e);
+
     // context.clearRect(0, 0, width, height);
     console.log(`onmouse move:${currentShape}`);
-    console.log(currentShape.handle.angle);
+    console.log(PLACED_SHAPES);
   }
 };
 
 function deleteShape(e) {
   e.stopPropagation();
-  let placedCoords = Object.values(placedShapes);
+  let placedCoords = Object.values(PLACED_SHAPES);
   placedCoords.forEach(sub => {
     // iterate through all of the shapes on the canvas,
     for (let i = 0; i < sub.length; i++) {
@@ -328,20 +350,25 @@ function onMouseUp(e) {
   // select = false;
   // debugger
   // angle = 0;
+
+  putShape(e);
+
   canvas.removeEventListener('click', dropShape);
-  if (drag) {
-    putShape(e);
-  }
+  // currentShape = null;
   drag = false;
-  canvas.removeEventListener('mousemove', shapeFollow);
-  console.log(currentShape);
+  canvas.removeEventListener('mousemove', onMouseMove);
+  console.log("im up");
+  console.log(PLACED_SHAPES);
 }
 
 function drawShapes() {
-  let placedCoords = Object.values(placedShapes);
+  let placedCoords = Object.values(PLACED_SHAPES);
 
   placedCoords.forEach(sub => {
     for (let i = 0; i < sub.length; i++) {
+      if (sub[i] === null) {
+        continue;
+      }
       sub[i].draw();
     }
   });
@@ -349,10 +376,10 @@ function drawShapes() {
 
 function clearCanvas(e) {
   e.stopPropagation();
-  let shapes = Object.keys(placedShapes);
+  let shapes = Object.keys(PLACED_SHAPES);
   shapes.forEach(shape => {
-    placedShapes[shape] = [];
-    return placedShapes;
+    PLACED_SHAPES[shape] = [];
+    return PLACED_SHAPES;
   });
   context.clearRect(0, 0, width, height);
   console.log("hello");
@@ -367,7 +394,7 @@ function dropShape(e) {
   // select = false;
   putShape(e);
   // select = true;
-  console.log(placedShapes, "DROPSHAPE");
+  console.log(PLACED_SHAPES, "DROPSHAPE");
   canvas.removeEventListener("mousemove", onMouseMove);
 }
 
@@ -377,33 +404,34 @@ function rotateShape(e) {
     case 37:
       console.log('left');
       // currentShape.handle.angle += 5;
-      angle += 10;
+      currentShape.handle.angle += 10;
       context.clearRect(0, 0, width, height);
       currentShape.draw(e);
       console.log(currentShape.handle.angle);
-      console.log(placedShapes);
+      console.log(PLACED_SHAPES);
       break;
     case 39:
       console.log("right");
       // currentShape.handle.angle -= 5;
-      angle -= 10;
+      currentShape.handle.angle -= 10;
       context.clearRect(0, 0, width, height);
       currentShape.draw();
       console.log(currentShape.handle.angle);
-      console.log(placedShapes);
+      console.log(PLACED_SHAPES);
       break;
   }
 }
 
+// canvas.addEventListener("click", addCurrent);
 document.addEventListener('keydown', rotateShape);
 // canvas.addEventListener('dblclick', deleteShape);
 canvas.addEventListener("mousedown", onMouseDown);
-canvas.addEventListener("click", dropShape);
-// canvas.addEventListener("mouseup", onMouseUp);
+// canvas.addEventListener("click", dropShape);
+canvas.addEventListener("mouseup", onMouseUp);
 
 let background = new Image();
 background.src = '../shapePics/background.jpg';
-Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addMouseOver"])(select, currentShape);
+addClickListener(select, currentShape, PLACED_SHAPES);
 
 function animate() {
   drawShapes();
@@ -430,7 +458,13 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 class Shape {
-  constructor() {}
+  constructor(x, y, angle) {
+    this.handle = {
+      x: this.x,
+      y: this.y,
+      angle
+    };
+  }
 
   draw() {
     const { shape, handle } = this;
@@ -450,14 +484,13 @@ class Shape {
 /*!***********************!*\
   !*** ./src/shapes.js ***!
   \***********************/
-/*! exports provided: addMouseOver, addCurrent, addShape, updateActive */
+/*! exports provided: addToPojo, addActive, updateActive */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addMouseOver", function() { return addMouseOver; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addCurrent", function() { return addCurrent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addShape", function() { return addShape; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addToPojo", function() { return addToPojo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addActive", function() { return addActive; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateActive", function() { return updateActive; });
 /* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ "./src/index.js");
 /* harmony import */ var _square__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./square */ "./src/square.js");
@@ -474,52 +507,57 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let currentShape = {};
-// creates an array-like object of the shape elements on the toolbar
-// let shapes = document.getElementsByClassName("shapeIcon");
+// import {PLACED_SHAPES} from './index';
+// let currentShape = {};
+let count = 0;
 
-
-// adds eventlisteners to all of the shapes on the tool bar
-const addMouseOver = (select, follow) => {
-  let shapes = document.getElementsByClassName("shape-img");
-  for (let i = 0; i < shapes.length; i++) {
-    let shape = shapes[i];
-    shape.addEventListener("click", addShape);
-    shape.addEventListener("click", addCurrent);
-  }
-};
-
-const addCurrent = function (e, angle = 0) {
-  e.stopPropagation();
+const addToPojo = function (PLACED_SHAPES, e, currentShape, angle = 0) {
+  // debugger
+  // e.stopPropagation();
+  count += 1;
   let selected = document.getElementsByClassName("active")[0];
+  // debugger
   switch (selected.id) {
+
     case "triangle":
-      currentShape = new _triangle__WEBPACK_IMPORTED_MODULE_6__["default"](e, angle);
+      currentShape = new _triangle__WEBPACK_IMPORTED_MODULE_6__["default"](e.clientX, e.clientY, angle);
+      currentShape.draw();
+      PLACED_SHAPES["triangle"].push(currentShape);
       break;
     case "square":
-      currentShape = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e, angle);
+      currentShape = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e.clientX, e.clientY, angle);
+      currentShape.draw();
+      PLACED_SHAPES["square"].push(currentShape);
       // debugger
       break;
     case "hexagon":
-      currentShape = new _hexagon__WEBPACK_IMPORTED_MODULE_2__["default"](e, angle);
+      currentShape = new _hexagon__WEBPACK_IMPORTED_MODULE_2__["default"](e.clientX, e.clientY, angle);
+      currentShape.draw();
+      // debugger
+      PLACED_SHAPES["hexagon"].push(currentShape);
+
       break;
     case "skinny":
-      currentShape = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e, angle);
+      currentShape = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e.clientX, e.clientY, angle);
+      PLACED_SHAPES["skinny"].push(currentShape);
       break;
     case "diamond":
-      currentShape = new _diamond__WEBPACK_IMPORTED_MODULE_4__["default"](e, angle);
+      currentShape = new _diamond__WEBPACK_IMPORTED_MODULE_4__["default"](e.clientX, e.clientY, angle);
+      PLACED_SHAPES["diamond"].push(currentShape);
       break;
     case "trapezoid":
-      currentShape = new _trapezoid__WEBPACK_IMPORTED_MODULE_5__["default"](e, angle);
+      currentShape = new _trapezoid__WEBPACK_IMPORTED_MODULE_5__["default"](e.clientX, e.clientY, angle);
+      PLACED_SHAPES["trapezoid"].push(currentShape);
       break;
     default:
       break;
   }
+  console.log("the" + count);
   return currentShape;
   // console.log(`after putshape ${currentShape.name}`);
 };
 
-const addShape = function (e, select) {
+const addActive = function (e, select) {
   e.stopPropagation();
   let active = document.getElementsByClassName("active")[0]; // find the element that has the className "active"
   let shape = e.target; // shape is the element in the toolbar that was clicked.
@@ -601,16 +639,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class Square extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
-  constructor(e, angle) {
-    super(angle);
+  constructor(x, y, angle) {
+    super(x, y, angle);
     this.shape = new Image();
     this.shape.src = "../shapePics/square.png";
-    this.handle = {
-      x: e.clientX,
-      y: e.clientY,
-      angle: angle,
-      radius: 40
-    };
+    this.handle.radius = 40;
     this.name = "square";
   }
 }
@@ -684,16 +717,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class Trapezoid extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
-  constructor(e, angle) {
-    super(angle);
+  constructor(x, y, angle) {
+    super(x, y, angle);
     this.shape = new Image();
     this.shape.src = "../shapePics/trapezoid.png";
-    this.handle = {
-      x: e.clientX,
-      y: e.clientY,
-      angle: angle,
-      radius: 55
-    };
+    this.handle.radius = 55;
     this.name = "trapezoid";
   }
 }
@@ -715,16 +743,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class Triangle extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
-  constructor(e, angle) {
-    super(angle);
+  constructor(x, y, angle) {
+    super(x, y, angle);
     this.shape = new Image();
     this.shape.src = "../shapePics/triangle.png";
-    this.handle = {
-      x: e.clientX,
-      y: e.clientY,
-      angle: angle,
-      radius: 25
-    };
+    this.handle.radius = 25;
     this.name = "triangle";
   }
 }

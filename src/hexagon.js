@@ -2,16 +2,11 @@ import Shape from './shape';
 
 
 class Hexagon extends Shape {
-  constructor(e, angle) {
-    super(angle);
+  constructor(x, y, angle) {
+    super(x, y, angle);
     this.shape = new Image();
     this.shape.src = "../shapePics/hexagon.png";
-    this.handle = {
-      x: e.clientX,
-      y: e.clientY,
-      angle: angle,
-      radius: 70
-    };
+    this.handle.radius = 70;
     this.name = "hexagon";
   }
 }

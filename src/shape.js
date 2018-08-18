@@ -2,7 +2,12 @@ let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 
 class Shape {
-  constructor() {
+  constructor(x, y, angle) {
+    this.handle = {
+      x: this.x,
+      y: this.y,
+      angle
+    };
   }
 
   draw() {

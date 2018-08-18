@@ -2,16 +2,11 @@ import Shape from './shape';
 
 
 class Triangle extends Shape {
-  constructor(e, angle) {
-    super(angle);
+  constructor(x, y, angle) {
+    super(x, y, angle);
     this.shape = new Image();
     this.shape.src = "../shapePics/triangle.png";
-    this.handle = {
-      x: e.clientX,
-      y: e.clientY,
-      angle: angle,
-      radius: 25
-    };
+    this.handle.radius = 25;
     this.name = "triangle";
   }
 }

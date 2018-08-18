@@ -6,55 +6,59 @@ import Skinny from './skinny';
 import Diamond from './diamond';
 import Trapezoid from './trapezoid';
 import Triangle from './triangle';
-let currentShape = {};
-// creates an array-like object of the shape elements on the toolbar
-// let shapes = document.getElementsByClassName("shapeIcon");
+// import {PLACED_SHAPES} from './index';
+// let currentShape = {};
+let count = 0;
 
 
-// adds eventlisteners to all of the shapes on the tool bar
-export const addMouseOver = (select, follow) => {
-  let shapes = document.getElementsByClassName("shape-img");
-  for (let i = 0; i < shapes.length; i++) {
-    let shape = shapes[i];
-    shape.addEventListener("click", addShape);
-    shape.addEventListener("click", addCurrent);
-  }
-};
-
-
-
-export const addCurrent = function(e,angle = 0) {
-  e.stopPropagation();
+export const addToPojo = function(PLACED_SHAPES, e, currentShape, angle = 0 ) {
+  // debugger
+  // e.stopPropagation();
+  count += 1;
   let selected = document.getElementsByClassName("active")[0];
+  // debugger
   switch (selected.id) {
+
     case "triangle":
-      currentShape = new Triangle(e, angle);
+      currentShape = new Triangle(e.clientX, e.clientY,angle);
+      currentShape.draw();
+      PLACED_SHAPES["triangle"].push(currentShape);
       break;
     case "square":
-      currentShape = new Square(e, angle);
+      currentShape = new Square(e.clientX, e.clientY, angle);
+      currentShape.draw();
+      PLACED_SHAPES["square"].push(currentShape);
       // debugger
       break;
     case "hexagon":
-      currentShape = new Hexagon(e, angle);
+      currentShape = new Hexagon(e.clientX, e.clientY, angle);
+      currentShape.draw();
+      // debugger
+      PLACED_SHAPES["hexagon"].push(currentShape);
+
       break;
     case "skinny":
-      currentShape = new Skinny(e, angle);
+      currentShape = new Skinny(e.clientX, e.clientY,angle);
+      PLACED_SHAPES["skinny"].push(currentShape);
       break;
     case "diamond":
-      currentShape = new Diamond(e, angle);
+      currentShape = new Diamond(e.clientX, e.clientY,angle);
+      PLACED_SHAPES["diamond"].push(currentShape);
       break;
     case "trapezoid":
-      currentShape = new Trapezoid(e, angle);
+      currentShape = new Trapezoid(e.clientX, e.clientY,angle);
+      PLACED_SHAPES["trapezoid"].push(currentShape);
       break;
     default:
       break;
   }
+  console.log("the" + count);
   return currentShape;
   // console.log(`after putshape ${currentShape.name}`);
 };
 
 
-export const addShape = function(e, select) {
+export const addActive = function(e, select) {
   e.stopPropagation();
   let active = document.getElementsByClassName("active")[0]; // find the element that has the className "active"
   let shape = e.target; // shape is the element in the toolbar that was clicked.

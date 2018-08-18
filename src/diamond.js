@@ -4,16 +4,11 @@ import Shape from './shape';
 
 
 class Diamond extends Shape {
-  constructor(e, angle) {
-    super(angle);
+  constructor(x, y, angle) {
+    super(x, y, angle);
     this.shape = new Image();
     this.shape.src = "../shapePics/diamond.png";
-    this.handle = {
-      x: e.clientX,
-      y: e.clientY,
-      angle: angle,
-      radius: 50
-    };
+    this.handle.radius = 50;
     this.name = "diamond";
   }
 }
