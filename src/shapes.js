@@ -11,43 +11,44 @@ import Triangle from './triangle';
 let count = 0;
 
 
-export const addToPojo = function(PLACED_SHAPES, e, currentShape, angle = 0 ) {
+export const addToPojo = function(e, PLACED_SHAPES, currentShape, angle = 0, follow) {
   // debugger
-  // e.stopPropagation();
+  e.stopPropagation();
   count += 1;
   let selected = document.getElementsByClassName("active")[0];
   // debugger
+  follow = true;
   switch (selected.id) {
 
     case "triangle":
-      currentShape = new Triangle(e.clientX, e.clientY,angle);
-      currentShape.draw();
-      PLACED_SHAPES["triangle"].push(currentShape);
+      currentShape.push(new Triangle(e.clientX, e.clientY,angle));
+      currentShape[0].draw();
+      PLACED_SHAPES["triangle"].push(currentShape[0]);
       break;
     case "square":
-      currentShape = new Square(e.clientX, e.clientY, angle);
-      currentShape.draw();
-      PLACED_SHAPES["square"].push(currentShape);
-      // debugger
+      currentShape.push(new Square(e.clientX, e.clientY, angle));
+      currentShape[0].draw();
+      PLACED_SHAPES["square"].push(currentShape[0]);
       break;
     case "hexagon":
-      currentShape = new Hexagon(e.clientX, e.clientY, angle);
-      currentShape.draw();
-      // debugger
-      PLACED_SHAPES["hexagon"].push(currentShape);
-
+      currentShape.push(new Hexagon(e.clientX, e.clientY, angle));
+      currentShape[0].draw();
+      PLACED_SHAPES["hexagon"].push(currentShape[0])
       break;
     case "skinny":
-      currentShape = new Skinny(e.clientX, e.clientY,angle);
-      PLACED_SHAPES["skinny"].push(currentShape);
+      currentShape.push(new Skinny(e.clientX, e.clientY,angle));
+      currentShape[0].draw();
+      PLACED_SHAPES["skinny"].push(currentShape[0]);
       break;
     case "diamond":
-      currentShape = new Diamond(e.clientX, e.clientY,angle);
-      PLACED_SHAPES["diamond"].push(currentShape);
+      currentShape.push(new Diamond(e.clientX, e.clientY,angle));
+      currentShape[0].draw();
+      PLACED_SHAPES["diamond"].push(currentShape[0]);
       break;
     case "trapezoid":
-      currentShape = new Trapezoid(e.clientX, e.clientY,angle);
-      PLACED_SHAPES["trapezoid"].push(currentShape);
+      currentShape.push(new Trapezoid(e.clientX, e.clientY,angle));
+      currentShape[0].draw();
+      PLACED_SHAPES["trapezoid"].push(currentShape[0]);
       break;
     default:
       break;

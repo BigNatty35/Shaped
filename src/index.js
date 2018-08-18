@@ -13,13 +13,16 @@ let select = true;
 let drag = false;
 let follow = false;
 let angle = 0;
-let currentShape;
+let currentShape = [];
 let x = 0;
 let count = 0;
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
 let width = canvas.width;
+let shapes = document.getElementsByClassName("shape-img");
+
+
 // let angle = currentShape.handle.angle;
 
  const PLACED_SHAPES = {
@@ -37,54 +40,13 @@ const addClickListener = () => {
   for (let i = 0; i < shapes.length; i++) {
     let shape = shapes[i];
     shape.addEventListener("click", addActive);
-    shape.addEventListener("click", (e) => {addToPojo(PLACED_SHAPES, e, currentShape, angle);});
+    shape.addEventListener("click", (e) => { addToPojo(e, PLACED_SHAPES, currentShape, angle = 0, follow);});
   }
 };
-  //draws the shape based on which shape is selected in the tool bar
-  export const putShape = function(e) {
-    e.stopPropagation();
-    let selected = document.getElementsByClassName("active")[0];
-    // debugger
+
+
+
   
-      count += 1;
-      // debugger
-        switch (selected.id) {
-          case "triangle":
-            // currentShape = addCurrent(e, angle);
-            // debugger
-            PLACED_SHAPES["triangle"].push(currentShape);
-            break;
-          case "square":
-            // currentShape = addCurrent(e, angle);
-            // currentShape.handle.x = e.clientX;
-            // currentShape.handle.y = e.clientY;
-            PLACED_SHAPES["square"].push(currentShape);
-            // debugger
-            break;
-          case "hexagon":
-            // currentShape = addCurrent(e, angle);
-            // debugger
-            PLACED_SHAPES["hexagon"].push(currentShape);
-            break;
-          case "skinny":
-            // currentShape = addCurrent(e, angle);
-            // onMouseMove(e, angle);
-            PLACED_SHAPES["skinny"].push(currentShape);
-            break;
-          case "diamond":
-            // currentShape = addCurrent(e, angle);
-            PLACED_SHAPES["diamond"].push(currentShape);
-            break;
-          case "trapezoid":
-            // currentShape = addCurrent(e, angle);
-            PLACED_SHAPES["trapezoid"].push(currentShape);
-            break;
-          default:
-            break;
-        }
-    
-      console.log(count);
-  };
   
  
 function distanceXY(x0, y0, x1, y1) {
@@ -108,8 +70,8 @@ function shapeFollow(e) {
     // if (currentShape.name !== selected.id) {
     //   currentShape = addCurrent(angle);
     // } 
-    currentShape.handle.x = e.clientX;
-    currentShape.handle.y = e.clientY;
+    currentShape[0].handle.x = e.clientX;
+    currentShape[0].handle.y = e.clientY;
     // currentShape.draw();
     console.log('shape is following');
 }
@@ -117,18 +79,17 @@ function shapeFollow(e) {
 function onMouseDown(e) {
   e.stopPropagation();
   let placedCoords = Object.values(PLACED_SHAPES);
-  drag = true;
+  follow = false;
   // debugger
   placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
 
     for (let i = 0; i < sub.length; i++) {
-     if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
-      // if(sub[i] === null) {
-      //   continue;
-      // }
-        currentShape = sub[i];
+     if (circlePointCollision(e.clientX, e.clientY, sub[i].handle) && follow === false) { // if the mouse is clicking on a shape.
+        currentShape.shift();
+        currentShape.push(sub[i]);
+        // debugger
       //  angle = currentShape.handle.angle;
-        updateActive(currentShape); // places the active class on the selected canvas shape.
+        updateActive(currentShape[0]); // places the active class on the selected canvas shape.
         sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
         canvas.addEventListener('mousemove', onMouseMove);
 
@@ -140,6 +101,8 @@ function onMouseDown(e) {
   }));
 }
 
+
+function put
 
 export const deletePrevious = function(e) {
   let selected = document.getElementsByClassName("active")[0];
@@ -206,7 +169,7 @@ function onMouseUp(e) {
   // debugger
   // angle = 0;
   
-  putShape(e);
+  // putShape(e);
   
   canvas.removeEventListener('click', dropShape);
   // currentShape = null;
@@ -218,7 +181,7 @@ function onMouseUp(e) {
 
 function drawShapes() {
   let placedCoords = Object.values(PLACED_SHAPES);
-
+  // debugger
   placedCoords.forEach(sub => {
     for (let i = 0; i < sub.length; i++) {
       if(sub[i] === null) {
@@ -291,7 +254,7 @@ canvas.addEventListener("mouseup", onMouseUp);
 
 let background = new Image();
 background.src = '../shapePics/background.jpg';
-addClickListener(select, currentShape, PLACED_SHAPES);
+addClickListener(PLACED_SHAPES, currentShape, angle);
 
 export default function animate(){
   drawShapes();
