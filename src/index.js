@@ -16,6 +16,10 @@ let angle = 0;
 let currentShape = [];
 let x = 0;
 let count = 0;
+let background = new Image();
+let trash = new Image();
+trash.src = '../shapePics/recycle.jpg';
+background.src = '../shapePics/background.jpg';
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
@@ -148,14 +152,6 @@ function deleteShape(e) {
 function onMouseUp(e) {
   e.stopPropagation();
   follow = false;
-  // debugger
-  // angle = 0;
-  
-  // putShape(e);
-  
-  canvas.removeEventListener('click', dropShape);
-  // currentShape = null;
-  // drag = false;
   canvas.removeEventListener('mousemove', onMouseMove);
   console.log("im up");
   console.log(PLACED_SHAPES);
@@ -188,16 +184,7 @@ function clearCanvas(e) {
 
 let button = document.getElementById("clear");
 
-function dropShape(e) {
-  e.stopPropagation();
-  // debugger
-  console.log(`The current shape is: ${currentShape}`);
-  // select = false;
-  putShape(e);
-  // select = true;
-  console.log(PLACED_SHAPES, "DROPSHAPE");
-  canvas.removeEventListener("mousemove", onMouseMove);
-}
+
 
 
 function rotateShape(e) {
@@ -205,7 +192,6 @@ function rotateShape(e) {
   switch (e.keyCode) {
     case 37:
     console.log('left');
-    // currentShape.handle.angle += 5;
     currentShape[0].handle.angle += 10;
     context.clearRect(0, 0, width, height);
     currentShape[0].draw(e);
@@ -214,7 +200,6 @@ function rotateShape(e) {
     break;
     case 39:
     console.log("right");
-    // currentShape[0].handle.angle -= 5;
     currentShape[0].handle.angle -= 10;
     context.clearRect(0, 0, width, height);
     currentShape[0].draw();
@@ -232,17 +217,13 @@ document.addEventListener('keydown', rotateShape);
 canvas.addEventListener("mousedown", onMouseDown);
 // canvas.addEventListener("click", dropShape);
 canvas.addEventListener("mouseup", onMouseUp);
+canvas.addEventListener("mouseup", deleteShape);
 
-let background = new Image();
-background.src = '../shapePics/background.jpg';
 addClickListener(PLACED_SHAPES, currentShape, angle, follow);
 
 export default function animate(){
+  context.drawImage(trash, 50, 100, 300, 190);
   drawShapes();
-  // canvas.addEventListener('keydown', rotateShape, false);
-  // canvas.addEventListener('mousemove', onMouseMove);
-  // canvas.addEventListener("click", putShape);
   button.addEventListener("click", clearCanvas);
-  // canvas.addEventListener("mousemove", shapeFollow);  
   requestAnimationFrame(animate);
 }
