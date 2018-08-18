@@ -144,6 +144,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _triangle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./triangle */ "./src/triangle.js");
 /* harmony import */ var _hexagon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./hexagon */ "./src/hexagon.js");
 /* harmony import */ var _trapezoid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./trapezoid */ "./src/trapezoid.js");
+/* harmony import */ var _trashbin__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./trashbin */ "./src/trashbin.js");
 
 
 
@@ -163,8 +164,8 @@ let currentShape = [];
 let x = 0;
 let count = 0;
 let background = new Image();
-let trash = new Image();
-trash.src = '../shapePics/recycle.jpg';
+let trash = new _trashbin__WEBPACK_IMPORTED_MODULE_7__["default"](context);
+
 background.src = '../shapePics/background.jpg';
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
@@ -329,7 +330,7 @@ canvas.addEventListener("mouseup", deleteShape);
 addClickListener(PLACED_SHAPES, currentShape, angle, follow);
 
 function animate() {
-  context.drawImage(trash, 50, 100, 300, 190);
+  trash.draw();
   drawShapes();
   button.addEventListener("click", clearCanvas);
   requestAnimationFrame(animate);
@@ -620,6 +621,33 @@ class Trapezoid extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Trapezoid);
+
+/***/ }),
+
+/***/ "./src/trashbin.js":
+/*!*************************!*\
+  !*** ./src/trashbin.js ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function Trashbin(context) {
+  let trash = new Image();
+  trash.src = "../shapePics/recyclebin.png";
+  this.handle = {
+    x: -300,
+    y: -270,
+    radius: 40
+  };
+
+  this.draw = function () {
+    context.drawImage(trash, this.handle.x, this.handle.y, 800, 690);
+  };
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Trashbin);
 
 /***/ }),
 

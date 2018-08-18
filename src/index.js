@@ -6,7 +6,7 @@ import Triangle from './triangle';
 import Hexagon from './hexagon';
 import Trapezoid from './trapezoid';
 import {addToPojo} from './shapes';
-
+import Trashbin from './trashbin';
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let select = true;
@@ -17,8 +17,8 @@ let currentShape = [];
 let x = 0;
 let count = 0;
 let background = new Image();
-let trash = new Image();
-trash.src = '../shapePics/recycle.jpg';
+let trash = new Trashbin(context);
+
 background.src = '../shapePics/background.jpg';
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
@@ -198,7 +198,7 @@ canvas.addEventListener("mouseup", deleteShape);
 addClickListener(PLACED_SHAPES, currentShape, angle, follow);
 
 export default function animate(){
-  context.drawImage(trash, 50, 100, 300, 190);
+  trash.draw();
   drawShapes();
   button.addEventListener("click", clearCanvas);
   requestAnimationFrame(animate);
