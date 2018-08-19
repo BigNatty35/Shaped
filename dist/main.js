@@ -564,6 +564,7 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("its loaded");
   disableScroll();
   Object(_index__WEBPACK_IMPORTED_MODULE_0__["default"])();
+  span.addEventListener("click", closeModal);
 });
 
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
@@ -597,6 +598,14 @@ function enableScroll() {
   window.ontouchmove = null;
   document.onkeydown = null;
 }
+let modal = document.getElementById("instructions");
+let span = document.getElementsByClassName("close")[0];
+
+const closeModal = function (e) {
+  modal.style.display = "none";
+};
+
+// span.addEventListener("click", closeModal);
 
 /***/ }),
 
@@ -635,7 +644,7 @@ class Trapezoid extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function Trashbin(context) {
+function Trashbin(context, canvas) {
   let trash = new Image();
   trash.src = "../shapePics/trashbin.png";
   this.handle = {

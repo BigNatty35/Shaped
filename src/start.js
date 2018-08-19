@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("its loaded");
   disableScroll();
   animate();
+  span.addEventListener("click", closeModal);
 });
 
 
@@ -40,3 +41,14 @@ function enableScroll() {
   window.ontouchmove = null;
   document.onkeydown = null;
 }
+let modal = document.getElementById("instructions");
+let span = document.getElementsByClassName("close")[0];
+
+
+const closeModal = function (e) {
+  modal.style.display = "none";
+};
+
+// span.addEventListener("click", closeModal);
+
+

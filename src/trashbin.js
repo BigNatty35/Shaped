@@ -1,4 +1,4 @@
-function Trashbin(context) {
+function Trashbin(context, canvas) {
   let trash = new Image();
   trash.src = "../shapePics/trashbin.png";
   this.handle = {

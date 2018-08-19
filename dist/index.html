@@ -3,17 +3,64 @@
 <head>
   <meta charset="utf-8" />
   <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+<link href="https://fonts.googleapis.com/css?family=Finger+Paint" rel="stylesheet">
   <title>Shaped</title>
  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="../master.css" />
 </head>
 <body style="margin: 0">
-  <!-- toolbar with the shapes to choose from -->
-  <canvas id="canvas" style="display: block;">
+  
+  <canvas id="canvas">
     It ain't workin!
   </canvas>
-  <div id="toolbar">
+  <!-- instructions modal -->
+  <div id="instructions" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>
+          <h2>HOW TO BUILD</h2>
+        <ul>
+          <li>
+            Pick a shape from the toolbar.
+          </li>
+          <li>
+            Clicking anywhere on the canvas to place shape.
+          </li>
+          <li>
+            Rotate the shape by using the &Larr; and &Rarr; arrow keys.
+          </li>
+          <li>
+            Drag a shape by holding down mouse and moving it.
+          </li>
+          <li>
+            Remove Shape by dragging it to trashbin.
+          </li>
+          <li>
+            Press "Clear Canvas" to remove all shapes.
+          </li>
+        </ul>
+      </p>
+    </div>
+  </div>
+  <!-- title heading -->
+  <div id="toolbarbox">
+
+    <div id="toolbar">
+      <p>
+        <span style='color: darkblue'>S</span>
+        <span style='color: darkred'>H</span>
+        <span style='color: gold'>A</span>
+        <span style='color: beige'>P</span>
+        <span style='color: darkgreen'>E</span>
+        <span style='color: orange'>D</span>
+        <span style='color: black'>!</span>
+
+      </p>
+    </div>
+  </div>
     <button id="clear">Clear Canvas</button>
+    <!-- toolbar for the shapes -->
+    <div class="toolbox">
     <nav id="shapes">
       <div class="shapeIcon">
       <img id="square" src="../shapePics/square.png" class="shape-img active" alt="">
