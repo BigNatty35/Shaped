@@ -55,7 +55,6 @@ export const addToPojo = function(e, pojo, current, angle = 0, follow) {
   }
   console.log("the" + count);
   return current;
-  // console.log(`after putshape ${currentShape.name}`);
 };
 
 
@@ -98,7 +97,4 @@ export const updateActive = function(cShape) {
   shape.className += " active";
 };
 
-
-
-// console.log({ shapes });
 
