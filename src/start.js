@@ -49,6 +49,6 @@ const closeModal = function (e) {
   modal.style.display = "none";
 };
 
-// span.addEventListener("click", closeModal);
+
 
 
