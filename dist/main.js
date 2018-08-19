@@ -300,7 +300,7 @@ function rotateShape(e) {
   switch (e.keyCode) {
     case 37:
       console.log('left');
-      currentShape[0].handle.angle += 5;
+      currentShape[0].handle.angle += 3;
       context.clearRect(0, 0, width, height);
       currentShape[0].draw(e);
       console.log(currentShape[0].handle.angle);
@@ -308,7 +308,7 @@ function rotateShape(e) {
       break;
     case 39:
       console.log("right");
-      currentShape[0].handle.angle -= 5;
+      currentShape[0].handle.angle -= 3;
       context.clearRect(0, 0, width, height);
       currentShape[0].draw();
       console.log(currentShape[0].handle.angle);
@@ -643,12 +643,12 @@ function Trashbin(context) {
   trash.src = "../shapePics/trashbin.png";
   this.handle = {
     x: 50,
-    y: 100,
+    y: 600,
     radius: 100
   };
 
   this.draw = function () {
-    context.drawImage(trash, 50, 100, trash.height * 0.25, trash.width * 0.25);
+    context.drawImage(trash, 50, 600, trash.height * 0.25, trash.width * 0.25);
   };
 }
 
