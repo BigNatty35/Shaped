@@ -246,7 +246,19 @@ const onMouseMove = e => {
 
 function deleteShape(e) {
   e.stopPropagation();
+  // debugger
   let placedCoords = Object.values(PLACED_SHAPES);
+  if (circlePointCollision(e.clientX, e.clientY, trash.handle)) {
+    placedCoords.forEach(sub => {
+      for (let i = 0; i < sub.length; i++) {
+        if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
+          sub.splice(i, 1);
+          currentShape = [];
+          break;
+        }
+      }
+    });
+  }
 }
 
 function onMouseUp(e) {
@@ -288,7 +300,7 @@ function rotateShape(e) {
   switch (e.keyCode) {
     case 37:
       console.log('left');
-      currentShape[0].handle.angle += 10;
+      currentShape[0].handle.angle += 5;
       context.clearRect(0, 0, width, height);
       currentShape[0].draw(e);
       console.log(currentShape[0].handle.angle);
@@ -296,7 +308,7 @@ function rotateShape(e) {
       break;
     case 39:
       console.log("right");
-      currentShape[0].handle.angle -= 10;
+      currentShape[0].handle.angle -= 5;
       context.clearRect(0, 0, width, height);
       currentShape[0].draw();
       console.log(currentShape[0].handle.angle);
@@ -310,7 +322,7 @@ document.addEventListener('keydown', rotateShape);
 canvas.addEventListener("mousedown", onMouseDown);
 // canvas.addEventListener("click", dropShape);
 canvas.addEventListener("mouseup", onMouseUp);
-canvas.addEventListener("mouseup", deleteShape);
+canvas.addEventListener("mousemove", deleteShape);
 
 addClickListener(PLACED_SHAPES, currentShape, angle, follow);
 
@@ -499,6 +511,14 @@ class Skinny extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
     };
     this.name = "skinny";
   }
+  // draw() {
+  //   const {shape, handle} = this;
+  //   context.save();
+  //   context.translate(handle.x, handle.y);
+  //   context.rotate(handle.angle * (Math.PI / 180));
+  //   context.drawImage(shape, -shape.width * 0.15, -shape.height * 0.15, shape.width * 0.5, shape.height * 0.3);
+  //   context.restore();
+  // }
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Skinny);
@@ -620,15 +640,15 @@ class Trapezoid extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
 __webpack_require__.r(__webpack_exports__);
 function Trashbin(context) {
   let trash = new Image();
-  trash.src = "../shapePics/recyclebin.png";
+  trash.src = "../shapePics/trashbin.png";
   this.handle = {
-    x: -300,
-    y: -270,
-    radius: 40
+    x: 50,
+    y: 100,
+    radius: 100
   };
 
   this.draw = function () {
-    context.drawImage(trash, this.handle.x, this.handle.y, 800, 690);
+    context.drawImage(trash, 50, 100, trash.height * 0.25, trash.width * 0.25);
   };
 }
 

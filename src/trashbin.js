@@ -1,14 +1,14 @@
 function Trashbin(context) {
   let trash = new Image();
-  trash.src = "../shapePics/recyclebin.png"
+  trash.src = "../shapePics/trashbin.png"
   this.handle = {
-    x: -300,
-    y: -270,
-    radius: 40
+    x: 50,
+    y: 100,
+    radius: 100
   }
 
   this.draw = function() {
-    context.drawImage(trash, this.handle.x, this.handle.y, 800, 690)
+    context.drawImage(trash, 50, 100, trash.height * 0.25, trash.width * 0.25)
   }
 }
 

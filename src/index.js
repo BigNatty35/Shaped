@@ -99,8 +99,19 @@ export const onMouseMove = (e) => {
 
 function deleteShape(e) {
   e.stopPropagation();
+  // debugger
   let placedCoords = Object.values(PLACED_SHAPES);
-  
+  if(circlePointCollision(e.clientX, e.clientY, trash.handle)) { 
+    placedCoords.forEach((sub) => {
+      for(let i = 0; i < sub.length; i++) {
+        if(circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
+          sub.splice(i, 1);
+          currentShape = [];
+          break;
+        }
+      }
+    });
+  }
 }
 
 function onMouseUp(e) {
@@ -146,7 +157,7 @@ function rotateShape(e) {
   switch (e.keyCode) {
     case 37:
     console.log('left');
-    currentShape[0].handle.angle += 10;
+    currentShape[0].handle.angle += 5;
     context.clearRect(0, 0, width, height);
     currentShape[0].draw(e);
     console.log(currentShape[0].handle.angle);
@@ -154,7 +165,7 @@ function rotateShape(e) {
     break;
     case 39:
     console.log("right");
-    currentShape[0].handle.angle -= 10;
+    currentShape[0].handle.angle -= 5;
     context.clearRect(0, 0, width, height);
     currentShape[0].draw();
     console.log(currentShape[0].handle.angle);
@@ -171,7 +182,7 @@ document.addEventListener('keydown', rotateShape);
 canvas.addEventListener("mousedown", onMouseDown);
 // canvas.addEventListener("click", dropShape);
 canvas.addEventListener("mouseup", onMouseUp);
-canvas.addEventListener("mouseup", deleteShape);
+canvas.addEventListener("mousemove", deleteShape);
 
 addClickListener(PLACED_SHAPES, currentShape, angle, follow);
 
