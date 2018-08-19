@@ -23,6 +23,11 @@
   font-family: 'Finger Paint', cursive;
 }
 
+
+#title{
+  margin-top: 10px
+};
+
 #clear {
   width: 100px;
   height: 50px;
