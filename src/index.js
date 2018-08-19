@@ -156,21 +156,26 @@ function rotateShape(e) {
   e.stopPropagation();
   switch (e.keyCode) {
     case 37:
-    console.log('left');
     currentShape[0].handle.angle += 3;
     context.clearRect(0, 0, width, height);
     currentShape[0].draw(e);
-    console.log(currentShape[0].handle.angle);
-    console.log(PLACED_SHAPES);
     break;
     case 39:
-    console.log("right");
     currentShape[0].handle.angle -= 3;
     context.clearRect(0, 0, width, height);
     currentShape[0].draw();
-    console.log(currentShape[0].handle.angle);
-    console.log(PLACED_SHAPES);
     break;
+    case 65:
+    currentShape[0].handle.angle += 3;
+    context.clearRect(0, 0, width, height);
+    currentShape[0].draw(e);
+    break;
+    case 68:
+    currentShape[0].handle.angle -= 3;
+    context.clearRect(0, 0, width, height);
+    currentShape[0].draw(e);
+    break;
+
   }
 }
 
