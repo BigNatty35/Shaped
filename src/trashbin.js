@@ -5,11 +5,11 @@ function Trashbin(context) {
     x: 50,
     y: 600,
     radius: 100
-  }
+  };
 
   this.draw = function() {
-    context.drawImage(trash, 50, 600, trash.height * 0.25, trash.width * 0.25)
-  }
+    context.drawImage(trash, 50, 600, trash.height * 0.25, trash.width * 0.25);
+  };
 }
 
 
