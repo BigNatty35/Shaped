@@ -11,7 +11,7 @@ class Skinny extends Shape {
       x: e.clientX,
       y: e.clientY,
       angle: angle,
-      radius: 70
+      radius: 30
     };
     this.name = "skinny";
   }
@@ -20,7 +20,7 @@ class Skinny extends Shape {
     context.save();
     context.translate(handle.x, handle.y);
     context.rotate(handle.angle * (Math.PI / 180));
-    context.drawImage(shape, -shape.width * 0.15, -shape.height * 0.15, shape.width, shape.height);
+    context.drawImage(shape, -shape.width * 0.5, -shape.height * 0.5, shape.width, shape.height);
     context.restore();
   }
 }

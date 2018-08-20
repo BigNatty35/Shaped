@@ -297,7 +297,7 @@ function clearCanvas(e) {
   console.log("hello");
 }
 
-let button = document.getElementById("clearCanvas");
+let button = document.getElementsByClassName("clearCanvas")[0];
 
 function rotateShape(e) {
   e.stopPropagation();
@@ -528,7 +528,7 @@ class Skinny extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
       x: e.clientX,
       y: e.clientY,
       angle: angle,
-      radius: 70
+      radius: 30
     };
     this.name = "skinny";
   }
@@ -537,7 +537,7 @@ class Skinny extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
     context.save();
     context.translate(handle.x, handle.y);
     context.rotate(handle.angle * (Math.PI / 180));
-    context.drawImage(shape, -shape.width * 0.15, -shape.height * 0.15, shape.width, shape.height);
+    context.drawImage(shape, -shape.width * 0.5, -shape.height * 0.5, shape.width, shape.height);
     context.restore();
   }
 }
@@ -626,7 +626,7 @@ function enableScroll() {
 }
 let modal = document.getElementById("instructions");
 let span = document.getElementsByClassName("close")[0];
-let info = document.getElementById("info");
+let info = document.getElementsByClassName("info")[0];
 
 const closeModal = function (e) {
   modal.style.display = "none";

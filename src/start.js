@@ -46,7 +46,7 @@ function enableScroll() {
 }
 let modal = document.getElementById("instructions");
 let span = document.getElementsByClassName("close")[0];
-let info = document.getElementById("info");
+let info = document.getElementsByClassName("info")[0];
 
 const closeModal = function (e) {
   modal.style.display = "none";
