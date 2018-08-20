@@ -116,7 +116,6 @@ export function onMouseUp(e) {
 
 function drawShapes() {
   let placedCoords = Object.values(PLACED_SHAPES);
-  // debugger
   placedCoords.forEach(sub => {
     for (let i = 0; i < sub.length; i++) {
       if(sub[i] === null) {

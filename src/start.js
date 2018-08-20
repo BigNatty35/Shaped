@@ -30,11 +30,11 @@ function preventDefaultForScrollKeys(e) {
 }
 
 function disableScroll() {
-  if (window.addEventListener) // older FF
+  if (window.addEventListener) 
     window.addEventListener('DOMMouseScroll', preventDefault, false);
-  window.onwheel = preventDefault; // modern standard
-  window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
-  window.ontouchmove = preventDefault; // mobile
+  window.onwheel = preventDefault;
+  window.onmousewheel = document.onmousewheel = preventDefault;
+  window.ontouchmove = preventDefault;
   document.onkeydown = preventDefaultForScrollKeys;
 }
 

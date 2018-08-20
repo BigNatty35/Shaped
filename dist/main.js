@@ -261,7 +261,6 @@ function onMouseUp(e) {
 
 function drawShapes() {
   let placedCoords = Object.values(PLACED_SHAPES);
-  // debugger
   placedCoords.forEach(sub => {
     for (let i = 0; i < sub.length; i++) {
       if (sub[i] === null) {
@@ -456,18 +455,15 @@ const addActive = function (e, select) {
   e.stopPropagation();
   let active = document.getElementsByClassName("active")[0]; // find the element that has the className "active"
   let shape = e.target; // shape is the element in the toolbar that was clicked.
-  // debugger
   if (active) {
     // if there is an element that has active on it, change className to shape-img
-    // debugger
     active.className = "shape-img";
   }
+
   shape.className += " active"; // the element that was clicked now has the active Class;
   select = true;
-  // currentShape.name = shape.id;
   canvas.addEventListener('mousemove', _index__WEBPACK_IMPORTED_MODULE_0__["onMouseMove"]);
   canvas.addEventListener("mouseup", _index__WEBPACK_IMPORTED_MODULE_0__["onMouseUp"]);
-  console.log(`Select is ${select}`);
 };
 
 let canvas = document.getElementById("canvas");
@@ -594,11 +590,10 @@ function preventDefaultForScrollKeys(e) {
 }
 
 function disableScroll() {
-  if (window.addEventListener) // older FF
-    window.addEventListener('DOMMouseScroll', preventDefault, false);
-  window.onwheel = preventDefault; // modern standard
-  window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
-  window.ontouchmove = preventDefault; // mobile
+  if (window.addEventListener) window.addEventListener('DOMMouseScroll', preventDefault, false);
+  window.onwheel = preventDefault;
+  window.onmousewheel = document.onmousewheel = preventDefault;
+  window.ontouchmove = preventDefault;
   document.onkeydown = preventDefaultForScrollKeys;
 }
 

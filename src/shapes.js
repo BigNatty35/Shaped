@@ -71,17 +71,14 @@ export const addActive = function(e, select) {
   e.stopPropagation();
   let active = document.getElementsByClassName("active")[0]; // find the element that has the className "active"
   let shape = e.target; // shape is the element in the toolbar that was clicked.
-  // debugger
   if (active) { // if there is an element that has active on it, change className to shape-img
-    // debugger
     active.className = "shape-img";
   }
+  
   shape.className += " active"; // the element that was clicked now has the active Class;
   select = true;
-  // currentShape.name = shape.id;
   canvas.addEventListener('mousemove', onMouseMove);
   canvas.addEventListener("mouseup", onMouseUp);
-  console.log(`Select is ${select}`);
 };
 
 
