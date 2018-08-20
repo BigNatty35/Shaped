@@ -205,7 +205,6 @@ function circlePointCollision(mouseX, mouseY, circle) {
 
 function shapeFollow(e) {
   e.stopPropagation();
-  // debugger
   context.clearRect(0, 0, width, height);
   currentShape[0].handle.x = e.clientX;
   currentShape[0].handle.y = e.clientY;
@@ -224,12 +223,8 @@ function onMouseDown(e) {
         if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) {
           // if the mouse is clicking on a shape.
           currentShape[0] = sub[i];
-          // debugger
           Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["updateActive"])(currentShape[0]); // places the active class on the selected canvas shape.
-          // sub.splice(i, 1); // delete the current shape from placedShape Object so it can be redrawn
           canvas.addEventListener('mousemove', onMouseMove);
-
-          console.log("yooo MOUSE DOWN");
           break;
         }
       }
@@ -242,9 +237,6 @@ const onMouseMove = e => {
   follow = true;
   shapeFollow(e);
   rotateShape(e);
-  console.log(`onmouse move:${currentShape[0].name}`);
-  console.log(PLACED_SHAPES);
-  console.log(`Follow is ${follow}`);
 };
 
 function deleteShape(e) {
