@@ -176,7 +176,6 @@ function rotateShape(e) {
 document.addEventListener('keydown', rotateShape);
 canvas.addEventListener('mouseup', (e) => {addToPojo(e, PLACED_SHAPES, currentShape, follow, drag);});
 canvas.addEventListener("mousedown", onMouseDown);
-// canvas.addEventListener("click", dropShape);
 canvas.addEventListener("mouseup", onMouseUp);
 canvas.addEventListener("mousemove", deleteShape);
 

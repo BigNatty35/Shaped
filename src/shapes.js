@@ -9,10 +9,8 @@ import Triangle from './triangle';
 
 
 export const setCurrent = function(e,current, angle = 0, follow) {
-  // debugger
   e.stopPropagation();
   let selected = document.getElementsByClassName("active")[0];
-  // debugger
   follow = true;
   switch (selected.id) {
     case "triangle":

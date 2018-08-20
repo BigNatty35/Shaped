@@ -316,7 +316,6 @@ canvas.addEventListener('mouseup', e => {
   Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addToPojo"])(e, PLACED_SHAPES, currentShape, follow, drag);
 });
 canvas.addEventListener("mousedown", onMouseDown);
-// canvas.addEventListener("click", dropShape);
 canvas.addEventListener("mouseup", onMouseUp);
 canvas.addEventListener("mousemove", deleteShape);
 
@@ -396,10 +395,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const setCurrent = function (e, current, angle = 0, follow) {
-  // debugger
   e.stopPropagation();
   let selected = document.getElementsByClassName("active")[0];
-  // debugger
   follow = true;
   switch (selected.id) {
     case "triangle":
