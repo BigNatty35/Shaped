@@ -163,10 +163,8 @@ let angle = 0;
 let currentShape = [];
 let x = 0;
 let count = 0;
-let background = new Image();
 let trash = new _trashbin__WEBPACK_IMPORTED_MODULE_7__["default"](context);
 
-background.src = '../shapePics/background.jpg';
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 let height = canvas.height;
@@ -209,7 +207,6 @@ function shapeFollow(e) {
   currentShape[0].handle.x = e.clientX;
   currentShape[0].handle.y = e.clientY;
   currentShape[0].draw();
-  console.log('shape is following');
 }
 
 function onMouseDown(e) {
@@ -241,7 +238,6 @@ const onMouseMove = e => {
 
 function deleteShape(e) {
   e.stopPropagation();
-  // debugger
   let placedCoords = Object.values(PLACED_SHAPES);
   if (circlePointCollision(e.clientX, e.clientY, trash.handle)) {
     placedCoords.forEach(sub => {
@@ -261,8 +257,6 @@ function onMouseUp(e) {
   follow = false;
   drag = false;
   canvas.removeEventListener('mousemove', onMouseMove);
-  console.log("im up");
-  console.log(PLACED_SHAPES);
 }
 
 function drawShapes() {
@@ -286,7 +280,6 @@ function clearCanvas(e) {
     return PLACED_SHAPES;
   });
   context.clearRect(0, 0, width, height);
-  console.log("hello");
 }
 
 let button = document.getElementsByClassName("clear-canvas")[0];
