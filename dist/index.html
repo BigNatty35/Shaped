@@ -6,7 +6,8 @@
 <link href="https://fonts.googleapis.com/css?family=Finger+Paint" rel="stylesheet">
   <title>Shaped</title>
  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" media="screen" href="../master.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href=".././stylesheets/master.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href=".././stylesheets/reset.css" />
 </head>
 <body style="margin: 0">
   <div class="canvas-container">
@@ -15,24 +16,25 @@
   <canvas id="canvas">
     It ain't workin!
   </canvas>
+
   <!-- instructions modal -->
   <div id="instructions" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
       <p>
-          <h2>HOW TO BUILD</h2>
-        <ul>
+          <h2 class="how-to">HOW TO BUILD</h2>
+        <ul class="list">
           <li>
             Pick a shape from the toolbar.
           </li>
           <li>
-            Click anywhere on the canvas to place shape.
+            Click anywhere to place shape.
           </li>
           <li>
-            Rotate the shape using the &Larr; and &Rarr; arrow keys.
+            Rotate the shape using the &Larr; & &Rarr; arrow keys.
           </li>
           <li>
-            Drag a shape by holding down mouse and moving it.
+            Hold mouse down on shape to drag it.
           </li>
           <li>
             Delete Shape by dragging it to trashbin.
@@ -63,12 +65,21 @@
   <div class="buttonbox">
     <button class="clear-canvas">Clear Canvas</button>
     <button class="info">?</button>
+   
   </div>
  
   
  
     <!-- toolbar for the shapes -->
     <div class="toolbox">
+      <div class="logos">
+        <a href="https://github.com/BigNatty35/Shaped">
+          <img src="https://s3-us-west-1.amazonaws.com/productpics35/github-logo-shaped.png" alt="" />
+        </a>
+        <a href="https://www.linkedin.com/in/carey-johnson1/">
+          <img className="linkedin-logo" src="https://s3-us-west-1.amazonaws.com/productpics35/linkedin-black.png" alt="" />
+        </a>
+      </div>
     <nav id="shapes">
       <div class="shapeIcon">
       <img id="square" src="../shapePics/square.png" class="shape-img active" alt="">
@@ -89,13 +100,11 @@
         <img id="skinny" src="../shapePics/skinny.png" class="shape-img"  alt="">
       </div>
       <div>
-
       </div>
     </nav>
-    
   </div>
   </div>
 </div>
-  <script src="main.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
