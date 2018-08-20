@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 
 function preventDefault(e) {
+  e.stopPropagation();
   e = e || window.event;
   if (e.preventDefault)
     e.preventDefault();
@@ -21,6 +22,7 @@ function preventDefault(e) {
 }
 
 function preventDefaultForScrollKeys(e) {
+  e.stopPropagation();
   if (keys[e.keyCode]) {
     preventDefault(e);
     return false;
@@ -37,6 +39,7 @@ function disableScroll() {
 }
 
 function enableScroll() {
+  
   if (window.removeEventListener)
     window.removeEventListener('DOMMouseScroll', preventDefault, false);
   window.onmousewheel = document.onmousewheel = null;
@@ -49,6 +52,7 @@ let span = document.getElementsByClassName("close")[0];
 let info = document.getElementsByClassName("info")[0];
 
 const closeModal = function (e) {
+  e.stopPropagation();
   modal.style.display = "none";
 };
 

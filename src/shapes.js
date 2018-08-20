@@ -41,6 +41,7 @@ export const setCurrent = function(e,current, angle = 0, follow) {
 
 
 export const addToPojo = function(e, pojo, current, follow, drag) {
+  e.stopPropagation();
   if (current.length > 0 && follow === true && drag === false) {
     follow = false;
     switch(current[0].name) {

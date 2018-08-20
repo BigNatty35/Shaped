@@ -153,7 +153,7 @@ function clearCanvas(e) {
 }
 
 
-let button = document.getElementsByClassName("clearCanvas")[0];
+let button = document.getElementsByClassName("clear-canvas")[0];
 
 
 
