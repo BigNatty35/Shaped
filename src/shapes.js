@@ -6,6 +6,8 @@ import Skinny from './skinny';
 import Diamond from './diamond';
 import Trapezoid from './trapezoid';
 import Triangle from './triangle';
+// let canvas = document.getElementById("canvas");
+// let context = canvas.getContex("2d");
 // import {PLACED_SHAPES} from './index';
 // let currentShape = {};
 let count = 0;
@@ -36,7 +38,7 @@ export const addToPojo = function(e, pojo, current, angle = 0, follow) {
       pojo["hexagon"].push(current[0])
       break;
     case "skinny":
-      current[0] = new Skinny(e.clientX, e.clientY,angle);
+      current[0] = new Skinny(e.clientX, e.clientY,angle, context);
       current[0].draw();
       pojo["skinny"].push(current[0]);
       break;

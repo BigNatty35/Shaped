@@ -114,7 +114,7 @@ function deleteShape(e) {
   }
 }
 
-function onMouseUp(e) {
+export function onMouseUp(e) {
   e.stopPropagation();
   follow = false;
   canvas.removeEventListener('mousemove', onMouseMove);
@@ -147,7 +147,7 @@ function clearCanvas(e) {
 }
 
 
-let button = document.getElementById("clear");
+let button = document.getElementById("clearCanvas");
 
 
 

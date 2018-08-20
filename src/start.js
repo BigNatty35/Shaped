@@ -5,7 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
   disableScroll();
   animate();
   span.addEventListener("click", closeModal);
+  document.addEventListener("click", closeModal);
+  info.addEventListener("click", openModal);
 });
+
 
 
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
@@ -43,12 +46,16 @@ function enableScroll() {
 }
 let modal = document.getElementById("instructions");
 let span = document.getElementsByClassName("close")[0];
-
+let info = document.getElementById("info");
 
 const closeModal = function (e) {
   modal.style.display = "none";
 };
 
+const openModal = function(e) {
+  e.stopPropagation();
+  modal.style.display = "block";
+};
 
 
 

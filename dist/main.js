@@ -129,12 +129,13 @@ class Hexagon extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: onMouseMove, default */
+/*! exports provided: onMouseMove, onMouseUp, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "onMouseMove", function() { return onMouseMove; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "onMouseUp", function() { return onMouseUp; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return animate; });
 /* harmony import */ var _shapes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shapes */ "./src/shapes.js");
 /* harmony import */ var _square__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./square */ "./src/square.js");
@@ -293,7 +294,7 @@ function clearCanvas(e) {
   console.log("hello");
 }
 
-let button = document.getElementById("clear");
+let button = document.getElementById("clearCanvas");
 
 function rotateShape(e) {
   e.stopPropagation();
@@ -402,6 +403,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// let canvas = document.getElementById("canvas");
+// let context = canvas.getContex("2d");
 // import {PLACED_SHAPES} from './index';
 // let currentShape = {};
 let count = 0;
@@ -431,7 +434,7 @@ const addToPojo = function (e, pojo, current, angle = 0, follow) {
       pojo["hexagon"].push(current[0]);
       break;
     case "skinny":
-      current[0] = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e.clientX, e.clientY, angle);
+      current[0] = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e.clientX, e.clientY, angle, context);
       current[0].draw();
       pojo["skinny"].push(current[0]);
       break;
@@ -499,6 +502,8 @@ const updateActive = function (cShape) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shape */ "./src/shape.js");
 
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext("2d");
 
 class Skinny extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(e, angle) {
@@ -513,14 +518,14 @@ class Skinny extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
     };
     this.name = "skinny";
   }
-  // draw() {
-  //   const {shape, handle} = this;
-  //   context.save();
-  //   context.translate(handle.x, handle.y);
-  //   context.rotate(handle.angle * (Math.PI / 180));
-  //   context.drawImage(shape, -shape.width * 0.15, -shape.height * 0.15, shape.width * 0.5, shape.height * 0.3);
-  //   context.restore();
-  // }
+  draw() {
+    const { shape, handle } = this;
+    context.save();
+    context.translate(handle.x, handle.y);
+    context.rotate(handle.angle * (Math.PI / 180));
+    context.drawImage(shape, -shape.width * 0.15, -shape.height * 0.15, shape.width, shape.height);
+    context.restore();
+  }
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Skinny);
@@ -570,6 +575,8 @@ document.addEventListener("DOMContentLoaded", () => {
   disableScroll();
   Object(_index__WEBPACK_IMPORTED_MODULE_0__["default"])();
   span.addEventListener("click", closeModal);
+  document.addEventListener("click", closeModal);
+  info.addEventListener("click", openModal);
 });
 
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
@@ -605,9 +612,15 @@ function enableScroll() {
 }
 let modal = document.getElementById("instructions");
 let span = document.getElementsByClassName("close")[0];
+let info = document.getElementById("info");
 
 const closeModal = function (e) {
   modal.style.display = "none";
+};
+
+const openModal = function (e) {
+  e.stopPropagation();
+  modal.style.display = "block";
 };
 
 /***/ }),

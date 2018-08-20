@@ -28,7 +28,7 @@
   margin-top: 10px
 };
 
-#clear {
+#clearCanvas {
   width: 100px;
   height: 50px;
   border: 1px solid black;
@@ -36,10 +36,32 @@
   background-color: burlywood;
   color: black;
   font-size: 20px;
+  /* position: fixed; */
+  margin-top: 10%;
+   /* margin-top: 25%;
   position: fixed;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  font-size: 40px;
+  margin-left: 3%;
+  background: black;
+  color: white; */
 }
 
-#clear:hover {
+#info {
+  margin-top: 10%;
+  position: fixed;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  font-size: 40px;
+  margin-left: 3%;
+  background: black;
+  color: white;
+}
+
+#clearCanvas:hover {
   cursor: pointer;
 }
 
