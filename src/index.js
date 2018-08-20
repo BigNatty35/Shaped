@@ -5,7 +5,7 @@ import Skinny from './skinny';
 import Triangle from './triangle';
 import Hexagon from './hexagon';
 import Trapezoid from './trapezoid';
-import {addToPojo} from './shapes';
+import {setCurrent, addToPojo} from './shapes';
 import Trashbin from './trashbin';
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
@@ -40,7 +40,7 @@ const addClickListener = () => {
   for (let i = 0; i < shapes.length; i++) {
     let shape = shapes[i];
     shape.addEventListener("click", addActive);
-    shape.addEventListener("click", (e) => { addToPojo(e, PLACED_SHAPES, currentShape, angle = 0, follow);});
+    shape.addEventListener("click", (e) => { setCurrent(e,currentShape, angle = 0, follow);});
   }
 };
 
@@ -62,6 +62,7 @@ function shapeFollow(e) {
     context.clearRect(0, 0, width, height);
     currentShape[0].handle.x = e.clientX;
     currentShape[0].handle.y = e.clientY;
+    currentShape[0].draw();
     console.log('shape is following');
 }
 
@@ -69,6 +70,7 @@ function onMouseDown(e) {
   e.stopPropagation();
   let placedCoords = Object.values(PLACED_SHAPES);
   if(follow === false) {
+    drag = true;
     placedCoords.forEach((sub => { // iterate through all of the shapes on the canvas,
       for (let i = 0; i < sub.length; i++) {
        if (circlePointCollision(e.clientX, e.clientY, sub[i].handle)) { // if the mouse is clicking on a shape.
@@ -117,10 +119,14 @@ function deleteShape(e) {
 export function onMouseUp(e) {
   e.stopPropagation();
   follow = false;
+  drag = false;
   canvas.removeEventListener('mousemove', onMouseMove);
   console.log("im up");
   console.log(PLACED_SHAPES);
 }
+
+
+
 
 function drawShapes() {
   let placedCoords = Object.values(PLACED_SHAPES);
@@ -183,13 +189,13 @@ function rotateShape(e) {
 
 
 document.addEventListener('keydown', rotateShape);
-// canvas.addEventListener('dblclick', deleteShape);
+canvas.addEventListener('mouseup', (e) => {addToPojo(e, PLACED_SHAPES, currentShape, follow, drag);});
 canvas.addEventListener("mousedown", onMouseDown);
 // canvas.addEventListener("click", dropShape);
 canvas.addEventListener("mouseup", onMouseUp);
 canvas.addEventListener("mousemove", deleteShape);
 
-addClickListener(PLACED_SHAPES, currentShape, angle, follow);
+addClickListener(currentShape, angle, follow);
 
 export default function animate(){
   trash.draw();

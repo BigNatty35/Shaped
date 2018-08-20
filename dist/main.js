@@ -188,7 +188,7 @@ const addClickListener = () => {
     let shape = shapes[i];
     shape.addEventListener("click", _shapes__WEBPACK_IMPORTED_MODULE_0__["addActive"]);
     shape.addEventListener("click", e => {
-      Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addToPojo"])(e, PLACED_SHAPES, currentShape, angle = 0, follow);
+      Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["setCurrent"])(e, currentShape, angle = 0, follow);
     });
   }
 };
@@ -209,6 +209,7 @@ function shapeFollow(e) {
   context.clearRect(0, 0, width, height);
   currentShape[0].handle.x = e.clientX;
   currentShape[0].handle.y = e.clientY;
+  currentShape[0].draw();
   console.log('shape is following');
 }
 
@@ -216,6 +217,7 @@ function onMouseDown(e) {
   e.stopPropagation();
   let placedCoords = Object.values(PLACED_SHAPES);
   if (follow === false) {
+    drag = true;
     placedCoords.forEach(sub => {
       // iterate through all of the shapes on the canvas,
       for (let i = 0; i < sub.length; i++) {
@@ -265,6 +267,7 @@ function deleteShape(e) {
 function onMouseUp(e) {
   e.stopPropagation();
   follow = false;
+  drag = false;
   canvas.removeEventListener('mousemove', onMouseMove);
   console.log("im up");
   console.log(PLACED_SHAPES);
@@ -324,13 +327,15 @@ function rotateShape(e) {
 }
 
 document.addEventListener('keydown', rotateShape);
-// canvas.addEventListener('dblclick', deleteShape);
+canvas.addEventListener('mouseup', e => {
+  Object(_shapes__WEBPACK_IMPORTED_MODULE_0__["addToPojo"])(e, PLACED_SHAPES, currentShape, follow, drag);
+});
 canvas.addEventListener("mousedown", onMouseDown);
 // canvas.addEventListener("click", dropShape);
 canvas.addEventListener("mouseup", onMouseUp);
 canvas.addEventListener("mousemove", deleteShape);
 
-addClickListener(PLACED_SHAPES, currentShape, angle, follow);
+addClickListener(currentShape, angle, follow);
 
 function animate() {
   trash.draw();
@@ -380,11 +385,12 @@ class Shape {
 /*!***********************!*\
   !*** ./src/shapes.js ***!
   \***********************/
-/*! exports provided: addToPojo, addActive, updateActive */
+/*! exports provided: setCurrent, addToPojo, addActive, updateActive */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrent", function() { return setCurrent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addToPojo", function() { return addToPojo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addActive", function() { return addActive; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateActive", function() { return updateActive; });
@@ -403,56 +409,64 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// let canvas = document.getElementById("canvas");
-// let context = canvas.getContex("2d");
-// import {PLACED_SHAPES} from './index';
-// let currentShape = {};
-let count = 0;
 
-const addToPojo = function (e, pojo, current, angle = 0, follow) {
+const setCurrent = function (e, current, angle = 0, follow) {
   // debugger
   e.stopPropagation();
-  count += 1;
   let selected = document.getElementsByClassName("active")[0];
   // debugger
   follow = true;
   switch (selected.id) {
-
     case "triangle":
       current[0] = new _triangle__WEBPACK_IMPORTED_MODULE_6__["default"](e.clientX, e.clientY, angle);
-      current[0].draw();
-      pojo["triangle"].push(current[0]);
       break;
     case "square":
       current[0] = new _square__WEBPACK_IMPORTED_MODULE_1__["default"](e.clientX, e.clientY, angle);
-      current[0].draw();
-      pojo["square"].push(current[0]);
       break;
     case "hexagon":
       current[0] = new _hexagon__WEBPACK_IMPORTED_MODULE_2__["default"](e.clientX, e.clientY, angle);
-      current[0].draw();
-      pojo["hexagon"].push(current[0]);
       break;
     case "skinny":
       current[0] = new _skinny__WEBPACK_IMPORTED_MODULE_3__["default"](e.clientX, e.clientY, angle, context);
-      current[0].draw();
-      pojo["skinny"].push(current[0]);
       break;
     case "diamond":
       current[0] = new _diamond__WEBPACK_IMPORTED_MODULE_4__["default"](e.clientX, e.clientY, angle);
-      current[0].draw();
-      pojo["diamond"].push(current[0]);
       break;
     case "trapezoid":
       current[0] = new _trapezoid__WEBPACK_IMPORTED_MODULE_5__["default"](e.clientX, e.clientY, angle);
-      current[0].draw();
-      pojo["trapezoid"].push(current[0]);
       break;
     default:
       break;
   }
-  console.log("the" + count);
   return current;
+};
+
+const addToPojo = function (e, pojo, current, follow, drag) {
+  if (current.length > 0 && follow === true && drag === false) {
+    follow = false;
+    switch (current[0].name) {
+      case "triangle":
+        pojo["triangle"].push(current[0]);
+        break;
+      case "square":
+        pojo["square"].push(current[0]);
+        break;
+      case "hexagon":
+        pojo["hexagon"].push(current[0]);
+        break;
+      case "skinny":
+        pojo["skinny"].push(current[0]);
+        break;
+      case "diamond":
+        pojo["diamond"].push(current[0]);
+        break;
+      case "trapezoid":
+        pojo["trapezoid"].push(current[0]);
+        break;
+      default:
+        break;
+    }
+  }
 };
 
 const addActive = function (e, select) {

@@ -8,6 +8,7 @@
    font-size: 100px;
    letter-spacing: -9px;
    height: 0;
+   width: 60%;
 }
 
 
@@ -25,6 +26,10 @@
 
 
 #title{
+  background-position: center;
+  background-image: url("./shapePics/streak.png");
+  background-repeat: no-repeat;
+
   margin-top: 10px
 };
 
