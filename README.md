@@ -1,6 +1,7 @@
 # Shaped
 Shaped is a fun javascript application where users can create elegant murals using 6 wooden shapes. All of the shapes fit together in someway which results in endless pattern possibilities. Get creative!
 ## Live Demo
+[Live Site](https://bignatty35.github.io/Shaped/)
 ## Features
 * Users are greeted with a modal on how to play the game. Once the modal closes, the information can be accessed again by clicking the "?" button.
  ![alt text](https://s3-us-west-1.amazonaws.com/productpics35/Shaped-modal.png)
