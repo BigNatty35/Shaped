@@ -6,7 +6,7 @@ class Skinny extends Shape {
   constructor(e, angle) {
     super(angle);
     this.shape = new Image();
-    this.shape.src = "../shapePics/skinny.png";
+    this.shape.src = "./shapePics/skinny.png";
     this.handle = {
       x: e.clientX,
       y: e.clientY,

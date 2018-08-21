@@ -89,7 +89,7 @@ class Diamond extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(x, y, angle) {
     super(x, y, angle);
     this.shape = new Image();
-    this.shape.src = "../shapePics/diamond.png";
+    this.shape.src = "./shapePics/diamond.png";
     this.handle.radius = 50;
     this.name = "diamond";
   }
@@ -115,7 +115,7 @@ class Hexagon extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(x, y, angle) {
     super(x, y, angle);
     this.shape = new Image();
-    this.shape.src = "../shapePics/hexagon.png";
+    this.shape.src = "./shapePics/hexagon.png";
     this.handle.radius = 70;
     this.name = "hexagon";
   }
@@ -502,7 +502,7 @@ class Skinny extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(e, angle) {
     super(angle);
     this.shape = new Image();
-    this.shape.src = "../shapePics/skinny.png";
+    this.shape.src = "./shapePics/skinny.png";
     this.handle = {
       x: e.clientX,
       y: e.clientY,
@@ -541,7 +541,7 @@ class Square extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(x, y, angle) {
     super(x, y, angle);
     this.shape = new Image();
-    this.shape.src = "../shapePics/square.png";
+    this.shape.src = "./shapePics/square.png";
     this.handle.radius = 40;
     this.name = "square";
   }
@@ -637,7 +637,7 @@ class Trapezoid extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(x, y, angle) {
     super(x, y, angle);
     this.shape = new Image();
-    this.shape.src = "../shapePics/trapezoid.png";
+    this.shape.src = "./shapePics/trapezoid.png";
     this.handle.radius = 55;
     this.name = "trapezoid";
   }
@@ -658,7 +658,7 @@ class Trapezoid extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
 __webpack_require__.r(__webpack_exports__);
 function Trashbin(context, canvas) {
   let trash = new Image();
-  trash.src = "../shapePics/trashbin.png";
+  trash.src = "./shapePics/trashbin.png";
   this.handle = {
     x: 50,
     y: 600,
@@ -690,7 +690,7 @@ class Triangle extends _shape__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(x, y, angle) {
     super(x, y, angle);
     this.shape = new Image();
-    this.shape.src = "../shapePics/triangle.png";
+    this.shape.src = "./shapePics/triangle.png";
     this.handle.radius = 25;
     this.name = "triangle";
   }

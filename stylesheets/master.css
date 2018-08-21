@@ -130,32 +130,26 @@
 };
 
 #square {
-  /* background-image: url("./shapePics/orangesquare.png"); */
   background-repeat: no-repeat;
   background-position: center;
 }
 #triangle {
-  /* background-image: url("./shapePics/greentriangle.png"); */
   background-repeat: no-repeat;
   background-position: center;
 }
 #skinny {
-  /* background-image: url("./shapePics/browndiamond.png"); */
   background-repeat: no-repeat;
   background-position: center;
 }
 #diamond {
-  /* background-image: url("./shapePics/bluediamond.png"); */
   background-repeat: no-repeat;
   background-position: center;
 }
 #trapezoid {
-  /* background-image: url("./shapePics/red4sides.png"); */
   background-repeat: no-repeat;
   background-position: center;
 }
 #hexagon {
-  /* background-image: url("./shapePics/hexagon.png"); */
   background-repeat: no-repeat;
   background-position: center;
 }
