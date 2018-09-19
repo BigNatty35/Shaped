@@ -28,7 +28,7 @@ function preventDefaultForScrollKeys(e) {
     return false;
   }
 }
-
+// Make sure to listen if the scroll is happening and then disable it
 function disableScroll() {
   if (window.addEventListener) 
     window.addEventListener('DOMMouseScroll', preventDefault, false);
